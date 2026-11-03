@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 $isLogin = $section === 'login';
-$activeSection=$section===''?'painel':$section;
+$activeSection=$section===''?'painel':(str_starts_with($section,'planos')?'planos':$section);
 $users=[]; $planRows=[]; $selected=null;
 if ($section==='usuarios') {
     $users=database()->query('SELECT id,name,email,role,active,created_at FROM admin_users ORDER BY id DESC')->fetchAll();
@@ -10,8 +10,14 @@ if ($section==='usuarios') {
 }
 if ($section==='planos') {
     $planRows=database()->query('SELECT * FROM site_plans ORDER BY sort_order,id')->fetchAll();
-    $edit=(int)($_GET['edit']??0);
-    foreach ($planRows as $item) if ((int)$item['id']===$edit) $selected=$item;
+}
+if ($section==='planos/editar') {
+    $editId = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT);
+    if (!$editId || $editId < 1) { http_response_code(404); exit('Plano não encontrado.'); }
+    $lookup = database()->prepare('SELECT * FROM site_plans WHERE id=?');
+    $lookup->execute([$editId]);
+    $selected = $lookup->fetch();
+    if (!$selected) { http_response_code(404); exit('Plano não encontrado.'); }
 }
 $settings = $section==='configuracoes' ? settingsAll() : [];
 ?>
@@ -41,6 +47,8 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
 <div class="panel narrow"><h2><?= $selected?'Editar usuário':'Novo usuário' ?></h2><form method="post" action="/admin/usuarios" class="form-grid"><input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>"><input type="hidden" name="action" value="save"><input type="hidden" name="id" value="<?= (int)($selected['id']??0) ?>"><label>Nome<input name="name" required maxlength="120" value="<?= e($selected['name']??'') ?>"></label><label>E-mail<input name="email" type="email" required maxlength="190" value="<?= e($selected['email']??'') ?>"></label><label>Perfil<select name="role"><option value="editor" <?= ($selected['role']??'')==='editor'?'selected':'' ?>>Editor</option><option value="admin" <?= ($selected['role']??'')==='admin'?'selected':'' ?>>Administrador</option></select></label><label>Senha <?= $selected?'(deixe em branco para manter)':'' ?><input type="password" name="password" <?= $selected?'':'required' ?> minlength="12" autocomplete="new-password"></label><label class="check"><input type="checkbox" name="active" <?= !$selected || $selected['active']?'checked':'' ?>> Usuário ativo</label><button class="primary">Salvar usuário</button></form></div>
 <?php elseif ($section==='planos'): ?>
 <?php require __DIR__ . '/plans-view.php'; ?>
+<?php elseif ($section==='planos/novo' || $section==='planos/editar'): ?>
+<?php require __DIR__ . '/plan-form-view.php'; ?>
 <?php elseif ($section==='configuracoes'): ?>
 <div class="heading"><div><p class="kicker">PREFERÊNCIAS</p><h1>Configurações</h1><p class="sub">Identidade visual, contatos e e-mail transacional.</p></div></div>
 <form method="post" action="/admin/configuracoes" class="settings-form"><input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>">
@@ -56,4 +64,5 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
 <?php endif; ?>
 </main></div>
 <?php endif; ?>
+<?php if ($section==='planos'): ?><script src="/assets/js/admin-plans.js" defer></script><?php endif; ?>
 </body></html>

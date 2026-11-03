@@ -27,3 +27,65 @@
 .plan-admin .plan-admin-actions form{display:inline}
 .plan-admin .plan-admin-actions .btn{padding:6px 9px}
 @media(max-width:650px){.plan-admin .plan-admin-panel{padding:16px}}
+
+/* Planos v2 — listagem compacta e formulario em pagina independente */
+.plan-admin{--plan-border:#e3e9e8;--plan-ink:#183843}
+.plan-admin .plan-admin-header{align-items:center;margin:0 0 25px}
+.plan-admin .plan-admin-header h1{font-size:32px;font-weight:750;letter-spacing:-.04em;color:var(--plan-ink)}
+.plan-admin .sub{font-size:14px;color:#72818b}
+.plan-admin .btn-admin-create,.plan-admin .btn-admin-save{background:#163947!important;border-color:#163947!important;color:#fff!important;border-radius:9px;font-weight:650;padding:12px 18px;display:inline-flex;gap:9px;align-items:center}
+.plan-admin .btn-admin-create:hover,.plan-admin .btn-admin-save:hover{background:#265568!important}
+.plan-admin .plan-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:21px}
+.plan-admin .plan-summary>div{background:#fff;border:1px solid var(--plan-border);border-radius:13px;padding:18px 21px;display:flex;align-items:center;gap:16px;box-shadow:0 5px 19px #17364206}
+.plan-admin .plan-summary>div>i{width:43px;height:43px;border-radius:11px;display:grid;place-items:center;background:#edf4f3;color:#2d5a61;font-size:20px}
+.plan-admin .plan-summary strong{font-size:24px;display:block;color:#183843;line-height:1.1}
+.plan-admin .plan-summary small{font-size:12px;color:#73838b}
+.plan-admin .plan-admin-panel{border:1px solid var(--plan-border);border-radius:14px;padding:26px 28px;box-shadow:0 8px 26px #18364208}
+.plan-admin .plan-list-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:23px}
+.plan-admin .plan-list-heading h2{font-size:19px;margin:0 0 3px;font-weight:700;color:#203c47}
+.plan-admin .plan-list-heading p{font-size:13px;color:#7a8a90;margin:0}
+.plan-admin .plan-view-site{font-size:13px;font-weight:650;white-space:nowrap}
+.plan-admin .plan-admin-table{min-width:690px}
+.plan-admin .plan-admin-table thead th{background:#f7f9f8;border:0;text-transform:uppercase;letter-spacing:.06em;font-size:10px;padding:13px 14px;color:#76878e;font-weight:750}
+.plan-admin .plan-admin-table tbody td{padding:19px 14px;border-color:#edf0ef}
+.plan-admin .plan-admin-table tbody tr:last-child td{border-bottom:0}
+.plan-admin .plan-admin-title{font-size:15px;display:inline-block}
+.plan-admin .plan-slug{display:block;font-size:12px;color:#8a969d;margin-top:3px;max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.plan-admin .plan-cell-price{font-size:13px;color:#51666e}
+.plan-admin .plan-featured-pill{display:inline-block;vertical-align:middle;background:#f9eed0;border-radius:100px;color:#96703a;font-size:10px;font-weight:750;padding:5px 9px;margin-left:6px}
+.plan-admin .plan-featured-pill i{margin-right:3px}
+.plan-admin .plan-state{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:20px;font-weight:650;font-size:12px}
+.plan-admin .plan-state span{height:6px;width:6px;border-radius:50%;background:currentColor}
+.plan-admin .plan-state.is-active{background:#e4f5eb;color:#26784e}
+.plan-admin .plan-state.is-inactive{background:#eef1f2;color:#64757c}
+.plan-admin .plan-admin-actions{justify-content:flex-end;gap:7px;flex-wrap:nowrap}
+.plan-admin .plan-admin-actions .plan-icon-action{display:grid;place-items:center;width:35px;height:35px;border:1px solid #dee7e8;border-radius:8px;background:white;color:#4e6770;padding:0;font-size:15px;text-decoration:none}
+.plan-admin .plan-admin-actions .plan-icon-action:hover{background:#ecf4f4;color:#214b55}
+.plan-admin .plan-admin-actions .plan-icon-action.is-danger:hover{background:#fdf0ef;border-color:#ebc7c4;color:#ae4a41}
+.plan-admin .plan-grip-column{width:90px}
+.plan-admin .plan-order-cell{display:flex;gap:12px;align-items:center}
+.plan-admin .plan-drag-handle{border:0;background:transparent;color:#9faeb2;cursor:grab;font-size:22px;line-height:1;border-radius:5px;padding:5px}
+.plan-admin .plan-drag-handle:hover,.plan-admin .plan-drag-handle:focus-visible{color:#30525c;background:#edf4f3}
+.plan-admin .plan-position{font-size:13px;color:#8899a0}
+.plan-admin tr.is-dragging{opacity:.48;background:#e9f1f0}
+.plan-admin tbody[aria-busy=true]{opacity:.72}
+.plan-admin .plan-order-hint{font-size:12px;color:#839198;margin:22px 0 0;display:flex;gap:9px;align-items:flex-start}
+.plan-admin .plan-empty{text-align:center;padding:65px 0!important;color:#74858b}
+.plan-admin .plan-empty i{font-size:30px}.plan-admin .plan-empty p{margin:10px 0}
+.plan-admin .plan-breadcrumb{margin-bottom:25px}.plan-admin .plan-breadcrumb a{font-size:13px;font-weight:600;color:#667c85}
+.plan-admin .plan-breadcrumb a i{margin-right:6px}
+.plan-admin .plan-form-page{max-width:1000px}
+.plan-admin .plan-form-section-head{display:flex;gap:15px;align-items:start;margin-bottom:24px}
+.plan-admin .plan-form-icon{display:grid;place-items:center;width:42px;height:42px;flex:none;background:#f0f5f3;border-radius:10px;color:#315f63;font-size:19px}
+.plan-admin .plan-form-section-head h2{font-size:18px;font-weight:750;margin:0 0 5px}
+.plan-admin .plan-form-section-head p{font-size:13px;color:#77878d;margin:0}
+.plan-admin .plan-editor .form-control{background:#fff}
+.plan-admin .plan-form-switches>div{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:18px 0;border-bottom:1px solid #edf0f0}
+.plan-admin .plan-form-switches>div:last-child{border-bottom:0}
+.plan-admin .plan-form-switches strong{display:block;font-size:14px}
+.plan-admin .plan-form-switches p{font-size:12px;color:#798992;margin:3px 0 0}
+.plan-admin .plan-form-switches .form-check{margin:0;padding:0}
+.plan-admin .plan-form-switches .form-check-input{width:2.5rem;height:1.3rem;cursor:pointer}
+.plan-admin .plan-form-switches .form-check-input:checked{background-color:#1b5862;border-color:#1b5862}
+.plan-admin .plan-form-footer{display:flex;justify-content:flex-end;gap:11px;padding:12px 0 36px}
+@media(max-width:650px){.plan-admin .plan-summary{grid-template-columns:1fr}.plan-admin .plan-list-heading{align-items:start;flex-direction:column}.plan-admin .plan-admin-panel{padding:20px 16px}.plan-admin .plan-admin-header h1{font-size:27px}}

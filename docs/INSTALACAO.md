@@ -66,3 +66,12 @@ Recomendações: use HTTPS, credenciais fortes, backups regulares, restrinja o a
 - O Bootstrap 5.3.8 e Bootstrap Icons 1.13.2 foram incluídos nos layouts público e administrativo via CDN do jsDelivr. **A nova tela de planos do painel já usa componentes Bootstrap**; as outras telas continuam com CSS legado durante uma migração gradual.
 - Para ambientes sem acesso à internet, é necessário hospedar os arquivos do Bootstrap e seus ícones localmente.
 - Não é necessária migração adicional no MySQL para esta atualização se a tabela `site_plans` já existe.
+
+
+## Gerenciamento de planos — nova navegação
+
+- Listagem em `/admin/planos`; cadastro em `/admin/planos/novo`; edição em `/admin/planos/editar?id=ID`.
+- No catálogo, arraste as linhas pelo ícone ou foque o ícone e use ↑/↓. A nova ordem é enviada por POST autenticado com CSRF e gravada em transação MySQL. Em caso de erro, o navegador recupera a ordem previamente salva.
+- Não é preciso informar `sort_order` no formulário. Novos planos entram no final automaticamente.
+- Ações de editar, publicar/ocultar e excluir usam apenas ícones Bootstrap com rótulos acessíveis.
+- Sem alterações de schema: tabela `site_plans` existente.

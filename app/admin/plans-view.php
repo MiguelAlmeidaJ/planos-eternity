@@ -1,112 +1,63 @@
-<div class="plan-admin">
-  <div class="plan-admin-header">
+<div class="plan-admin plan-catalog">
+  <header class="plan-admin-header">
     <div>
-      <p class="kicker">CATÁLOGO ASSISTENCIAL</p>
-      <h1>Gerenciar planos</h1>
-      <p class="sub mb-0">Cadastre e publique os planos que aparecem no site da Eternity.</p>
+      <p class="kicker mb-2">CATÁLOGO ASSISTENCIAL</p>
+      <h1 class="mb-2">Planos</h1>
+      <p class="sub mb-0">Organize, publique e gerencie as opções exibidas no site.</p>
     </div>
-    <a class="btn btn-admin-create" href="/admin/planos#editor"><i class="bi bi-plus-lg" aria-hidden="true"></i> Novo plano</a>
+    <a class="btn btn-admin-create" href="/admin/planos/novo"><i class="bi bi-plus-lg" aria-hidden="true"></i> Novo plano</a>
+  </header>
+  <div class="plan-summary">
+    <div><i class="bi bi-collection" aria-hidden="true"></i><span><strong><?= count($planRows) ?></strong><small>Planos cadastrados</small></span></div>
+    <div><i class="bi bi-check-circle" aria-hidden="true"></i><span><strong><?= count(array_filter($planRows, static fn($p) => (bool)$p['active'])) ?></strong><small>Planos publicados</small></span></div>
   </div>
-
   <section class="plan-admin-panel" aria-labelledby="plans-list-title">
-    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
-      <h2 id="plans-list-title" class="mb-0">Planos cadastrados</h2>
-      <span class="small text-secondary"><?= count($planRows) ?> cadastrado(s)</span>
+    <div class="plan-list-heading">
+      <div><h2 id="plans-list-title">Seus planos</h2><p>Arraste pelo ícone à esquerda para alterar a ordem de exibição.</p></div>
+      <a class="plan-view-site" href="/planos" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> Ver no site</a>
     </div>
+    <div id="plan-order-feedback" class="visually-hidden" role="status" aria-live="polite"></div>
     <div class="table-responsive">
-      <table class="table table-hover align-middle plan-admin-table">
-        <thead class="table-light"><tr><th scope="col">Ordem</th><th scope="col">Plano</th><th scope="col">Preço exibido</th><th scope="col">Situação</th><th scope="col">Ações</th></tr></thead>
-        <tbody>
-        <?php foreach($planRows as $item): ?>
-        <tr>
-          <td><?= (int)$item['sort_order'] ?></td>
-          <td><span class="plan-admin-title"><?= e($item['name']) ?></span>
-            <?php if ($item['featured']): ?><span class="badge text-bg-warning ms-2"><i class="bi bi-star-fill" aria-hidden="true"></i> Destaque</span><?php endif; ?>
-            <div class="small text-secondary"><?= e($item['slug']) ?></div>
+      <table class="table plan-admin-table plan-reorder-table align-middle">
+        <thead><tr><th scope="col" class="plan-grip-column">Ordem</th><th scope="col">Plano</th><th scope="col">Preço exibido</th><th scope="col">Situação</th><th scope="col" class="text-end">Ações</th></tr></thead>
+        <tbody id="sortable-plans" data-csrf="<?= e(csrfToken()) ?>">
+        <?php foreach ($planRows as $index => $item): ?>
+        <tr data-id="<?= (int)$item['id'] ?>" draggable="true">
+          <td class="plan-grip-column">
+            <span class="plan-order-cell">
+              <button type="button" class="plan-drag-handle" title="Arraste ou use as setas do teclado para reordenar" aria-label="Reordenar plano <?= e($item['name']) ?>" aria-describedby="plan-order-instructions"><i class="bi bi-grip-vertical" aria-hidden="true"></i></button>
+              <span class="plan-position"><?= $index+1 ?></span>
+            </span>
           </td>
-          <td><?= e($item['price_label']) ?></td>
-          <td><span class="badge <?= $item['active']?'text-bg-success':'text-bg-secondary' ?>"><?= $item['active']?'Publicado':'Oculto' ?></span></td>
           <td>
-            <div class="plan-admin-actions">
-              <a href="/admin/planos?edit=<?= (int)$item['id'] ?>#editor" class="btn btn-sm btn-outline-primary" aria-label="Editar plano <?= e($item['name']) ?>"><i class="bi bi-pencil-square" aria-hidden="true"></i> Editar</a>
-              <form method="post" action="/admin/planos">
-                <input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>">
-                <input type="hidden" name="action" value="toggle">
-                <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">
-                <button type="submit" class="btn btn-sm btn-outline-secondary" aria-label="<?= $item['active']?'Ocultar':'Publicar' ?> plano <?= e($item['name']) ?>"><i class="bi <?= $item['active']?'bi-eye-slash':'bi-eye' ?>" aria-hidden="true"></i> <?= $item['active']?'Ocultar':'Publicar' ?></button>
-              </form>
-              <form method="post" action="/admin/planos" onsubmit="return confirm('Tem certeza que deseja excluir este plano?')">
-                <input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>">
-                <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">
-                <button type="submit" class="btn btn-sm btn-outline-danger" aria-label="Excluir plano <?= e($item['name']) ?>"><i class="bi bi-trash" aria-hidden="true"></i></button>
-              </form>
-            </div>
+            <span class="plan-admin-title"><?= e($item['name']) ?></span>
+            <?php if ($item['featured']): ?><span class="plan-featured-pill"><i class="bi bi-star-fill" aria-hidden="true"></i> Destaque</span><?php endif; ?>
+            <span class="plan-slug"><?= e($item['tagline'] ?: $item['slug']) ?></span>
           </td>
+          <td class="plan-cell-price"><?= e($item['price_label']) ?></td>
+          <td><span class="plan-state <?= $item['active']?'is-active':'is-inactive' ?>"><span aria-hidden="true"></span><?= $item['active']?'Publicado':'Oculto' ?></span></td>
+          <td><div class="plan-admin-actions">
+            <a href="/admin/planos/editar?id=<?= (int)$item['id'] ?>" class="plan-icon-action" title="Editar" aria-label="Editar plano <?= e($item['name']) ?>"><i class="bi bi-pencil-square" aria-hidden="true"></i></a>
+            <form method="post" action="/admin/planos">
+              <input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>">
+              <input type="hidden" name="action" value="toggle">
+              <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">
+              <button type="submit" class="plan-icon-action" title="<?= $item['active']?'Ocultar':'Publicar' ?>" aria-label="<?= $item['active']?'Ocultar':'Publicar' ?> plano <?= e($item['name']) ?>"><i class="bi <?= $item['active']?'bi-eye-slash':'bi-eye' ?>" aria-hidden="true"></i></button>
+            </form>
+            <form method="post" action="/admin/planos" onsubmit="return confirm('Excluir este plano? Esta ação não pode ser desfeita.')">
+              <input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>">
+              <input type="hidden" name="action" value="delete">
+              <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">
+              <button type="submit" class="plan-icon-action is-danger" title="Excluir" aria-label="Excluir plano <?= e($item['name']) ?>"><i class="bi bi-trash" aria-hidden="true"></i></button>
+            </form>
+          </div></td>
         </tr>
         <?php endforeach; ?>
-        <?php if (!$planRows): ?><tr><td colspan="5" class="text-center py-5 text-secondary">Nenhum plano cadastrado. Crie seu primeiro plano abaixo.</td></tr><?php endif; ?>
+        <?php if (!$planRows): ?><tr><td colspan="5" class="plan-empty"><i class="bi bi-inboxes" aria-hidden="true"></i><p>Nenhum plano cadastrado</p><a href="/admin/planos/novo">Cadastrar primeiro plano</a></td></tr><?php endif; ?>
         </tbody>
       </table>
     </div>
-  </section>
-
-  <section class="plan-admin-panel" id="editor" aria-labelledby="plan-editor-title">
-    <div class="mb-4">
-      <h2 id="plan-editor-title"><?= $selected?'Editar plano: '.e($selected['name']):'Cadastrar novo plano' ?></h2>
-      <p class="plan-admin-hint mb-0">Preencha os dados exibidos na página pública. Benefícios devem ser separados por linha.</p>
-    </div>
-    <form method="post" action="/admin/planos" class="plan-editor">
-      <input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>">
-      <input type="hidden" name="action" value="save">
-      <input type="hidden" name="id" value="<?= (int)($selected['id']??0) ?>">
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label for="plan-name">Nome do plano *</label>
-          <input class="form-control" id="plan-name" name="name" required maxlength="120" value="<?= e($selected['name']??'') ?>" placeholder="Ex.: Essencial">
-        </div>
-        <div class="col-md-6">
-          <label for="plan-slug">Identificador (slug) *</label>
-          <input class="form-control" id="plan-slug" name="slug" required pattern="[a-z0-9]+(-[a-z0-9]+)*" maxlength="100" value="<?= e($selected['slug']??'') ?>" placeholder="ex.: essencial">
-          <div class="form-text">Use letras minúsculas, números e hífens. Deve ser único.</div>
-        </div>
-        <div class="col-md-6">
-          <label for="plan-tagline">Subtítulo curto</label>
-          <input class="form-control" id="plan-tagline" name="tagline" maxlength="180" value="<?= e($selected['tagline']??'') ?>" placeholder="Ex.: Mais tranquilidade">
-        </div>
-        <div class="col-md-6">
-          <label for="plan-price">Preço ou condição exibida</label>
-          <input class="form-control" id="plan-price" name="price_label" maxlength="120" value="<?= e($selected['price_label']??'Valores sob consulta') ?>" placeholder="Ex.: Valores sob consulta">
-        </div>
-        <div class="col-12">
-          <label for="plan-description">Descrição</label>
-          <textarea class="form-control" id="plan-description" name="description" rows="3" maxlength="5000" placeholder="Breve apresentação do plano"><?= e($selected['description']??'') ?></textarea>
-        </div>
-        <div class="col-12">
-          <label for="plan-features">Benefícios e coberturas</label>
-          <textarea class="form-control" id="plan-features" name="features" rows="6" maxlength="5000" placeholder="Um benefício por linha"><?= e($selected['features']??'') ?></textarea>
-          <div class="form-text">Cada linha vira um item na lista de benefícios do site.</div>
-        </div>
-        <div class="col-md-4">
-          <label for="plan-sort">Ordem de exibição</label>
-          <input class="form-control" id="plan-sort" type="number" name="sort_order" value="<?= (int)($selected['sort_order']??0) ?>">
-        </div>
-        <div class="col-md-8 d-flex flex-column justify-content-end">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="plan-active" name="active" <?= !$selected || $selected['active']?'checked':'' ?>>
-            <label class="form-check-label" for="plan-active">Publicado no site</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="plan-featured" name="featured" <?= $selected && $selected['featured']?'checked':'' ?>>
-            <label class="form-check-label" for="plan-featured">Dar destaque ao plano</label>
-          </div>
-        </div>
-        <div class="col-12 d-flex flex-wrap gap-2 mt-4">
-          <button class="btn btn-admin-save" type="submit"><i class="bi bi-floppy" aria-hidden="true"></i> <?= $selected?'Salvar alterações':'Criar plano' ?></button>
-          <?php if ($selected): ?><a class="btn btn-outline-secondary" href="/admin/planos#editor">Cancelar edição</a><?php endif; ?>
-          <a class="btn btn-link ms-auto" href="/planos" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> Ver no site</a>
-        </div>
-      </div>
-    </form>
+    <p class="plan-order-hint" id="plan-order-instructions"><i class="bi bi-info-circle" aria-hidden="true"></i> Também é possível selecionar o ícone de arrastar e usar as teclas ↑ e ↓. As alterações são salvas automaticamente.</p>
+    <div id="plan-order-error" class="alert alert-danger d-none mt-3" role="alert"></div>
   </section>
 </div>
