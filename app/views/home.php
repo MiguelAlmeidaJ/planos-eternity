@@ -1,11 +1,75 @@
-<section class="hero">
- <div class="container hero-grid">
-  <div class="hero-copy"><span class="eyebrow eyebrow-light">CUIDAR É ESTAR PRESENTE</span><h1>A tranquilidade da sua família começa com <em>cuidado.</em></h1><p>O futuro merece ser vivido com segurança. A Eternity está ao seu lado para oferecer orientação, acolhimento e proteção nos momentos que mais importam.</p><div class="button-row"><a href="/planos" class="btn">Conheça nossos planos <span aria-hidden="true">↗</span></a><a href="/quem-somos" class="btn btn-ghost">Nossa história</a></div><div class="hero-foot"><span class="dot"></span> Atendimento humano, sempre próximo de você</div></div>
-  <div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="hero-quote">A vida é feita de momentos.<br><strong>O cuidado permanece.</strong></div></div>
- </div>
+<?php $homePlans = plans(); ?>
+<section class="et-hero" aria-labelledby="et-title">
+  <div class="et-hero-image" aria-hidden="true"></div>
+  <div class="et-hero-shade" aria-hidden="true"></div>
+  <div class="container et-hero-content">
+    <div class="et-hero-copy">
+      <p class="et-overline"><span class="et-line"></span> ETERNITY · PLANOS ASSISTENCIAIS</p>
+      <h1 id="et-title">A vida acontece.<br><em>A gente cuida.</em></h1>
+      <p class="et-hero-description">Estar presente faz diferença. Conheça opções de assistência para cuidar de quem faz parte da sua vida.</p>
+      <div class="et-actions"><a class="et-button et-button-gold" href="/planos">Conhecer os planos <span aria-hidden="true">↗</span></a><a class="et-text-action" href="/contato">Falar com a equipe <span aria-hidden="true">↗</span></a></div>
+    </div>
+    <div class="et-hero-index" aria-hidden="true"><span>01 / 03</span><span>O CUIDADO COMEÇA AQUI</span></div>
+  </div>
 </section>
-<section class="section" id="sobre"><div class="container intro-grid"><div><span class="eyebrow">CONHEÇA A ETERNITY</span><h2>Um compromisso com o que realmente importa.</h2></div><div><p class="lead">Acreditamos que cuidar é oferecer mais do que um serviço. É estar presente, ouvir e trazer serenidade para pessoas e famílias.</p><p>Nosso propósito é construir uma relação de confiança, com atendimento respeitoso e soluções assistenciais pensadas para diferentes necessidades.</p><a class="text-link" href="/quem-somos">Saiba mais sobre nós <span aria-hidden="true">↗</span></a></div></div></section>
-<section class="section section-soft"><div class="container"><div class="section-heading centered"><span class="eyebrow">NOSSAS SOLUÇÕES</span><h2>Um plano para cada momento da vida.</h2><p>Conheça nossas opções e fale com a equipe para confirmar coberturas, condições e valores.</p></div><div class="plan-grid"><?php foreach (plans() as $index => $plan): ?><article class="plan-card <?= !empty($plan['featured']) ? 'featured' : '' ?>"><?php if (!empty($plan['featured'])): ?><span class="plan-highlight">Em destaque</span><?php endif; ?><span class="plan-icon" aria-hidden="true">✦</span><p class="plan-tag"><?= e($plan['tag']) ?></p><h3>Plano <?= e($plan['name']) ?></h3><p class="price-note"><?= e($plan['price_label'] ?? 'Condições sob consulta') ?></p><ul><?php foreach ($plan['features'] as $feature): ?><li><?= e($feature) ?></li><?php endforeach; ?></ul><a class="btn <?= empty($plan['featured']) ? 'btn-outline' : '' ?>" href="/contato?plano=<?= rawurlencode($plan['name']) ?>#formulario">Quero saber mais</a></article><?php endforeach; ?></div><p class="section-disclaimer">* Nomes e itens dos planos são uma estrutura inicial de apresentação; coberturas e condições dependem de confirmação comercial.</p></div></section>
-<section class="section"><div class="container values-grid"><div><span class="eyebrow">NOSSO JEITO DE CUIDAR</span><h2>Respeito, proximidade e confiança.</h2><p>Um atendimento pensado para oferecer clareza e apoio, desde o primeiro contato.</p><a href="/contato" class="text-link">Fale com a nossa equipe ↗</a></div><div class="value-list"><article><span>01</span><div><h3>Acolhimento</h3><p>Escuta atenta e atendimento sensível.</p></div></article><article><span>02</span><div><h3>Transparência</h3><p>Informações claras para decisões mais seguras.</p></div></article><article><span>03</span><div><h3>Compromisso</h3><p>Respeito às histórias e necessidades de cada família.</p></div></article></div></div></section>
-<section class="section section-soft"><div class="container faq-wrap"><div><span class="eyebrow">DÚVIDAS FREQUENTES</span><h2>Estamos aqui para esclarecer.</h2><p>As condições específicas são informadas no momento da contratação.</p></div><div class="faq-items"><details><summary>Como escolher o plano ideal?</summary><p>Nossa equipe pode apresentar as opções disponíveis e explicar as condições de cada uma.</p></details><details><summary>Os planos possuem carência?</summary><p>As regras de carência variam de acordo com o contrato. Solicite as condições detalhadas antes de contratar.</p></details><details><summary>É possível incluir familiares?</summary><p>As possibilidades de inclusão e os limites dependem do plano escolhido.</p></details><details><summary>Como solicitar informações?</summary><p>Use nosso formulário de contato. Retornaremos pelos dados informados.</p></details></div></div></section>
-<section class="cta-band"><div class="container cta-inner"><div><span class="eyebrow eyebrow-light">CONTE COM A ETERNITY</span><h2>O primeiro passo é uma conversa.</h2><p>Estamos prontos para entender o que você precisa.</p></div><a class="btn btn-light" href="/contato#formulario">Entrar em contato ↗</a></div></section>
+
+<section class="et-intro" aria-labelledby="et-intro-title">
+  <div class="container et-intro-inner">
+    <div class="et-section-marker"><span>01</span><span>NOSSA ESSÊNCIA</span></div>
+    <div class="et-intro-title"><h2 id="et-intro-title">Cuidar também é<br><em>dar tranquilidade.</em></h2></div>
+    <div class="et-intro-copy"><p>Algumas decisões ficam mais simples quando você sabe com quem contar.</p><p>Na Eternity, acreditamos em atendimento próximo, orientação clara e respeito pelas necessidades de cada família.</p><a href="/quem-somos" class="et-underlined">Conheça a Eternity <span aria-hidden="true">↗</span></a></div>
+  </div>
+</section>
+
+<section class="et-plans" aria-labelledby="et-plans-title">
+  <div class="container">
+    <div class="et-section-marker"><span>02</span><span>NOSSOS PLANOS</span></div>
+    <div class="et-plans-heading"><div><h2 id="et-plans-title">Escolhas para<br><em>cada necessidade.</em></h2></div><p>Apresentamos as opções disponíveis e explicamos as condições antes da contratação. Sem complicação.</p></div>
+    <div class="et-plan-list">
+    <?php foreach ($homePlans as $index => $plan): ?>
+      <article class="et-plan-row">
+        <div class="et-plan-number"><?= str_pad((string)($index + 1),2,'0',STR_PAD_LEFT) ?></div>
+        <div class="et-plan-identity">
+          <div class="et-plan-eyebrow"><?= e($plan['tag'] ?? '') ?></div>
+          <h3><?= e($plan['name']) ?></h3>
+          <?php if (!empty($plan['featured'])): ?><span class="et-plan-label">EM DESTAQUE</span><?php endif; ?>
+        </div>
+        <div class="et-plan-description">
+          <?php if (!empty($plan['description'])): ?><p><?= e($plan['description']) ?></p><?php endif; ?>
+          <ul><?php foreach (array_slice($plan['features'] ?? [], 0, 3) as $feature): ?><li><?= e($feature) ?></li><?php endforeach; ?></ul>
+          <span class="et-plan-price"><?= e($plan['price_label'] ?? 'Condições sob consulta') ?></span>
+        </div>
+        <a class="et-plan-arrow" href="/contato?plano=<?= rawurlencode($plan['name']) ?>#formulario" aria-label="Consultar o plano <?= e($plan['name']) ?>"><span aria-hidden="true">↗</span></a>
+      </article>
+    <?php endforeach; ?>
+    </div>
+    <div class="et-plans-foot"><span>Valores, coberturas e carências devem ser confirmados na proposta comercial.</span><a href="/planos" class="et-underlined">Ver todos os planos <span aria-hidden="true">↗</span></a></div>
+  </div>
+</section>
+
+<section class="et-promise" aria-labelledby="et-promise-title">
+  <div class="container et-promise-grid">
+    <div class="et-promise-heading"><div class="et-section-marker"><span>03</span><span>O NOSSO COMPROMISSO</span></div><h2 id="et-promise-title">O essencial está<br><em>na forma de cuidar.</em></h2><p>Mais do que falar em proteção, queremos fazer do atendimento uma experiência simples e humana.</p></div>
+    <div class="et-promise-items">
+      <article><span>01</span><div><h3>Gente falando com gente.</h3><p>Escuta e respeito para entender sua necessidade.</p></div></article>
+      <article><span>02</span><div><h3>Informação sem rodeios.</h3><p>Condições explicadas com clareza para você decidir.</p></div></article>
+      <article><span>03</span><div><h3>Atenção a cada história.</h3><p>Cada família é única e merece ser tratada assim.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="et-faq" aria-labelledby="et-faq-title">
+  <div class="container et-faq-grid">
+    <div><p class="et-overline et-overline-dark">PERGUNTAS FREQUENTES</p><h2 id="et-faq-title">Antes de decidir,<br><em>pode perguntar.</em></h2><p class="et-faq-caption">Se a sua dúvida não estiver aqui, converse com a nossa equipe.</p><a class="et-underlined" href="/contato">Enviar uma pergunta <span aria-hidden="true">↗</span></a></div>
+    <div class="et-faq-questions">
+      <details><summary>Como encontro o plano mais adequado?</summary><p>Nossa equipe apresenta as opções disponíveis e ajuda você a comparar as condições de cada uma.</p></details>
+      <details><summary>Os planos têm período de carência?</summary><p>As carências dependem das condições de cada contrato. Consulte a proposta antes de contratar.</p></details>
+      <details><summary>Posso incluir pessoas da minha família?</summary><p>A possibilidade de inclusão e os critérios variam conforme o plano escolhido.</p></details>
+      <details><summary>Como posso solicitar uma proposta?</summary><p>É só preencher o formulário de contato. A equipe poderá retornar com orientações.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="et-closing" aria-labelledby="et-closing-title">
+  <div class="container et-closing-inner"><div><span class="et-overline">PRÓXIMO PASSO</span><h2 id="et-closing-title">Uma boa conversa<br><em>é um começo.</em></h2><p>Conte o que você procura. Vamos ajudar a encontrar o melhor caminho.</p></div><a class="et-button et-button-gold" href="/contato#formulario">Conversar com a Eternity <span aria-hidden="true">↗</span></a></div>
+</section>
