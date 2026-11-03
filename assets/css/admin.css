@@ -89,3 +89,46 @@
 .plan-admin .plan-form-switches .form-check-input:checked{background-color:#1b5862;border-color:#1b5862}
 .plan-admin .plan-form-footer{display:flex;justify-content:flex-end;gap:11px;padding:12px 0 36px}
 @media(max-width:650px){.plan-admin .plan-summary{grid-template-columns:1fr}.plan-admin .plan-list-heading{align-items:start;flex-direction:column}.plan-admin .plan-admin-panel{padding:20px 16px}.plan-admin .plan-admin-header h1{font-size:27px}}
+
+/* Navegação administrativa refinada */
+.admin-page .sidebar{width:260px;padding:26px 18px 20px;background:linear-gradient(180deg,#12303c 0%,#0e2935 100%);border-right:1px solid #ffffff12}
+.admin-page .work-area{margin-left:260px}
+.sidebar-brand{display:flex;align-items:center;gap:12px;text-decoration:none;padding:6px 12px 18px;color:#fff}
+.sidebar-brand:hover{text-decoration:none;color:#fff}
+.sidebar-symbol{width:42px;height:42px;display:grid;place-items:center;background:#d9ba7f18;border:1px solid #c6a86b6b;border-radius:13px;color:#dcc48d;font-size:20px}
+.sidebar-brand-name{font-size:19px;font-weight:800;letter-spacing:.09em;line-height:1.2}
+.sidebar-brand-name small{display:block;letter-spacing:.14em;color:#a0b7c0;font-size:9px;font-weight:600;margin-top:6px}
+.sidebar-separator{height:1px;background:#ffffff15;margin:0 12px 24px}
+.sidebar-label{font-size:10px;letter-spacing:.16em;font-weight:700;color:#789aa6;padding:0 16px;margin-bottom:12px}
+.sidebar-navigation{display:grid;gap:5px}
+.admin-page .sidebar .sidebar-navigation a{display:flex;align-items:center;gap:14px;padding:13px 15px;color:#b7c9d0;border-radius:10px;font-size:14px;font-weight:550;transition:background .15s ease,color .15s ease}
+.admin-page .sidebar .sidebar-navigation a i{font-size:18px;width:21px;text-align:center}
+.admin-page .sidebar .sidebar-navigation a.on{background:#ffffff1c;color:#fff;box-shadow:inset 3px 0 0 #d3ae70;font-weight:700}
+.admin-page .sidebar .sidebar-navigation a:hover{background:#ffffff12;color:#fff;text-decoration:none}
+.sidebar-bottom{margin-top:auto}
+.admin-page .sidebar .sidebar-site-link{display:flex;gap:13px;align-items:center;color:#a8c6d1;padding:13px 15px;font-size:13px;text-decoration:none}
+.sidebar-user{display:flex;gap:11px;align-items:center;border-top:1px solid #ffffff18;padding:20px 10px 16px;margin-top:16px}
+.sidebar-avatar{background:#d6b981;color:#17313a;border-radius:11px;width:39px;height:39px;display:grid;place-items:center;flex:none;font-weight:800}
+.sidebar-user-text{overflow:hidden;min-width:0}
+.sidebar-user-text strong{color:#e6f0f1;font-size:13px;display:block;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+.sidebar-user-text small{display:block;color:#8faab3;font-size:11px}
+.admin-page .sidebar .sidebar-bottom form{margin:0}
+.sidebar-signout{display:flex;gap:12px;align-items:center;width:100%;padding:12px 14px;background:transparent;border:1px solid #ffffff1a;border-radius:9px;color:#e6c68f;text-align:left;font-size:13px;cursor:pointer}
+.sidebar-signout:hover{background:#ffffff12}
+.admin-page .toolbar{height:72px;border-color:#e5ebeb}
+.admin-page .content{max-width:1260px}
+.plan-admin .plan-editor input[readonly]{background:#f1f4f3;color:#667c83;cursor:not-allowed}
+.branding-upload-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:26px}
+.branding-upload-card{border:1px solid #e1e8e6;border-radius:12px;padding:22px;background:#fbfcfb}
+.branding-upload-card>strong{font-size:16px;color:#1d3943}
+.branding-upload-card>p{font-size:13px;color:#6e7e85;margin:7px 0 15px}
+.branding-preview{height:140px;border:1px dashed #cad6d6;background:#fff;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:18px;color:#85999e;gap:8px}
+.branding-preview img{max-height:115px;max-width:90%;object-fit:contain}
+.branding-preview.is-favicon img{height:58px;width:58px}
+.branding-upload-form{display:grid;gap:12px}
+.branding-upload-form label{display:grid;gap:8px;font-size:12px;font-weight:650}
+.branding-upload-form input[type=file]{font-size:12px;padding:11px;border:1px solid #d3dddd;border-radius:7px;max-width:100%}
+.btn-admin-upload{background:#183a47;color:#fff;border-radius:7px;font-weight:650;justify-self:start}
+.btn-admin-upload:hover{background:#2d5967;color:#fff}
+@media(max-width:850px){.admin-page .sidebar{width:100%;padding:18px}.admin-page .work-area{margin-left:0}.sidebar-separator,.sidebar-label{display:none}.sidebar-bottom{margin:12px 0 0}.sidebar-user{margin-top:5px}.sidebar-navigation{display:flex;flex-wrap:wrap}.admin-page .sidebar .sidebar-navigation a{padding:10px 12px}.admin-page .sidebar .sidebar-bottom form{max-width:160px}}
+@media(max-width:650px){.branding-upload-grid{grid-template-columns:1fr}}

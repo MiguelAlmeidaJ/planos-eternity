@@ -61,3 +61,18 @@ function publicPlans(): array {
         'price_label'=>$p['price_label'],'featured'=>(bool)$p['featured']
     ],$rows);
 }
+
+/** Gera um identificador estável compatível com o catálogo. */
+function planSlug(string $name): string {
+    $text = trim($name);
+    if (function_exists('transliterator_transliterate')) {
+        $text = transliterator_transliterate('Any-Latin; Latin-ASCII', $text);
+    } else {
+        $converted = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $text);
+        if ($converted !== false) $text = $converted;
+    }
+    $text = strtolower($text);
+    $text = trim((string)preg_replace('/[^a-z0-9]+/', '-', $text), '-');
+    if ($text === '') throw new RuntimeException('Informe um nome com letras ou números para gerar o identificador.');
+    return substr($text, 0, 100);
+}

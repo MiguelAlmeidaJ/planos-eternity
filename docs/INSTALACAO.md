@@ -75,3 +75,14 @@ Recomendações: use HTTPS, credenciais fortes, backups regulares, restrinja o a
 - Não é preciso informar `sort_order` no formulário. Novos planos entram no final automaticamente.
 - Ações de editar, publicar/ocultar e excluir usam apenas ícones Bootstrap com rótulos acessíveis.
 - Sem alterações de schema: tabela `site_plans` existente.
+
+
+## Identidade visual / uploads persistentes
+
+- Em **Administração → Configurações**, envie o logotipo e o favicon em PNG ou SVG (até 2 MB; SVG até 512 KB).
+- O servidor armazena os arquivos em `assets/uploads/branding/`. A pasta está no `.gitignore`, portanto **não será atualizada nem removida pelo git pull**, desde que os arquivos sejam mantidos no servidor e não sejam usados comandos de limpeza como `git clean -fdx`.
+- Crie a pasta e certifique-se de que o usuário do PHP tem permissão para gravar nela (`mkdir -p assets/uploads/branding`). O sistema também tenta criá-la automaticamente.
+- Não versionar nem fazer `git add -f` dos arquivos enviados. Fazer backups regulares de `assets/uploads/` e do banco MySQL; o banco guarda os caminhos das imagens.
+- PNG tem assinatura e dimensões verificadas. SVG aceita somente elementos e atributos gráficos de uma lista restrita; SVGs complexos com scripts, imagens externas ou outros recursos não são aceitos por segurança. Extensão PHP DOM é necessária para SVG.
+- No momento não há edição avançada, conversão ou redimensionamento automático das imagens. O favicon padrão permanece disponível caso o personalizado seja removido.
+- O **slug dos planos** é gerado no servidor a partir do nome (com prévia automática no formulário). Se dois nomes produzirem o mesmo slug, o banco impedirá a duplicação e será preciso usar outro nome.

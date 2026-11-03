@@ -34,7 +34,27 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
 <form method="post" action="/admin/login"><input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>"><label>E-mail<input type="email" name="email" required autofocus autocomplete="username"></label><label>Senha<input type="password" name="password" required autocomplete="current-password"></label><button class="primary">Entrar no painel</button></form>
 <a class="back" href="/">← Voltar ao site</a></main>
 <?php else: ?>
-<aside class="sidebar"><a class="admin-brand" href="/admin">✦ ETERNITY <span>ADMINISTRAÇÃO</span></a><nav><a class="<?= $activeSection==='painel'?'on':'' ?>" href="/admin"><i class="bi bi-grid-1x2" aria-hidden="true"></i> &nbsp; Visão geral</a><a class="<?= $activeSection==='planos'?'on':'' ?>" href="/admin/planos"><i class="bi bi-card-list" aria-hidden="true"></i> &nbsp; Planos</a><?php if ($user['role']==='admin'): ?><a class="<?= $activeSection==='usuarios'?'on':'' ?>" href="/admin/usuarios"><i class="bi bi-people" aria-hidden="true"></i> &nbsp; Usuários</a><a class="<?= $activeSection==='configuracoes'?'on':'' ?>" href="/admin/configuracoes"><i class="bi bi-gear" aria-hidden="true"></i> &nbsp; Configurações</a><?php endif; ?><a href="/" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> &nbsp; Ver site</a></nav><form method="post" action="/admin/logout"><input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>"><button class="signout">Sair da conta</button></form></aside>
+<aside class="sidebar" aria-label="Navegação administrativa">
+  <a class="sidebar-brand" href="/admin">
+    <span class="sidebar-symbol"><i class="bi bi-stars" aria-hidden="true"></i></span>
+    <span class="sidebar-brand-name">Eternity<small>PAINEL ADMINISTRATIVO</small></span>
+  </a>
+  <div class="sidebar-separator"></div>
+  <span class="sidebar-label">GERENCIAMENTO</span>
+  <nav class="sidebar-navigation" aria-label="Menu principal">
+    <a class="<?= $activeSection==='painel'?'on':'' ?>" <?= $activeSection==='painel'?'aria-current="page"':'' ?> href="/admin"><i class="bi bi-grid-1x2" aria-hidden="true"></i><span>Visão geral</span></a>
+    <a class="<?= $activeSection==='planos'?'on':'' ?>" <?= $activeSection==='planos'?'aria-current="page"':'' ?> href="/admin/planos"><i class="bi bi-card-list" aria-hidden="true"></i><span>Planos</span></a>
+    <?php if ($user['role']==='admin'): ?>
+      <a class="<?= $activeSection==='usuarios'?'on':'' ?>" <?= $activeSection==='usuarios'?'aria-current="page"':'' ?> href="/admin/usuarios"><i class="bi bi-people" aria-hidden="true"></i><span>Usuários</span></a>
+      <a class="<?= $activeSection==='configuracoes'?'on':'' ?>" <?= $activeSection==='configuracoes'?'aria-current="page"':'' ?> href="/admin/configuracoes"><i class="bi bi-gear" aria-hidden="true"></i><span>Configurações</span></a>
+    <?php endif; ?>
+  </nav>
+  <div class="sidebar-bottom">
+    <a href="/" class="sidebar-site-link" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i><span>Visualizar site</span></a>
+    <div class="sidebar-user"><span class="sidebar-avatar"><?= e(mb_strtoupper(mb_substr($user['name'],0,1))) ?></span><span class="sidebar-user-text"><strong><?= e($user['name']) ?></strong><small><?= $user['role']==='admin'?'Administrador':'Editor' ?></small></span></div>
+    <form method="post" action="/admin/logout"><input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>"><button class="sidebar-signout" type="submit"><i class="bi bi-box-arrow-right" aria-hidden="true"></i> Sair da conta</button></form>
+  </div>
+</aside>
 <div class="work-area"><header class="toolbar"><span>Painel Eternity</span><div><?= e($user['name']) ?> <small><?= e($user['role']) ?></small></div></header><main class="content">
 <?php if ($flash): ?><div role="alert" class="notice <?= e($flash[0]) ?>"><?= e($flash[1]) ?></div><?php endif; ?>
 <?php if ($section===''): ?>
@@ -51,11 +71,44 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
 <?php require __DIR__ . '/plan-form-view.php'; ?>
 <?php elseif ($section==='configuracoes'): ?>
 <div class="heading"><div><p class="kicker">PREFERÊNCIAS</p><h1>Configurações</h1><p class="sub">Identidade visual, contatos e e-mail transacional.</p></div></div>
-<form method="post" action="/admin/configuracoes" class="settings-form"><input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>">
+<form method="post" action="/admin/configuracoes" class="settings-form"><input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>"><input type="hidden" name="action" value="save_settings">
 <div class="panel"><h2>Identidade visual</h2><div class="form-grid two">
-<?php foreach(['APP_NAME'=>'Nome da marca','BRAND_SUBTITLE'=>'Subtítulo da marca','BRAND_LOGO'=>'Caminho do logotipo (ex.: /assets/img/logo.svg)'] as $key=>$label): ?><label><?= e($label) ?><input name="<?= e($key) ?>" maxlength="<?= $key==='BRAND_LOGO'?255:120 ?>" value="<?= e($settings[$key]??setting($key, $key==='APP_NAME'?'Eternity':($key==='BRAND_SUBTITLE'?'PLANOS ASSISTENCIAIS':''))) ?>"></label><?php endforeach; ?>
+<?php foreach(['APP_NAME'=>'Nome da marca','BRAND_SUBTITLE'=>'Subtítulo da marca'] as $key=>$label): ?><label><?= e($label) ?><input name="<?= e($key) ?>" maxlength="120" value="<?= e($settings[$key]??setting($key, $key==='APP_NAME'?'Eternity':'PLANOS ASSISTENCIAIS')) ?>"></label><?php endforeach; ?>
 <?php foreach(['BRAND_PRIMARY'=>'Cor principal','BRAND_ACCENT'=>'Cor de destaque'] as $key=>$label): ?><label><?= e($label) ?><input type="color" name="<?= e($key) ?>" value="<?= e($settings[$key]??($key==='BRAND_PRIMARY'?'#122d3a':'#c4a66b')) ?>"></label><?php endforeach; ?>
 </div></div>
+<div class="panel branding-panel">
+  <h2>Arquivos de identidade visual</h2>
+  <p class="sub">Envie a marca e o favicon em PNG ou SVG. Os arquivos permanecem na hospedagem, mesmo após atualizar o projeto pelo Git.</p>
+  <div class="branding-upload-grid">
+  <?php foreach (['logo'=>['Logotipo','BRAND_LOGO'],'favicon'=>['Favicon','BRAND_FAVICON']] as $type=>$info):
+     $currentAsset = $settings[$info[1]] ?? '';
+     $preview = $currentAsset !== '' ? $currentAsset : ($type==='favicon' ? '/assets/img/favicon.svg' : '');
+  ?>
+  <div class="branding-upload-card">
+    <div class="branding-preview <?= $type==='favicon'?'is-favicon':'' ?>">
+      <?php if ($preview !== ''): ?><img src="<?= e($preview) ?>" alt="Prévia do <?= e($info[0]) ?>"><?php else: ?><i class="bi bi-image" aria-hidden="true"></i><span>Nenhuma imagem</span><?php endif; ?>
+    </div>
+    <strong><?= e($info[0]) ?></strong>
+    <p><?= $type==='logo'?'Identidade exibida no cabeçalho e rodapé.':'Ícone exibido na aba do navegador.' ?></p>
+    <form method="post" action="/admin/configuracoes" enctype="multipart/form-data" class="branding-upload-form">
+      <input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>">
+      <input type="hidden" name="action" value="branding_upload">
+      <input type="hidden" name="asset_type" value="<?= e($type) ?>">
+      <label>Arquivo PNG ou SVG (máx. 2 MB)<input type="file" name="asset_file" accept=".png,.svg,image/png,image/svg+xml" required></label>
+      <button class="btn btn-admin-upload" type="submit"><i class="bi bi-cloud-arrow-up" aria-hidden="true"></i> Enviar <?= e(mb_strtolower($info[0])) ?></button>
+    </form>
+    <?php if ($currentAsset !== ''): ?>
+    <form method="post" action="/admin/configuracoes" onsubmit="return confirm('Remover a imagem atual?')">
+      <input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>">
+      <input type="hidden" name="action" value="branding_remove">
+      <input type="hidden" name="asset_type" value="<?= e($type) ?>">
+      <button type="submit" class="btn btn-link text-danger px-0">Remover imagem</button>
+    </form>
+    <?php endif; ?>
+  </div>
+  <?php endforeach; ?>
+  </div>
+</div>
 <div class="panel"><h2>Informações de contato</h2><div class="form-grid two"><?php foreach(['APP_PHONE'=>'Telefone','APP_WHATSAPP'=>'WhatsApp','APP_EMAIL'=>'E-mail','APP_ADDRESS'=>'Endereço','APP_CNPJ'=>'CNPJ'] as $key=>$label): ?><label><?= e($label) ?><input name="<?= e($key) ?>" value="<?= e($settings[$key]??setting($key)) ?>"></label><?php endforeach; ?></div></div>
 <div class="panel"><h2>Servidor SMTP</h2><p class="sub">Configuração armazenada para uso na próxima integração de envio de e-mails. Nenhum e-mail é disparado por esta tela.</p><div class="form-grid two">
 <?php foreach(['SMTP_HOST'=>'Servidor SMTP','SMTP_PORT'=>'Porta','SMTP_USER'=>'Usuário SMTP','SMTP_FROM'=>'E-mail remetente','SMTP_FROM_NAME'=>'Nome remetente'] as $key=>$label): ?><label><?= e($label) ?><input name="<?= e($key) ?>" value="<?= e($settings[$key]??($key==='SMTP_PORT'?'587':'')) ?>"></label><?php endforeach; ?>
@@ -65,4 +118,5 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
 </main></div>
 <?php endif; ?>
 <?php if ($section==='planos'): ?><script src="/assets/js/admin-plans.js" defer></script><?php endif; ?>
+<?php if ($section==='planos/novo' || $section==='planos/editar'): ?><script src="/assets/js/admin-plan-form.js" defer></script><?php endif; ?>
 </body></html>

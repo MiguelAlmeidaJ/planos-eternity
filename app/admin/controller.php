@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($action === 'save') {
                 $id = $isEdit ? (int)$requestedId : 0;
                 $name=trim((string)($_POST['name'] ?? ''));
-                $slug=trim((string)($_POST['slug'] ?? ''));
+                $slug=planSlug($name);
                 $tagline=trim((string)($_POST['tagline'] ?? ''));
                 $description=trim((string)($_POST['description'] ?? ''));
                 $features=trim((string)($_POST['features'] ?? ''));
@@ -164,7 +164,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         if ($section === 'configuracoes') {
             requireAdmin($user,true);
-            $fields = ['APP_NAME'=>120,'BRAND_SUBTITLE'=>100,'BRAND_LOGO'=>255,'BRAND_PRIMARY'=>7,'BRAND_ACCENT'=>7,'APP_PHONE'=>50,'APP_WHATSAPP'=>50,'APP_EMAIL'=>190,'APP_ADDRESS'=>255,'APP_CNPJ'=>30,'SMTP_HOST'=>190,'SMTP_PORT'=>5,'SMTP_USER'=>190,'SMTP_FROM'=>190,'SMTP_FROM_NAME'=>120,'SMTP_ENCRYPTION'=>5];
+            if ($action === 'branding_upload') {
+                require_once __DIR__ . '/branding-upload.php';
+                $type = (string)($_POST['asset_type'] ?? '');
+                if (!in_array($type, ['logo','favicon'], true)) throw new RuntimeException('Tipo de imagem inválido.');
+                $settingKey = $type === 'logo' ? 'BRAND_LOGO' : 'BRAND_FAVICON';
+                $oldAsset = siteOption($settingKey);
+                $path = uploadBrandingAsset($_FILES['asset_file'] ?? [], $type);
+                try {
+                    saveOption($settingKey, $path);
+                } catch (Throwable $ex) {
+                    @unlink(dirname(__DIR__, 2) . $path);
+                    throw $ex;
+                }
+                // Remove somente arquivos antigos gerados neste diretório, nunca arquivos do código.
+                if (preg_match('#^/assets/uploads/branding/(?:logo|favicon)-[a-f0-9]{32}\\.(?:png|svg)$#', $oldAsset)) {
+                    @unlink(dirname(__DIR__, 2) . $oldAsset);
+                }
+                flash('ok', $type === 'logo' ? 'Logotipo atualizado.' : 'Favicon atualizado.');
+                redirectAdmin('/configuracoes');
+            }
+            if ($action === 'branding_remove') {
+                $type = (string)($_POST['asset_type'] ?? '');
+                if (!in_array($type, ['logo','favicon'], true)) throw new RuntimeException('Tipo de imagem inválido.');
+                $settingKey = $type === 'logo' ? 'BRAND_LOGO' : 'BRAND_FAVICON';
+                $oldAsset = siteOption($settingKey);
+                saveOption($settingKey, '');
+                if (preg_match('#^/assets/uploads/branding/(?:logo|favicon)-[a-f0-9]{32}\\.(?:png|svg)$#', $oldAsset)) {
+                    @unlink(dirname(__DIR__, 2) . $oldAsset);
+                }
+                flash('ok', 'Imagem removida.');
+                redirectAdmin('/configuracoes');
+            }
+            if ($action !== 'save_settings') throw new RuntimeException('Operação de configurações inválida.');
+            $fields = ['APP_NAME'=>120,'BRAND_SUBTITLE'=>100,'BRAND_PRIMARY'=>7,'BRAND_ACCENT'=>7,'APP_PHONE'=>50,'APP_WHATSAPP'=>50,'APP_EMAIL'=>190,'APP_ADDRESS'=>255,'APP_CNPJ'=>30,'SMTP_HOST'=>190,'SMTP_PORT'=>5,'SMTP_USER'=>190,'SMTP_FROM'=>190,'SMTP_FROM_NAME'=>120,'SMTP_ENCRYPTION'=>5];
             foreach ($fields as $field=>$max) {
                 $value=trim((string)($_POST[$field] ?? ''));
                 if (mb_strlen($value)>$max) throw new RuntimeException('Campo muito longo: '.$field);
