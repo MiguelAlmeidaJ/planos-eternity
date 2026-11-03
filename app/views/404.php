@@ -1,0 +1,1 @@
+<section class="section"><div class="container simple-center"><span class="eyebrow">PÁGINA NÃO ENCONTRADA</span><h1>Não encontramos esse caminho.</h1><p>Você pode voltar ao início e continuar navegando pelo site.</p><a class="btn" href="/">Voltar ao início</a></div></section>

@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS contact_messages (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name VARCHAR(120) NOT NULL,
+  email VARCHAR(190) NOT NULL,
+  phone VARCHAR(22) NOT NULL,
+  subject VARCHAR(100) NOT NULL DEFAULT '',
+  message TEXT NOT NULL,
+  consented_at DATETIME NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  INDEX idx_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
