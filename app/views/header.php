@@ -7,6 +7,8 @@
   <style>:root{--navy:<?= e(siteOption('BRAND_PRIMARY', '#122d3a')) ?>;--gold:<?= e(siteOption('BRAND_ACCENT', '#c4a66b')) ?>}</style>
   <meta name="description" content="<?= e($description) ?>">
   <title><?= e($title) ?> | <?= e(siteOption('APP_NAME', 'Eternity')) ?></title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 </head>

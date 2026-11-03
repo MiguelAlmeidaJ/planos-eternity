@@ -103,3 +103,10 @@ a.contact-method:hover strong,a.contact-method:hover .contact-method-arrow{color
 .contact-page-form .btn{justify-self:start}
 @media(max-width:900px){.contact-page-grid{gap:35px}.contact-page-form{padding:26px}}
 @media(max-width:720px){.contact-page{padding:48px 0 68px}.contact-page-heading{margin-bottom:35px}.contact-page-grid{grid-template-columns:1fr;gap:35px}.contact-page-methods{padding-top:0}.contact-fields-row{grid-template-columns:1fr}.contact-page-form{padding:23px 19px}}
+
+/* Bootstrap integration: keep original site layout until each page is migrated. */
+.container{max-width:1160px}
+.plans-page-content{padding-top:72px;padding-bottom:82px}
+.plans-page-content .section-heading h2{font-size:clamp(2rem,3.1vw,3.15rem)}
+.plans-page-content .plan-icon{font-size:1.8rem;line-height:1.2}
+@media(max-width:760px){.plans-page-content{padding-top:54px;padding-bottom:62px}}

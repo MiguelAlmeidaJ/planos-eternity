@@ -82,6 +82,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             redirectAdmin('/usuarios');
         }
         if ($section === 'planos') {
+            if ($action === 'toggle') {
+                $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
+                if (!$id || $id < 1) throw new RuntimeException('Plano inválido.');
+                $stmt = database()->prepare('UPDATE site_plans SET active = CASE WHEN active = 1 THEN 0 ELSE 1 END WHERE id = ?');
+                $stmt->execute([$id]);
+                if ($stmt->rowCount() !== 1) throw new RuntimeException('Plano não encontrado.');
+                flash('ok', 'Visibilidade atualizada.');
+                redirectAdmin('/planos');
+            }
             if ($action === 'save') {
                 $id=(int)($_POST['id'] ?? 0);
                 $name=trim((string)($_POST['name'] ?? ''));

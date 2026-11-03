@@ -57,3 +57,12 @@ Guarde esta chave com backup seguro: a senha SMTP é criptografada com AES-256-G
 - **SMTP:** endereço, porta, usuário, remetente, criptografia e senha cifrada. Esta fase **apenas armazena a configuração**; o disparo de e-mails e testes SMTP ainda não foram implementados.
 
 Recomendações: use HTTPS, credenciais fortes, backups regulares, restrinja o acesso a `/admin` e considere uma proteção adicional contra força bruta no servidor (a tela implementa limitação de tentativas por sessão).
+
+
+## Bootstrap e catálogo (etapa atual)
+
+- A página pública de planos não usa mais hero e começa diretamente pelo catálogo.
+- O painel em `/admin/planos` permite cadastrar, editar, excluir, ativar/desativar e destacar planos. Planos marcados como ativos aparecem na home e na página `/planos`; dados são lidos da tabela `site_plans`.
+- O Bootstrap 5.3.8 e Bootstrap Icons 1.13.2 foram incluídos nos layouts público e administrativo via CDN do jsDelivr. **A nova tela de planos do painel já usa componentes Bootstrap**; as outras telas continuam com CSS legado durante uma migração gradual.
+- Para ambientes sem acesso à internet, é necessário hospedar os arquivos do Bootstrap e seus ícones localmente.
+- Não é necessária migração adicional no MySQL para esta atualização se a tabela `site_plans` já existe.
