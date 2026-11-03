@@ -39,17 +39,6 @@
   </div>
 </section>
 
-<section class="hm-why" aria-labelledby="hm-why-title">
-  <div class="container">
-    <div class="hm-why-heading"><span class="hm-kicker">POR QUE A ETERNITY</span><h2 id="hm-why-title">Atendimento próximo. Informações claras.</h2></div>
-    <div class="hm-values">
-      <article><span class="hm-value-index">01</span><h3>Acolhimento</h3><p>Uma conversa com atenção e respeito às suas necessidades.</p></article>
-      <article><span class="hm-value-index">02</span><h3>Transparência</h3><p>Você conhece as condições antes de tomar sua decisão.</p></article>
-      <article><span class="hm-value-index">03</span><h3>Compromisso</h3><p>Um relacionamento baseado em confiança e responsabilidade.</p></article>
-    </div>
-  </div>
-</section>
-
 <section class="hm-faq" aria-labelledby="hm-faq-title">
   <div class="container hm-faq-grid">
     <div class="hm-faq-intro"><span class="hm-kicker">DÚVIDAS FREQUENTES</span><h2 id="hm-faq-title">Ainda tem alguma dúvida?</h2><p>Reunimos algumas respostas para ajudar. Se precisar, nossa equipe está à disposição.</p><a class="hm-link" href="/contato">Entre em contato <span aria-hidden="true">↗</span></a></div>
