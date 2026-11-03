@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-require __DIR__ . '/helpers.php';
+require_once __DIR__ . '/helpers.php';
 header('X-Frame-Options: DENY');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: same-origin');

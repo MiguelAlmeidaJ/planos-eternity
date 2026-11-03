@@ -33,3 +33,27 @@ O arquivo `.env` ainda é aceito para compatibilidade com instalações existent
 ## Páginas
 
 Início (`/`), Quem somos (`/quem-somos`), Planos (`/planos`), Contato (`/contato`) e Privacidade (`/politica-de-privacidade`). Sem páginas de unidades ou parceiros.
+
+## Painel administrativo
+
+Após `git pull origin main`, execute `php scripts/install.php` novamente. O comando é idempotente, cria as tabelas adicionais (`admin_users`, `site_plans`, `site_settings`) e cadastra os três planos iniciais apenas se ainda não existirem.
+
+Crie o primeiro administrador em um **terminal interativo**, sem digitar a senha como argumento:
+```bash
+php scripts/create-admin.php
+```
+Depois acesse `https://seu-dominio/admin`.
+
+Em `config.php`, configure também `APP_KEY` com um segredo aleatório de 32 bytes codificados em base64. Para gerar:
+```bash
+php -r "echo 'base64:'.base64_encode(random_bytes(32)).PHP_EOL;"
+```
+Guarde esta chave com backup seguro: a senha SMTP é criptografada com AES-256-GCM, e trocar a chave impede sua leitura futura.
+
+- **Usuários:** administradores gerenciam usuários, planos e configurações; editores gerenciam somente planos. Senhas são armazenadas como hashes.
+- **Planos:** CRUD com nome, slug, benefícios (uma linha por benefício), ordem, visibilidade, destaque e texto do preço; a área pública usa os planos ativos do banco.
+- **Identidade visual:** nome, subtítulo, cores e **caminho de imagem local** para logotipo. Coloque o arquivo no diretório `assets/` previamente (não há upload de arquivos nesta etapa).
+- **Contato:** informações públicas aplicadas ao cabeçalho, rodapé e página de contato.
+- **SMTP:** endereço, porta, usuário, remetente, criptografia e senha cifrada. Esta fase **apenas armazena a configuração**; o disparo de e-mails e testes SMTP ainda não foram implementados.
+
+Recomendações: use HTTPS, credenciais fortes, backups regulares, restrinja o acesso a `/admin` e considere uma proteção adicional contra força bruta no servidor (a tela implementa limitação de tentativas por sessão).

@@ -79,6 +79,12 @@ function database(): PDO
 
 function plans(): array
 {
+    try {
+        require_once __DIR__ . '/admin/helpers.php';
+        return publicPlans();
+    } catch (PDOException $e) {
+        error_log('Eternity plans fallback: ' . $e->getMessage());
+    }
     return [
         ['name' => 'Essencial', 'tag' => 'Proteção para começar', 'features' => ['Acolhimento e orientação', 'Atendimento assistencial', 'Opções para incluir sua família']],
         ['name' => 'Premium', 'tag' => 'Mais tranquilidade', 'features' => ['Cuidado em cada etapa', 'Atendimento assistencial', 'Cobertura conforme contratação']],

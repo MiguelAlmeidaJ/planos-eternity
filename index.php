@@ -1,8 +1,13 @@
 <?php
 declare(strict_types=1);
 require __DIR__ . '/app/bootstrap.php';
+require __DIR__ . '/app/admin/helpers.php';
 
 $path = trim((string)(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/'), '/');
+if ($path === 'admin' || str_starts_with($path, 'admin/')) {
+    require __DIR__ . '/app/admin/controller.php';
+    exit;
+}
 $routes = [
     '' => 'home',
     'planos' => 'planos',
