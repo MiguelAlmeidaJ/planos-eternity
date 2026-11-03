@@ -117,6 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $requestedId = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
                 if ($isEdit && (!$requestedId || $requestedId < 1)) throw new RuntimeException('Plano inválido.');
                 if (!$isEdit && $requestedId) throw new RuntimeException('Novo plano não deve ter identificador.');
+            }
             if ($section === 'planos' && $action === 'toggle') {
                 $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
                 if (!$id || $id < 1) throw new RuntimeException('Plano inválido.');
