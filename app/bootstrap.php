@@ -24,6 +24,21 @@ function loadEnv(string $path): void
 }
 loadEnv(dirname(__DIR__) . '/.env');
 
+// O arquivo config.php é local e não deve ser versionado.
+$configPath = dirname(__DIR__) . '/config.php';
+if (is_file($configPath)) {
+    $config = require $configPath;
+    if (!is_array($config)) {
+        throw new RuntimeException('O arquivo config.php deve retornar um array.');
+    }
+    foreach ($config as $key => $value) {
+        if (!is_string($key) || !preg_match('/^[A-Z_][A-Z0-9_]*$/', $key) || !is_scalar($value)) {
+            throw new RuntimeException('Configuração inválida em config.php.');
+        }
+        putenv($key . '=' . (string)$value);
+    }
+}
+
 function setting(string $name, string $default = ''): string
 {
     $value = getenv($name);

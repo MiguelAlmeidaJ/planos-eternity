@@ -1,32 +1,35 @@
-# Publicação na Valuehost / DirectAdmin
+# Instalação e banco de dados (Valuehost / DirectAdmin)
 
-## Requisitos
-- PHP 8.1 ou superior, com extensões PDO, pdo_mysql e mbstring;
-- Apache com mod_rewrite habilitado;
-- MySQL ou MariaDB;
-- HTTPS ativo.
+Requisitos: PHP 8.1+ com PDO, pdo_mysql e mbstring; MySQL/MariaDB; Apache com mod_rewrite.
 
-## Preparação
-1. Crie no DirectAdmin um banco MySQL e um usuário com permissões apenas sobre este banco.
-2. Importe `database/schema.sql` no phpMyAdmin.
-3. Copie `.env.example` como `.env` e preencha as variáveis `DB_*` e os dados oficiais `APP_*`. **Nunca envie o .env ao GitHub.**
-4. Coloque os arquivos do projeto no `public_html` do domínio. A pasta `app` e o `.env` são bloqueados pelo `.htaccess`. Verifique com HTTPS que `/.env`, `/database/schema.sql` e `/app/bootstrap.php` retornam acesso negado. **Preferência para produção:** manter `.env`, `app` e `database` fora do diretório público e adaptar os caminhos.
-5. Confirme que `AllowOverride` está habilitado para o `.htaccess` e que URLs como `/planos` e `/contato` carregam.
-6. Teste formulário, validações, gravação no banco e página 404.
+## Configurar localmente
 
-## Cuidados antes de divulgar
-- Validar identidade visual, marca, telefone, e-mail, CNPJ e endereço;
-- Revisar juridicamente política de privacidade e estabelecer retenção dos contatos;
-- Substituir as descrições provisórias dos planos por preços e coberturas oficiais;
-- Configurar um processo interno seguro para consultar e responder mensagens no banco (nenhum painel administrativo foi publicado);
-- Adotar backup automático e proteção anti-spam adicional conforme o volume.
-- Se for usar subdiretório em vez da raiz do domínio, adaptar rotas e caminhos absolutos.
+1. Crie um banco MySQL e um usuário no DirectAdmin (em hospedagens compartilhadas, o prefixo do usuário pode ser obrigatório).
+2. No diretório do projeto, crie sua configuração local:
+   ```bash
+   cp config.example.php config.php
+   ```
+3. Edite `config.php` e informe `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER` e `DB_PASS`. Não envie esse arquivo ao GitHub.
+4. No terminal do diretório do projeto, rode:
+   ```bash
+   php scripts/install.php
+   ```
+   O comando conecta ao banco e aplica `database/schema.sql`. A execução inicial é idempotente por usar `CREATE TABLE IF NOT EXISTS`. Ele **não cria o banco**, apenas a tabela dentro de um banco existente.
+5. Para testar o site localmente, rode `php -S localhost:8000 index.php`. Atenção: o servidor embutido do PHP não interpreta as regras de reescrita do Apache; algumas rotas podem precisar ser testadas no Apache.
 
-## Rotas
-- `/` Início
-- `/quem-somos` Quem somos
-- `/planos` Planos
-- `/contato` Contato
-- `/politica-de-privacidade` Privacidade
+## Publicação
 
-A estrutura foi inspirada nas páginas institucionais do site de referência, sem copiar sua marca, dados, preços ou conteúdo contratual. Não há páginas de unidades ou parceiros.
+- Em `public_html` ficam os arquivos públicos; o projeto atual protege `config.php`, `.env`, `app/`, `database/`, `docs/` e `scripts/` por regras Apache no `.htaccess`.
+- **Recomendado para produção:** mover `config.php`, `app/`, `database/` e `scripts/` para fora de `public_html` e ajustar os caminhos no código, em vez de depender apenas do `.htaccess`.
+- Confira que `AllowOverride` e `mod_rewrite` estão ativos; HTTPS é obrigatório para produção.
+- Valide que acessar `/config.php`, `/database/schema.sql` e `/scripts/install.php` pela web retorna 403.
+- Mantenha backup do banco; valide dados oficiais e política LGPD antes de publicar.
+- Não existe painel de administração nesta versão.
+
+## Compatibilidade
+
+O arquivo `.env` ainda é aceito para compatibilidade com instalações existentes; valores em `config.php`, quando presente, têm precedência.
+
+## Páginas
+
+Início (`/`), Quem somos (`/quem-somos`), Planos (`/planos`), Contato (`/contato`) e Privacidade (`/politica-de-privacidade`). Sem páginas de unidades ou parceiros.
