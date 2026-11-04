@@ -24,20 +24,25 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
 <!doctype html><html lang="pt-BR"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>Administração | Eternity</title>
+<?php $adminFavicon = siteOption('BRAND_FAVICON', '/assets/img/favicon.svg'); if ($adminFavicon === '') $adminFavicon = '/assets/img/favicon.svg'; ?>
+<link rel="icon" href="<?= e($adminFavicon) ?>" type="<?= str_ends_with(strtolower($adminFavicon), '.png') ? 'image/png' : 'image/svg+xml' ?>">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/assets/css/admin.css"><link rel="stylesheet" href="/assets/css/eternity-admin-brand.css"></head>
 <body class="<?= $isLogin?'login-page':'admin-page' ?>">
 <?php if ($isLogin): ?>
-<main class="login-card"><div class="admin-brand"><i class="bi bi-stars" aria-hidden="true"></i> ETERNITY <span>PAINEL ADMINISTRATIVO</span></div><h1>Bem-vindo de volta</h1><p>Entre com sua conta para continuar.</p>
+<main class="login-card"><div class="admin-login-brand"><?php if (siteOption('BRAND_LOGO') !== ''): ?><img src="<?= e(siteOption('BRAND_LOGO')) ?>" alt="Eternity Plano Familiar"><?php else: ?><span class="admin-brand-fallback">ETERNITY <small>PLANO FAMILIAR</small></span><?php endif; ?><span class="admin-login-subtitle">PAINEL ADMINISTRATIVO</span></div><h1>Bem-vindo de volta</h1><p>Entre com sua conta para continuar.</p>
 <?php if ($flash): ?><div role="alert" class="notice <?= e($flash[0]) ?>"><?= e($flash[1]) ?></div><?php endif; ?>
 <form method="post" action="/admin/login"><input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>"><label>E-mail<input type="email" name="email" required autofocus autocomplete="username"></label><label>Senha<input type="password" name="password" required autocomplete="current-password"></label><button class="primary">Entrar no painel</button></form>
 <a class="back" href="/">← Voltar ao site</a></main>
 <?php else: ?>
 <aside class="sidebar" aria-label="Navegação administrativa">
-  <a class="sidebar-brand" href="/admin">
-    <span class="sidebar-symbol"><i class="bi bi-stars" aria-hidden="true"></i></span>
-    <span class="sidebar-brand-name">Eternity<small>PAINEL ADMINISTRATIVO</small></span>
+  <a class="sidebar-brand sidebar-real-brand" href="/admin" aria-label="Eternity Plano Familiar — painel administrativo">
+    <?php if (siteOption('BRAND_LOGO') !== ''): ?>
+      <img class="sidebar-logo" src="<?= e(siteOption('BRAND_LOGO')) ?>" alt="Eternity Plano Familiar">
+    <?php else: ?>
+      <span class="sidebar-brand-fallback"><i class="bi bi-infinity" aria-hidden="true"></i><strong>ETERNITY<small>PLANO FAMILIAR</small></strong></span>
+    <?php endif; ?>
   </a>
   <div class="sidebar-separator"></div>
   <span class="sidebar-label">GERENCIAMENTO</span>

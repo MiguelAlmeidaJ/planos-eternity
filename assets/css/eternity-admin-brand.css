@@ -39,3 +39,63 @@ body h1,body h2,body h3{font-family:'Lato',Arial,sans-serif;color:#17243E;font-w
 .banner-admin .banner-save{background:#293451;color:#fff;border:1px solid #293451}
 .banner-admin .banner-save:hover{background:#17243E;color:#fff}
 @media(max-width:760px){.banner-admin .banner-tiles,.banner-admin .banner-form-grid{grid-template-columns:1fr}}
+
+/* Sidebar branca e identidade oficial (o logotipo é lido das configurações). */
+.admin-page .sidebar{
+  background:#fff;
+  border-right:1px solid #e2e6ee;
+  box-shadow:3px 0 16px rgba(23,36,62,.025);
+}
+.admin-page .sidebar .sidebar-real-brand{
+  display:flex;align-items:center;justify-content:flex-start;
+  min-height:90px;padding:10px 15px 19px;
+  text-decoration:none;
+}
+.admin-page .sidebar .sidebar-logo{
+  display:block;width:auto;height:auto;max-width:196px;max-height:85px;
+  object-fit:contain;object-position:left center;
+}
+.admin-page .sidebar .sidebar-brand-fallback{display:flex;align-items:center;gap:9px;color:#17243E}
+.admin-page .sidebar .sidebar-brand-fallback i{font-size:27px}
+.admin-page .sidebar .sidebar-brand-fallback strong{font-size:18px;letter-spacing:.06em;line-height:1.1}
+.admin-page .sidebar .sidebar-brand-fallback small{display:block;font-size:8px;letter-spacing:.17em;margin-top:5px}
+.admin-page .sidebar .sidebar-separator{background:#e7eaf1;margin:0 12px 25px}
+.admin-page .sidebar .sidebar-label{color:#8993a7;letter-spacing:.14em}
+.admin-page .sidebar .sidebar-navigation a{
+  color:#53617a;border-radius:9px;font-weight:600;
+}
+.admin-page .sidebar .sidebar-navigation a i{color:#71809a}
+.admin-page .sidebar .sidebar-navigation a:hover{
+  background:#f4f6f9;color:#17243E;text-decoration:none;
+}
+.admin-page .sidebar .sidebar-navigation a:hover i{color:#293451}
+.admin-page .sidebar .sidebar-navigation a.on{
+  background:#eff2f8;color:#17243E;
+  box-shadow:inset 3px 0 0 #293451;font-weight:800;
+}
+.admin-page .sidebar .sidebar-navigation a.on i{color:#293451}
+.admin-page .sidebar .sidebar-site-link{
+  color:#596780;border-radius:9px;
+}
+.admin-page .sidebar .sidebar-site-link:hover{background:#f4f6f9;color:#17243E}
+.admin-page .sidebar .sidebar-user{
+  border-top:1px solid #e2e6ee;
+}
+.admin-page .sidebar .sidebar-user-text strong{color:#17243E}
+.admin-page .sidebar .sidebar-user-text small{color:#718099}
+.admin-page .sidebar .sidebar-avatar{background:#e9edf5;color:#293451}
+.admin-page .sidebar .sidebar-signout{
+  color:#596780;background:#fff;border:1px solid #e2e6ee;
+}
+.admin-page .sidebar .sidebar-signout:hover{
+  background:#f4f6f9;color:#17243E;border-color:#c8d0df;
+}
+.admin-login-brand{display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:29px}
+.admin-login-brand img{display:block;max-height:105px;max-width:225px;object-fit:contain}
+.admin-login-subtitle{font-size:11px;letter-spacing:.13em;font-weight:800;color:#718099}
+.admin-brand-fallback{color:#17243E;font-weight:900;letter-spacing:.1em;font-size:22px}
+.admin-brand-fallback small{display:block;font-size:10px;letter-spacing:.15em;margin-top:5px}
+@media(max-width:850px){
+  .admin-page .sidebar .sidebar-real-brand{min-height:0;padding:6px 7px 16px}
+  .admin-page .sidebar .sidebar-logo{max-width:180px;max-height:70px}
+}
