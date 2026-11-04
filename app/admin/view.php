@@ -26,7 +26,7 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
 <meta name="robots" content="noindex,nofollow"><title>Administração | Eternity</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="/assets/css/admin.css"></head>
+<link rel="stylesheet" href="/assets/css/admin.css"><link rel="stylesheet" href="/assets/css/eternity-admin-brand.css"></head>
 <body class="<?= $isLogin?'login-page':'admin-page' ?>">
 <?php if ($isLogin): ?>
 <main class="login-card"><div class="admin-brand"><i class="bi bi-stars" aria-hidden="true"></i> ETERNITY <span>PAINEL ADMINISTRATIVO</span></div><h1>Bem-vindo de volta</h1><p>Entre com sua conta para continuar.</p>
@@ -107,7 +107,7 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
 <form method="post" action="/admin/configuracoes" class="settings-form"><input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>"><input type="hidden" name="action" value="save_settings">
 <div class="panel"><h2>Identidade visual</h2><div class="form-grid two">
 <?php foreach(['APP_NAME'=>'Nome da marca','BRAND_SUBTITLE'=>'Subtítulo da marca'] as $key=>$label): ?><label><?= e($label) ?><input name="<?= e($key) ?>" maxlength="120" value="<?= e($settings[$key]??setting($key, $key==='APP_NAME'?'Eternity':'PLANOS ASSISTENCIAIS')) ?>"></label><?php endforeach; ?>
-<?php foreach(['BRAND_PRIMARY'=>'Cor principal','BRAND_ACCENT'=>'Cor de destaque'] as $key=>$label): ?><label><?= e($label) ?><input type="color" name="<?= e($key) ?>" value="<?= e($settings[$key]??($key==='BRAND_PRIMARY'?'#122d3a':'#c4a66b')) ?>"></label><?php endforeach; ?>
+<?php foreach(['BRAND_PRIMARY'=>'Cor principal','BRAND_ACCENT'=>'Cor de destaque'] as $key=>$label): ?><label><?= e($label) ?><input type="color" name="<?= e($key) ?>" value="<?= e($settings[$key]??($key==='BRAND_PRIMARY'?'#293451':'#C2A77D')) ?>"></label><?php endforeach; ?>
 </div></div>
 <div class="panel"><h2>Informações de contato</h2><div class="form-grid two"><?php foreach(['APP_PHONE'=>'Telefone','APP_WHATSAPP'=>'WhatsApp','APP_EMAIL'=>'E-mail','APP_ADDRESS'=>'Endereço','APP_CNPJ'=>'CNPJ'] as $key=>$label): ?><label><?= e($label) ?><input name="<?= e($key) ?>" value="<?= e($settings[$key]??setting($key)) ?>"></label><?php endforeach; ?></div></div>
 <div class="panel"><h2>Servidor SMTP</h2><p class="sub">Configuração armazenada para uso na próxima integração de envio de e-mails. Nenhum e-mail é disparado por esta tela.</p><div class="form-grid two">

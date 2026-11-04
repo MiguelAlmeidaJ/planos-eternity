@@ -1,0 +1,23 @@
+/* Manual Eternity: ajustes de identidade visual do painel. */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700;900&display=swap');
+:root{--navy:#293451;--gold:#C2A77D;--bg:#F4F6F9;--border:#E2E6EE;--muted:#6E7990}
+body{background:#F4F6F9;color:#17243E;font-family:'Lato',Arial,sans-serif}
+body h1,body h2,body h3{font-family:'Lato',Arial,sans-serif;color:#17243E;font-weight:700}
+.admin-page .sidebar{background:linear-gradient(180deg,#293451,#17243E);border-right:1px solid #e5e9f016}
+.sidebar-symbol{background:#ffffff16;border-color:#ffffff36;color:#fff}
+.sidebar-brand-name{font-family:'Lato',Arial,sans-serif;font-size:18px}
+.admin-page .sidebar .sidebar-navigation a.on{background:#ffffff1c;box-shadow:inset 3px 0 0 #C2A77D}
+.sidebar-avatar{background:#C2A77D;color:#17243E}
+.admin-page .toolbar{background:#fff;color:#293451}
+.admin-page .content{color:#17243E}
+.plan-admin .plan-admin-header h1,.plan-admin .plan-admin-title,.plan-admin .plan-list-heading h2{color:#17243E}
+.plan-admin .btn-admin-create,.plan-admin .btn-admin-save,.btn-admin-upload{background:#293451!important;border-color:#293451!important;color:#fff!important}
+.plan-admin .btn-admin-create:hover,.plan-admin .btn-admin-save:hover,.btn-admin-upload:hover{background:#17243E!important}
+.plan-admin .plan-admin-panel,.panel,.plan-admin .plan-summary>div{border-color:#E2E6EE}
+.plan-admin .plan-state.is-active{background:#E6EDF8;color:#293451}
+.plan-admin .plan-featured-pill{background:#F0E9DC;color:#705939}
+.plan-admin .plan-form-icon,.plan-admin .plan-summary>div>i{background:#EFF1F7;color:#293451}
+.plan-admin .plan-form-switches .form-check-input:checked{background:#293451;border-color:#293451}
+.admin-page .kicker,.plan-admin .kicker{color:#8B7048}
+.login-page{background:linear-gradient(140deg,#293451,#17243E)}
+.login-card .admin-brand{color:#293451}

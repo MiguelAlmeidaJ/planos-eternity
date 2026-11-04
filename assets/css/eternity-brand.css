@@ -1,0 +1,105 @@
+/* Eternity Plano Familiar — manual de identidade visual, novembro de 2026.
+   Cores #293451 #17243E #FFFFFF #F4F6F9 #C2A77D; Lato Bold/Regular. */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700;900&display=swap');
+:root{
+  --eternity-blue:#293451;
+  --eternity-deep:#17243E;
+  --eternity-white:#FFFFFF;
+  --eternity-surface:#F4F6F9;
+  --eternity-accent:#C2A77D;
+  --eternity-muted:#68738A;
+  --eternity-border:#E2E6EE;
+  --ink:var(--eternity-deep);
+  --navy:var(--eternity-blue);
+  --navy2:var(--eternity-deep);
+  --cream:var(--eternity-surface);
+  --gold:var(--eternity-accent);
+  --line:var(--eternity-border);
+  --muted:var(--eternity-muted);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Lato',Arial,sans-serif;color:var(--eternity-deep);font-weight:400;line-height:1.65}
+body h1,body h2,body h3,body .hm-hero h1,body .hm-intro h2,body .hm-section-head h2,body .hm-faq h2,body .hm-cta h2,body .hm-plan-card h3,body .plan-card h3,body .values-cards h3,body .page-hero h1,body .contact-page-heading h1,body .contact-page-form h2,body .contact-page-methods h2{
+  font-family:'Lato',Arial,sans-serif;
+  font-style:normal;
+  font-weight:700;
+  letter-spacing:-.025em;
+  line-height:1.2;
+}
+body h1{font-size:clamp(2.3rem,4vw,3.7rem)}
+body h2{font-size:clamp(1.85rem,3vw,2.75rem)}
+body h3{font-weight:700}
+body .hm-hero h1{font-size:clamp(2.4rem,3.75vw,3.8rem);line-height:1.16;max-width:570px}
+body .hm-intro h2{font-size:clamp(1.9rem,2.7vw,2.7rem)}
+body .hm-section-head h2{font-size:clamp(2rem,2.95vw,2.85rem)}
+body .hm-faq h2,body .hm-cta h2{font-size:clamp(1.9rem,2.7vw,2.7rem)}
+body .hm-plan-card h3,body .plan-card h3{font-size:1.65rem;letter-spacing:-.01em}
+body .hm-hero h1 em,body h1 em,body h2 em{font-family:inherit;font-style:normal;color:inherit;font-weight:700}
+body .eyebrow,body .hm-kicker,body .hm-hero .hm-kicker,body .kicker{color:var(--eternity-blue);letter-spacing:.13em;font-weight:900}
+body .hm-hero .hm-kicker,body .eyebrow-light{color:#E9EDF7}
+.topbar{background:var(--eternity-deep);color:#DCE3F0;letter-spacing:.04em}
+.site-header{background:#fff;border-bottom:1px solid var(--eternity-border);box-shadow:none}
+.nav-wrap{min-height:86px}
+.brand-official{font-size:inherit;letter-spacing:normal;display:flex;align-items:center;max-width:235px;min-width:0}
+.brand-official .brand-logo{display:block;width:auto;height:auto;max-height:69px;max-width:205px;object-fit:contain;object-position:left center}
+.brand-fallback{display:flex;gap:12px;align-items:center;color:var(--eternity-deep)}
+.brand-fallback i{font-size:38px;color:var(--eternity-blue)}
+.brand-fallback>span{font-size:1.27rem;font-weight:900;letter-spacing:.07em;line-height:1.1}
+.brand-fallback small{display:block;font-size:.54rem;letter-spacing:.18em;margin-top:7px;font-weight:700}
+.nav{gap:25px}
+.nav a:not(.btn){color:var(--eternity-blue);font-size:.89rem}
+.nav a:not(.btn):hover,.nav a[aria-current=page]{color:var(--eternity-deep);text-decoration:underline;text-underline-offset:7px}
+body .btn,body .hm-plan-button-filled,body .hm-hero-buttons .btn,body .hm-cta .btn{background:var(--eternity-blue);border-color:var(--eternity-blue);color:#fff;border-radius:7px;font-family:'Lato',Arial,sans-serif;font-weight:700;box-shadow:none}
+body .btn:hover,body .hm-plan-button-filled:hover{background:var(--eternity-deep);border-color:var(--eternity-deep);color:#fff}
+body .btn-outline,body .hm-plan-button:not(.hm-plan-button-filled){background:#fff;color:var(--eternity-blue);border-color:#C5CDDC}
+body .btn-outline:hover,body .hm-plan-button:not(.hm-plan-button-filled):hover{background:var(--eternity-surface);color:var(--eternity-deep)}
+body .hm-link,body .hm-hero-link,body .text-link,body .et-underlined{color:var(--eternity-blue);border-color:var(--eternity-accent)}
+body .hm-hero-link{color:#fff;border-color:#E2E6EF}
+.hm-hero{background:var(--eternity-deep)}
+.hm-hero:after{background:linear-gradient(90deg,rgba(23,36,62,.98) 0%,rgba(23,36,62,.94) 28%,rgba(23,36,62,.72) 51%,rgba(23,36,62,.2) 82%,rgba(23,36,62,.12) 100%)}
+.hm-hero-layout{min-height:490px}
+.hm-hero{min-height:490px}
+.hm-hero .hm-hero-lead{color:#E3E9F3}
+.hm-intro{background:#fff;padding:78px 0}
+.hm-intro-body{border-left-color:#D8DDE7}
+.hm-intro-body p,body .hm-section-head p,body .hm-faq-intro>p{color:var(--eternity-muted)}
+.hm-plans{background:var(--eternity-surface);padding:86px 0}
+.hm-plan-card,.plan-card{border-color:var(--eternity-border);border-radius:13px;box-shadow:0 8px 26px rgba(23,36,62,.045)}
+.hm-plan-card.is-featured,.plan-card.featured{border:1.5px solid var(--eternity-blue);box-shadow:0 10px 32px rgba(23,36,62,.10)}
+.hm-plan-badge,.plan-highlight{background:var(--eternity-blue);color:#fff}
+.hm-plan-symbol,body .plan-icon{color:var(--eternity-blue)}
+.hm-plan-tag,.hm-plan-description,.hm-plan-details li,.hm-plan-note,.plan-card li{color:var(--eternity-muted)}
+.hm-plan-price,.price-note{color:var(--eternity-blue)}
+.hm-plan-details li:before,.plan-card li:before{color:var(--eternity-blue)}
+.hm-plan-details{border-top-color:var(--eternity-border)}
+.hm-faq{background:#fff}
+.hm-faq-list details,body .faq-items details{border-color:var(--eternity-border)}
+.hm-faq-list summary:after,body .faq-items summary:after{color:var(--eternity-blue)}
+.hm-cta,.cta-band{background:var(--eternity-blue)}
+.hm-cta .hm-kicker{color:#E4E8F1}
+.hm-cta p{color:#E3E8F0}
+.section-soft{background:var(--eternity-surface)}
+.section-heading h2{font-size:clamp(1.95rem,2.9vw,2.8rem)}
+.page-hero{background:var(--eternity-blue);padding:68px 0}
+.page-hero h1{font-size:clamp(2.3rem,3.8vw,3.6rem)}
+.plans-page-content .section-heading h2{font-size:clamp(2rem,3vw,2.9rem)}
+.contact-page-form{background:var(--eternity-surface);border-color:var(--eternity-border)}
+.contact-method-icon{background:#E7EAF1;color:var(--eternity-blue)}
+.contact-method-arrow,.contact-consent a{color:var(--eternity-blue)}
+.site-footer{background:var(--eternity-deep);color:#EDF1F7}
+.site-footer .footer-grid h3{color:#fff}
+.site-footer .footer-grid p,.site-footer .footer-grid a:not(.brand){color:#C6D0DF}
+.brand-footer{max-width:250px}
+.brand-footer .brand-fallback,.brand-footer .brand-fallback i{color:#fff}
+.brand-footer-logo{display:inline-flex;background:#fff;border-radius:9px;padding:8px 12px;align-items:center}
+.brand-footer .brand-logo{max-height:74px;max-width:205px}
+.footer-bottom{border-color:#FFFFFF26;color:#C2CBDA}
+@media(max-width:760px){
+  .nav-wrap{min-height:76px}
+  .brand-official .brand-logo{max-height:57px;max-width:160px}
+  .brand-fallback>span{font-size:1.07rem}
+  .hm-hero,.hm-hero-layout{min-height:585px}
+  .hm-hero:after{background:linear-gradient(90deg,rgba(23,36,62,.92),rgba(23,36,62,.52)),linear-gradient(0deg,rgba(23,36,62,.8),transparent 70%)}
+  .hm-hero h1{font-size:clamp(2.25rem,8vw,3.15rem)}
+  .hm-intro,.hm-plans,.hm-faq{padding:62px 0}
+}

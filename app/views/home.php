@@ -4,7 +4,7 @@
   <div class="hm-hero-photo" aria-hidden="true"></div>
   <div class="container hm-hero-layout">
     <div class="hm-hero-text">
-      <p class="hm-kicker">PLANOS ASSISTENCIAIS ETERNITY</p>
+      <p class="hm-kicker">ETERNITY · PLANO FAMILIAR</p>
       <h1 id="hm-main-title">Cuidar de quem você ama faz toda a diferença.</h1>
       <p class="hm-hero-lead">Mais tranquilidade para você e sua família, com orientação e atendimento próximo em cada etapa.</p>
       <div class="hm-hero-buttons">
