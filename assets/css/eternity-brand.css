@@ -86,14 +86,18 @@ body .hm-hero-link{color:#fff;border-color:#E2E6EF}
 .contact-page-form{background:var(--eternity-surface);border-color:var(--eternity-border)}
 .contact-method-icon{background:#E7EAF1;color:var(--eternity-blue)}
 .contact-method-arrow,.contact-consent a{color:var(--eternity-blue)}
-.site-footer{background:var(--eternity-deep);color:#EDF1F7}
-.site-footer .footer-grid h3{color:#fff}
-.site-footer .footer-grid p,.site-footer .footer-grid a:not(.brand){color:#C6D0DF}
-.brand-footer{max-width:250px}
-.brand-footer .brand-fallback,.brand-footer .brand-fallback i{color:#fff}
-.brand-footer-logo{display:inline-flex;background:#fff;border-radius:9px;padding:8px 12px;align-items:center}
-.brand-footer .brand-logo{max-height:74px;max-width:205px}
-.footer-bottom{border-color:#FFFFFF26;color:#C2CBDA}
+/* Rodapé claro: aplica o logotipo azul diretamente sobre o branco, sem caixa. */
+.site-footer{background:#fff;color:var(--eternity-deep);padding-top:64px}
+.site-footer .footer-grid{padding-bottom:55px;gap:65px}
+.site-footer .footer-grid h3{color:var(--eternity-deep);font-weight:900;margin:5px 0 19px}
+.site-footer .footer-grid p,.site-footer .footer-grid a:not(.brand){color:#596780;line-height:1.7}
+.site-footer .footer-grid a:not(.brand):hover{color:var(--eternity-blue);text-decoration:underline}
+.site-footer .brand-footer{display:inline-flex;max-width:240px;align-items:center}
+.site-footer .brand-footer .brand-logo{display:block;width:auto;height:auto;max-height:90px;max-width:220px;object-fit:contain;object-position:left center}
+.site-footer .brand-footer .brand-fallback,.site-footer .brand-footer .brand-fallback i{color:var(--eternity-deep)}
+.site-footer .footer-bottom{border-top:1px solid var(--eternity-border);color:#6E7990;padding-top:21px;padding-bottom:24px}
+.site-footer .footer-bottom a{color:var(--eternity-blue)}
+.site-footer .footer-bottom a:hover{text-decoration:underline}
 @media(max-width:760px){
   .nav-wrap{min-height:76px}
   .brand-official .brand-logo{max-height:57px;max-width:160px}
