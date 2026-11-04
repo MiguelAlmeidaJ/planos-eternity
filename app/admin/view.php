@@ -71,11 +71,6 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
 <?php require __DIR__ . '/plan-form-view.php'; ?>
 <?php elseif ($section==='configuracoes'): ?>
 <div class="heading"><div><p class="kicker">PREFERÊNCIAS</p><h1>Configurações</h1><p class="sub">Identidade visual, contatos e e-mail transacional.</p></div></div>
-<form method="post" action="/admin/configuracoes" class="settings-form"><input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>"><input type="hidden" name="action" value="save_settings">
-<div class="panel"><h2>Identidade visual</h2><div class="form-grid two">
-<?php foreach(['APP_NAME'=>'Nome da marca','BRAND_SUBTITLE'=>'Subtítulo da marca'] as $key=>$label): ?><label><?= e($label) ?><input name="<?= e($key) ?>" maxlength="120" value="<?= e($settings[$key]??setting($key, $key==='APP_NAME'?'Eternity':'PLANOS ASSISTENCIAIS')) ?>"></label><?php endforeach; ?>
-<?php foreach(['BRAND_PRIMARY'=>'Cor principal','BRAND_ACCENT'=>'Cor de destaque'] as $key=>$label): ?><label><?= e($label) ?><input type="color" name="<?= e($key) ?>" value="<?= e($settings[$key]??($key==='BRAND_PRIMARY'?'#122d3a':'#c4a66b')) ?>"></label><?php endforeach; ?>
-</div></div>
 <div class="panel branding-panel">
   <h2>Arquivos de identidade visual</h2>
   <p class="sub">Envie a marca e o favicon em PNG ou SVG. Os arquivos permanecem na hospedagem, mesmo após atualizar o projeto pelo Git.</p>
@@ -109,6 +104,11 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
   <?php endforeach; ?>
   </div>
 </div>
+<form method="post" action="/admin/configuracoes" class="settings-form"><input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>"><input type="hidden" name="action" value="save_settings">
+<div class="panel"><h2>Identidade visual</h2><div class="form-grid two">
+<?php foreach(['APP_NAME'=>'Nome da marca','BRAND_SUBTITLE'=>'Subtítulo da marca'] as $key=>$label): ?><label><?= e($label) ?><input name="<?= e($key) ?>" maxlength="120" value="<?= e($settings[$key]??setting($key, $key==='APP_NAME'?'Eternity':'PLANOS ASSISTENCIAIS')) ?>"></label><?php endforeach; ?>
+<?php foreach(['BRAND_PRIMARY'=>'Cor principal','BRAND_ACCENT'=>'Cor de destaque'] as $key=>$label): ?><label><?= e($label) ?><input type="color" name="<?= e($key) ?>" value="<?= e($settings[$key]??($key==='BRAND_PRIMARY'?'#122d3a':'#c4a66b')) ?>"></label><?php endforeach; ?>
+</div></div>
 <div class="panel"><h2>Informações de contato</h2><div class="form-grid two"><?php foreach(['APP_PHONE'=>'Telefone','APP_WHATSAPP'=>'WhatsApp','APP_EMAIL'=>'E-mail','APP_ADDRESS'=>'Endereço','APP_CNPJ'=>'CNPJ'] as $key=>$label): ?><label><?= e($label) ?><input name="<?= e($key) ?>" value="<?= e($settings[$key]??setting($key)) ?>"></label><?php endforeach; ?></div></div>
 <div class="panel"><h2>Servidor SMTP</h2><p class="sub">Configuração armazenada para uso na próxima integração de envio de e-mails. Nenhum e-mail é disparado por esta tela.</p><div class="form-grid two">
 <?php foreach(['SMTP_HOST'=>'Servidor SMTP','SMTP_PORT'=>'Porta','SMTP_USER'=>'Usuário SMTP','SMTP_FROM'=>'E-mail remetente','SMTP_FROM_NAME'=>'Nome remetente'] as $key=>$label): ?><label><?= e($label) ?><input name="<?= e($key) ?>" value="<?= e($settings[$key]??($key==='SMTP_PORT'?'587':'')) ?>"></label><?php endforeach; ?>
