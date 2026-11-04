@@ -1,35 +1,61 @@
 (() => {
+  'use strict';
+
   const carousel = document.querySelector('[data-banner-carousel]');
   if (!carousel) return;
+
   const slides = [...carousel.querySelectorAll('[data-banner-slide]')];
   const dots = [...carousel.querySelectorAll('[data-banner-dot]')];
   if (slides.length < 2) return;
-  let active = 0;
-  let timer = null;
+
+  const INTERVAL_MS = 5500;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const show = index => {
-    active = (index + slides.length) % slides.length;
-    slides.forEach((slide, i) => { slide.hidden = i !== active; });
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('is-active', i === active);
-      dot.setAttribute('aria-current', String(i === active));
+  let current = 0;
+  let timer = null;
+
+  function show(index) {
+    current = (index + slides.length) % slides.length;
+    slides.forEach((slide, i) => {
+      slide.hidden = i !== current;
+      slide.setAttribute('aria-hidden', String(i !== current));
+      // Links in inactive slides should not be reachable by keyboard.
+      if ('inert' in slide) slide.inert = i !== current;
     });
-  };
-  const stop = () => { if (timer !== null) clearInterval(timer); timer = null; };
-  const start = () => {
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === current);
+      dot.setAttribute('aria-current', String(i === current));
+    });
+  }
+
+  function stop() {
+    if (timer !== null) window.clearInterval(timer);
+    timer = null;
+  }
+
+  function play() {
     stop();
-    if (!reducedMotion.matches && !document.hidden && !carousel.matches(':hover') && !carousel.matches(':focus-within')) {
-      timer = setInterval(() => show(active + 1), 5500);
-    }
-  };
-  carousel.querySelector('[data-banner-prev]')?.addEventListener('click', () => { show(active - 1); start(); });
-  carousel.querySelector('[data-banner-next]')?.addEventListener('click', () => { show(active + 1); start(); });
-  dots.forEach((dot, i) => dot.addEventListener('click', () => { show(i); start(); }));
-  carousel.addEventListener('mouseenter', stop);
-  carousel.addEventListener('mouseleave', start);
-  carousel.addEventListener('focusin', stop);
-  carousel.addEventListener('focusout', () => queueMicrotask(start));
-  document.addEventListener('visibilitychange', start);
-  reducedMotion.addEventListener?.('change', start);
-  start();
+    if (document.hidden || reducedMotion.matches) return;
+    timer = window.setInterval(() => show(current + 1), INTERVAL_MS);
+  }
+
+  function navigate(index) {
+    show(index);
+    play();
+  }
+
+  carousel.querySelector('[data-banner-prev]')?.addEventListener('click', () => navigate(current - 1));
+  carousel.querySelector('[data-banner-next]')?.addEventListener('click', () => navigate(current + 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => navigate(i)));
+
+  // A passagem é automática mesmo com o mouse sobre o banner.
+  // Pausamos apenas quando a aba não está visível ou o usuário prefere movimento reduzido.
+  document.addEventListener('visibilitychange', play);
+  if (typeof reducedMotion.addEventListener === 'function') {
+    reducedMotion.addEventListener('change', play);
+  } else if (typeof reducedMotion.addListener === 'function') {
+    reducedMotion.addListener(play);
+  }
+
+  show(0);
+  play();
 })();

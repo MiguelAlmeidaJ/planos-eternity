@@ -90,4 +90,4 @@ try {
 <section class="hm-cta" aria-labelledby="hm-cta-title"><div class="container hm-cta-content"><div><span class="hm-kicker">FALE COM A GENTE</span><h2 id="hm-cta-title">Vamos conversar sobre o que você precisa?</h2><p>Estamos à disposição para apresentar os planos e tirar suas dúvidas.</p></div><a class="btn" href="/contato#formulario">Solicitar atendimento <span aria-hidden="true">↗</span></a></div></section>
 </div>
 
-<script src="/assets/js/hero-banners.js" defer></script>
+<script src="/assets/js/hero-banners.js?v=2" defer></script>
