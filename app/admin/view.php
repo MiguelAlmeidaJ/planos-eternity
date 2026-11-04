@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 $isLogin = $section === 'login';
-$activeSection=$section===''?'painel':(str_starts_with($section,'planos')?'planos':$section);
+$activeSection=$section===''?'painel':(str_starts_with($section,'planos')?'planos':(str_starts_with($section,'banners')?'banners':$section));
 $users=[]; $planRows=[]; $selected=null;
 if ($section==='usuarios') {
     $users=database()->query('SELECT id,name,email,role,active,created_at FROM admin_users ORDER BY id DESC')->fetchAll();
@@ -44,6 +44,7 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
   <nav class="sidebar-navigation" aria-label="Menu principal">
     <a class="<?= $activeSection==='painel'?'on':'' ?>" <?= $activeSection==='painel'?'aria-current="page"':'' ?> href="/admin"><i class="bi bi-grid-1x2" aria-hidden="true"></i><span>Visão geral</span></a>
     <a class="<?= $activeSection==='planos'?'on':'' ?>" <?= $activeSection==='planos'?'aria-current="page"':'' ?> href="/admin/planos"><i class="bi bi-card-list" aria-hidden="true"></i><span>Planos</span></a>
+    <a class="<?= $activeSection==='banners'?'on':'' ?>" <?= $activeSection==='banners'?'aria-current="page"':'' ?> href="/admin/banners"><i class="bi bi-images" aria-hidden="true"></i><span>Banners</span></a>
     <?php if ($user['role']==='admin'): ?>
       <a class="<?= $activeSection==='usuarios'?'on':'' ?>" <?= $activeSection==='usuarios'?'aria-current="page"':'' ?> href="/admin/usuarios"><i class="bi bi-people" aria-hidden="true"></i><span>Usuários</span></a>
       <a class="<?= $activeSection==='configuracoes'?'on':'' ?>" <?= $activeSection==='configuracoes'?'aria-current="page"':'' ?> href="/admin/configuracoes"><i class="bi bi-gear" aria-hidden="true"></i><span>Configurações</span></a>
@@ -61,6 +62,8 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
 <p class="kicker">VISÃO GERAL</p><h1>Bem-vindo, <?= e(explode(' ',$user['name'])[0]) ?>.</h1><p class="sub">Gerencie as informações públicas e os acessos ao site da Eternity.</p>
 <div class="stat-grid"><a class="stat" href="/admin/planos"><strong><?= (int)database()->query('SELECT COUNT(*) FROM site_plans')->fetchColumn() ?></strong><span>Planos cadastrados</span></a><div class="stat"><strong><?= (int)database()->query('SELECT COUNT(*) FROM contact_messages')->fetchColumn() ?></strong><span>Mensagens recebidas (no banco)</span></div><?php if($user['role']==='admin'): ?><a class="stat" href="/admin/usuarios"><strong><?= (int)database()->query('SELECT COUNT(*) FROM admin_users')->fetchColumn() ?></strong><span>Usuários</span></a><?php endif; ?></div>
 <div class="panel"><h2>Comece por aqui</h2><p>Cadastre os planos e personalize a identidade visual, os contatos e o servidor SMTP. O envio de e-mails ainda requer a integração do serviço de disparo.</p><a class="primary link-button" href="/admin/planos">Gerenciar planos</a></div>
+<?php elseif (in_array($section, ['banners','banners/novo','banners/editar'], true)): ?>
+<?php require __DIR__ . '/banners-view.php'; ?>
 <?php elseif ($section==='usuarios'): ?>
 <div class="heading"><div><p class="kicker">ACESSOS</p><h1>Usuários</h1><p class="sub">Administradores gerenciam tudo; editores gerenciam planos.</p></div><a class="outline link-button" href="/admin/usuarios">+ Novo usuário</a></div>
 <div class="panel table-scroll"><table><thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Status</th><th>Ações</th></tr></thead><tbody><?php foreach($users as $item): ?><tr><td><?= e($item['name']) ?></td><td><?= e($item['email']) ?></td><td><?= e($item['role']) ?></td><td><?= $item['active']?'Ativo':'Inativo' ?></td><td><a href="/admin/usuarios?edit=<?= (int)$item['id'] ?>">Editar</a> <form class="inline" method="post" action="/admin/usuarios" onsubmit="return confirm('Excluir este usuário?')"><input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>"><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?= (int)$item['id'] ?>"><button class="danger">Excluir</button></form></td></tr><?php endforeach; ?></tbody></table></div>

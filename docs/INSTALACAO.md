@@ -86,3 +86,14 @@ Recomendações: use HTTPS, credenciais fortes, backups regulares, restrinja o a
 - PNG tem assinatura e dimensões verificadas. SVG aceita somente elementos e atributos gráficos de uma lista restrita; SVGs complexos com scripts, imagens externas ou outros recursos não são aceitos por segurança. Extensão PHP DOM é necessária para SVG.
 - No momento não há edição avançada, conversão ou redimensionamento automático das imagens. O favicon padrão permanece disponível caso o personalizado seja removido.
 - O **slug dos planos** é gerado no servidor a partir do nome (com prévia automática no formulário). Se dois nomes produzirem o mesmo slug, o banco impedirá a duplicação e será preciso usar outro nome.
+
+
+## Slides da página inicial
+
+Depois de atualizar o projeto, execute `php scripts/install.php` para criar a tabela `home_banners`.
+O módulo está em `/admin/banners`. São permitidos até **4 banners** cadastrados, apresentados na ordem de inclusão.
+Cada banner requer uma imagem desktop **1600 × 600 px** e uma mobile **1000 × 600 px**, em PNG, JPG ou WebP (até 6 MB cada). O link é opcional e aceita URLs HTTP(S) ou rotas locais como `/planos`.
+As imagens são salvas em `assets/uploads/banners/` e **não são versionadas**. Mantenha backup dessa pasta e do banco de dados.
+O carousel muda automaticamente a cada 5,5 segundos, pausa durante interação e respeita a preferência por movimento reduzido.
+Sem banners cadastrados, a home mantém o hero anterior. Quando houver banner cadastrado, o carrossel substitui o hero.
+Verifique `upload_max_filesize`, `post_max_size`, a extensão `fileinfo` e permissões de gravação no PHP do DirectAdmin.

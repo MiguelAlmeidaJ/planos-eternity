@@ -131,3 +131,21 @@ body .hm-hero-link{color:#fff;border-color:#E2E6EF}
   .hm-hero h1{font-size:clamp(2.25rem,8vw,3.15rem)}
   .hm-intro,.hm-plans,.hm-faq{padding:62px 0}
 }
+
+/* Banners responsivos enviados pelo painel */
+.et-banner-carousel{position:relative;width:100%;background:#17243E;overflow:hidden}
+.et-banner-slide[hidden]{display:none!important}
+.et-banner-visual{display:block;width:100%;text-decoration:none}
+.et-banner-visual picture{display:block;width:100%}
+.et-banner-visual img{display:block;width:100%;height:auto;aspect-ratio:8/3;object-fit:cover}
+.et-banner-controls{position:absolute;bottom:17px;left:50%;transform:translateX(-50%);display:flex;gap:16px;align-items:center;background:#17243Ebb;border:1px solid #ffffff35;backdrop-filter:blur(10px);padding:8px 13px;border-radius:30px;z-index:2}
+.et-banner-arrow{display:grid;place-items:center;width:28px;height:28px;color:#fff;background:transparent;border:0;border-radius:50%}
+.et-banner-arrow:hover,.et-banner-arrow:focus-visible{background:#ffffff30}
+.et-banner-dots{display:flex;gap:9px;align-items:center}
+.et-banner-dot{width:9px;height:9px;padding:0;border:0;border-radius:50%;background:#ffffff77}
+.et-banner-dot.is-active{background:#fff;width:23px;border-radius:10px}
+@media(max-width:760px){
+  .et-banner-visual img{aspect-ratio:5/3;object-fit:cover}
+  .et-banner-controls{bottom:12px;padding:6px 10px}
+}
+@media(prefers-reduced-motion:reduce){.et-banner-dot{transition:none}}

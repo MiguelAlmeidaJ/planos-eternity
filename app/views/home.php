@@ -1,5 +1,40 @@
 <?php $homePlans = plans(); ?>
 <div class="home-v3">
+<?php
+$homeBanners = [];
+try {
+    $homeBanners = database()->query('SELECT id, desktop_image, mobile_image, link_url FROM home_banners ORDER BY id ASC LIMIT 4')->fetchAll();
+} catch (PDOException $error) {
+    error_log('Eternity banners: ' . $error->getMessage());
+}
+?>
+<?php if ($homeBanners): ?>
+<section class="et-banner-carousel" aria-label="Banners da Eternity" data-banner-carousel>
+  <div class="et-banner-slides">
+    <?php foreach ($homeBanners as $index => $banner): ?>
+    <div class="et-banner-slide" data-banner-slide <?= $index ? 'hidden' : '' ?>>
+      <?php if ($banner['link_url'] !== ''): ?><a class="et-banner-visual" href="<?= e($banner['link_url']) ?>" aria-label="Abrir conteúdo do banner <?= $index + 1 ?>"><?php else: ?><div class="et-banner-visual"><?php endif; ?>
+        <picture>
+          <source media="(max-width: 760px)" srcset="<?= e($banner['mobile_image']) ?>">
+          <img src="<?= e($banner['desktop_image']) ?>" width="1600" height="600" alt="Banner <?= $index + 1 ?> da Eternity Plano Familiar" <?= $index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' ?> decoding="async">
+        </picture>
+      <?php if ($banner['link_url'] !== ''): ?></a><?php else: ?></div><?php endif; ?>
+    </div>
+    <?php endforeach; ?>
+  </div>
+  <?php if (count($homeBanners) > 1): ?>
+  <div class="et-banner-controls">
+    <button type="button" class="et-banner-arrow" data-banner-prev aria-label="Banner anterior"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
+    <div class="et-banner-dots" aria-label="Selecionar banner">
+      <?php foreach ($homeBanners as $index => $banner): ?>
+      <button type="button" data-banner-dot="<?= $index ?>" class="et-banner-dot <?= $index===0?'is-active':'' ?>" aria-label="Mostrar banner <?= $index+1 ?>" aria-current="<?= $index===0?'true':'false' ?>"></button>
+      <?php endforeach; ?>
+    </div>
+    <button type="button" class="et-banner-arrow" data-banner-next aria-label="Próximo banner"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+  </div>
+  <?php endif; ?>
+</section>
+<?php else: ?>
 <section class="hm-hero" aria-labelledby="hm-main-title">
   <div class="hm-hero-photo" aria-hidden="true"></div>
   <div class="container hm-hero-layout">
@@ -14,6 +49,7 @@
     </div>
   </div>
 </section>
+<?php endif; ?>
 
 <section class="hm-intro" aria-labelledby="hm-intro-title">
   <div class="container hm-intro-grid">
@@ -53,3 +89,5 @@
 
 <section class="hm-cta" aria-labelledby="hm-cta-title"><div class="container hm-cta-content"><div><span class="hm-kicker">FALE COM A GENTE</span><h2 id="hm-cta-title">Vamos conversar sobre o que você precisa?</h2><p>Estamos à disposição para apresentar os planos e tirar suas dúvidas.</p></div><a class="btn" href="/contato#formulario">Solicitar atendimento <span aria-hidden="true">↗</span></a></div></section>
 </div>
+
+<script src="/assets/js/hero-banners.js" defer></script>

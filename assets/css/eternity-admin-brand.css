@@ -21,3 +21,21 @@ body h1,body h2,body h3{font-family:'Lato',Arial,sans-serif;color:#17243E;font-w
 .admin-page .kicker,.plan-admin .kicker{color:#8B7048}
 .login-page{background:linear-gradient(140deg,#293451,#17243E)}
 .login-card .admin-brand{color:#293451}
+
+/* Banner management */
+.banner-admin .banner-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.banner-admin .banner-tile{background:#fff;border:1px solid #E2E6EE;border-radius:12px;overflow:hidden}
+.banner-admin .banner-tile img{display:block;width:100%;aspect-ratio:8/3;object-fit:cover;background:#EFF1F7}
+.banner-admin .banner-tile-info{padding:18px}
+.banner-admin .banner-tile-info strong{display:block;font-size:15px;margin-bottom:5px}
+.banner-admin .banner-tile-info .banner-url{font-size:12px;color:#647189;overflow-wrap:anywhere;margin:0}
+.banner-admin .banner-actions{display:flex;align-items:center;gap:9px;margin-top:16px}
+.banner-admin .banner-actions form{margin:0}
+.banner-admin .banner-actions .btn{font-size:13px}
+.banner-admin .banner-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.banner-admin .banner-preview{width:100%;aspect-ratio:8/3;object-fit:cover;border:1px solid #e0e6ee;border-radius:8px}
+.banner-admin .banner-preview.mobile{aspect-ratio:5/3}
+.banner-admin .banner-upload-note{font-size:12px;color:#6f7a8c}
+.banner-admin .banner-save{background:#293451;color:#fff;border:1px solid #293451}
+.banner-admin .banner-save:hover{background:#17243E;color:#fff}
+@media(max-width:760px){.banner-admin .banner-tiles,.banner-admin .banner-form-grid{grid-template-columns:1fr}}

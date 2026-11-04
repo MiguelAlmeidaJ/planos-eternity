@@ -45,3 +45,12 @@ INSERT IGNORE INTO site_plans (slug,name,tagline,features,featured,sort_order) V
 ('essencial','Essencial','Proteção para começar','Acolhimento e orientação\nAtendimento assistencial\nOpções para incluir sua família',0,10),
 ('premium','Premium','Mais tranquilidade','Cuidado em cada etapa\nAtendimento assistencial\nCobertura conforme contratação',1,20),
 ('master','Master','Proteção ampliada','Suporte e acolhimento\nAtendimento assistencial\nSoluções para toda a família',0,30);
+
+CREATE TABLE IF NOT EXISTS home_banners (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  desktop_image VARCHAR(255) NOT NULL,
+  mobile_image VARCHAR(255) NOT NULL,
+  link_url VARCHAR(500) NOT NULL DEFAULT '',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
