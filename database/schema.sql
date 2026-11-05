@@ -54,3 +54,18 @@ CREATE TABLE IF NOT EXISTS home_banners (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS admin_audit_logs (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  actor_id BIGINT UNSIGNED NULL,
+  actor_name VARCHAR(120) NOT NULL,
+  action VARCHAR(64) NOT NULL,
+  target_type VARCHAR(40) NOT NULL DEFAULT '',
+  target_id BIGINT UNSIGNED NULL,
+  details VARCHAR(240) NOT NULL DEFAULT '',
+  ip_address VARCHAR(45) NOT NULL DEFAULT '',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_audit_created (created_at),
+  INDEX idx_audit_action_created (action, created_at),
+  INDEX idx_audit_actor_created (actor_id, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

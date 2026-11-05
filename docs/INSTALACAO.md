@@ -97,3 +97,11 @@ As imagens são salvas em `assets/uploads/banners/` e **não são versionadas**.
 O carousel muda automaticamente a cada 5,5 segundos, pausa durante interação e respeita a preferência por movimento reduzido.
 Sem banners cadastrados, a home mantém o hero anterior. Quando houver banner cadastrado, o carrossel substitui o hero.
 Verifique `upload_max_filesize`, `post_max_size`, a extensão `fileinfo` e permissões de gravação no PHP do DirectAdmin.
+
+
+## Teste SMTP e Auditoria
+
+Depois de `git pull origin main`, rode `php scripts/install.php` para criar `admin_audit_logs`.
+Em **Configurações → Servidor SMTP**, salve host, porta, usuário, remetente, criptografia e senha antes de testar. O teste envia um e-mail de verdade ao endereço selecionado e não modifica as configurações. Aceita portas SMTP TLS/STARTTLS e SSL implícito; exige certificado válido e utiliza a senha criptografada pela APP_KEY.
+A resposta de sucesso significa que o servidor SMTP aceitou a mensagem, **não** garante entrega na caixa postal. O teste tem intervalo mínimo de 30 segundos por sessão; o host deve permitir conexões SMTP de saída.
+Em **Administração → Auditoria**, apenas administradores visualizam os últimos eventos, com filtro e paginação. São registrados acessos, alterações de cadastros, banners, configurações e testes SMTP. O histórico começa após a instalação da tabela e não inclui conteúdos de mensagens, senhas ou tokens. Para retenção, estabeleça política de expurgo e backup coerente com a LGPD.

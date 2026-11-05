@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/banners-helper.php';
+require_once __DIR__ . '/audit-helper.php';
 if (!$user) redirectAdmin('/login');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newFiles = [];
@@ -18,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $q->execute([$id]);
             deleteBannerImage($existing['desktop_image']);
             deleteBannerImage($existing['mobile_image']);
+            auditEvent($user, 'banner.deleted', 'banner', (int)$id, 'Banner excluído');
             flash('ok','Banner excluído.');
             redirectAdmin('/banners');
         }
@@ -67,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($mobile !== $existing['mobile_image']) deleteBannerImage($existing['mobile_image']);
             }
             $newFiles = [];
+            auditEvent($user, $isEdit ? 'banner.updated' : 'banner.created', 'banner', $isEdit ? (int)$id : (int)$pdo->lastInsertId(), 'Banner atualizado no site');
             flash('ok', $isEdit ? 'Banner atualizado.' : 'Banner criado.');
             redirectAdmin('/banners');
         } finally {

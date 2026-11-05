@@ -99,3 +99,24 @@ body h1,body h2,body h3{font-family:'Lato',Arial,sans-serif;color:#17243E;font-w
   .admin-page .sidebar .sidebar-real-brand{min-height:0;padding:6px 7px 16px}
   .admin-page .sidebar .sidebar-logo{max-width:180px;max-height:70px}
 }
+
+/* Auditoria e diagnóstico SMTP */
+.smtp-test-panel{border-color:#d6dfeb;background:#fff}
+.smtp-test-icon{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:#eef2f8;color:#293451;font-size:22px;flex:none}
+.smtp-test-form{max-width:780px}
+.smtp-test-form>label,.audit-filters label{font-size:13px;font-weight:700;color:#293451;margin-bottom:7px}
+.smtp-test-controls{display:flex;gap:12px;align-items:center;margin:5px 0 9px}
+.smtp-test-controls .form-control{max-width:480px;flex:1}
+.smtp-test-controls .btn{background:#293451;border-color:#293451;white-space:nowrap;display:inline-flex;align-items:center;gap:9px}
+.smtp-test-form small{color:#718099}
+.audit-total{border:1px solid #e2e6ee;padding:10px 14px;background:#fff;border-radius:10px;color:#293451;font-size:13px;font-weight:700}
+.audit-filters{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+.audit-filters label{width:100%;margin-bottom:-7px}
+.audit-filters .form-select{max-width:310px}
+.audit-table{min-width:760px}
+.audit-table thead th{background:#f4f6f9;color:#65728a;font-size:12px;font-weight:800}
+.audit-table tbody td{font-size:13px;padding:13px 11px}
+.audit-event{background:#edf1f7;color:#293451;border-radius:6px;padding:5px 9px;font-size:12px;font-weight:700;white-space:nowrap}
+.audit-pages{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;font-size:13px;color:#66738c}
+.audit-pages>div{display:flex;gap:7px}
+@media(max-width:650px){.smtp-test-controls{flex-direction:column;align-items:stretch}.smtp-test-controls .form-control{max-width:100%}}

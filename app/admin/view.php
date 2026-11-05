@@ -53,6 +53,7 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
     <?php if ($user['role']==='admin'): ?>
       <a class="<?= $activeSection==='usuarios'?'on':'' ?>" <?= $activeSection==='usuarios'?'aria-current="page"':'' ?> href="/admin/usuarios"><i class="bi bi-people" aria-hidden="true"></i><span>Usuários</span></a>
       <a class="<?= $activeSection==='configuracoes'?'on':'' ?>" <?= $activeSection==='configuracoes'?'aria-current="page"':'' ?> href="/admin/configuracoes"><i class="bi bi-gear" aria-hidden="true"></i><span>Configurações</span></a>
+      <a class="<?= $activeSection==='auditoria'?'on':'' ?>" <?= $activeSection==='auditoria'?'aria-current="page"':'' ?> href="/admin/auditoria"><i class="bi bi-clock-history" aria-hidden="true"></i><span>Auditoria</span></a>
     <?php endif; ?>
   </nav>
   <div class="sidebar-bottom">
@@ -69,6 +70,8 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
 <div class="panel"><h2>Comece por aqui</h2><p>Cadastre os planos e personalize a identidade visual, os contatos e o servidor SMTP. O envio de e-mails ainda requer a integração do serviço de disparo.</p><a class="primary link-button" href="/admin/planos">Gerenciar planos</a></div>
 <?php elseif (in_array($section, ['banners','banners/novo','banners/editar'], true)): ?>
 <?php require __DIR__ . '/banners-view.php'; ?>
+<?php elseif ($section==='auditoria'): ?>
+<?php require __DIR__ . '/audit-view.php'; ?>
 <?php elseif ($section==='usuarios'): ?>
 <div class="heading"><div><p class="kicker">ACESSOS</p><h1>Usuários</h1><p class="sub">Administradores gerenciam tudo; editores gerenciam planos.</p></div><a class="outline link-button" href="/admin/usuarios">+ Novo usuário</a></div>
 <div class="panel table-scroll"><table><thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Status</th><th>Ações</th></tr></thead><tbody><?php foreach($users as $item): ?><tr><td><?= e($item['name']) ?></td><td><?= e($item['email']) ?></td><td><?= e($item['role']) ?></td><td><?= $item['active']?'Ativo':'Inativo' ?></td><td><a href="/admin/usuarios?edit=<?= (int)$item['id'] ?>">Editar</a> <form class="inline" method="post" action="/admin/usuarios" onsubmit="return confirm('Excluir este usuário?')"><input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>"><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?= (int)$item['id'] ?>"><button class="danger">Excluir</button></form></td></tr><?php endforeach; ?></tbody></table></div>
@@ -118,10 +121,27 @@ $settings = $section==='configuracoes' ? settingsAll() : [];
 <?php foreach(['BRAND_PRIMARY'=>'Cor principal','BRAND_ACCENT'=>'Cor de destaque'] as $key=>$label): ?><label><?= e($label) ?><input type="color" name="<?= e($key) ?>" value="<?= e($settings[$key]??($key==='BRAND_PRIMARY'?'#293451':'#C2A77D')) ?>"></label><?php endforeach; ?>
 </div></div>
 <div class="panel"><h2>Informações de contato</h2><div class="form-grid two"><?php foreach(['APP_PHONE'=>'Telefone','APP_WHATSAPP'=>'WhatsApp','APP_INSTAGRAM'=>'Instagram (URL do perfil)','APP_EMAIL'=>'E-mail','APP_ADDRESS'=>'Endereço','APP_CNPJ'=>'CNPJ'] as $key=>$label): ?><label><?= e($label) ?><input name="<?= e($key) ?>" value="<?= e($settings[$key]??setting($key)) ?>"></label><?php endforeach; ?></div></div>
-<div class="panel"><h2>Servidor SMTP</h2><p class="sub">Configuração armazenada para uso na próxima integração de envio de e-mails. Nenhum e-mail é disparado por esta tela.</p><div class="form-grid two">
+<div class="panel"><h2>Servidor SMTP</h2><p class="sub">Salve as configurações e use o teste abaixo para verificar a conexão e o envio de e-mails.</p><div class="form-grid two">
 <?php foreach(['SMTP_HOST'=>'Servidor SMTP','SMTP_PORT'=>'Porta','SMTP_USER'=>'Usuário SMTP','SMTP_FROM'=>'E-mail remetente','SMTP_FROM_NAME'=>'Nome remetente'] as $key=>$label): ?><label><?= e($label) ?><input name="<?= e($key) ?>" value="<?= e($settings[$key]??($key==='SMTP_PORT'?'587':'')) ?>"></label><?php endforeach; ?>
 <label>Criptografia<select name="SMTP_ENCRYPTION"><?php foreach(['tls'=>'STARTTLS','ssl'=>'SSL/TLS',''=>'Nenhuma'] as $v=>$label): ?><option value="<?= e($v) ?>" <?= ($settings['SMTP_ENCRYPTION']??'tls')===$v?'selected':'' ?>><?= e($label) ?></option><?php endforeach; ?></select></label>
 <label>Senha SMTP (deixe em branco para manter)<input type="password" name="SMTP_PASSWORD" autocomplete="new-password"><small><?= !empty($settings['SMTP_PASSWORD_ENC'])?'Senha armazenada de forma criptografada.':'Nenhuma senha armazenada.' ?></small></label><label class="check"><input type="checkbox" name="clear_smtp_password"> Apagar senha SMTP salva</label></div></div><button class="primary">Salvar configurações</button></form>
+<div class="panel smtp-test-panel">
+  <div class="d-flex gap-3 align-items-start mb-3">
+    <span class="smtp-test-icon"><i class="bi bi-envelope-check" aria-hidden="true"></i></span>
+    <div><h2 class="mb-2">Testar envio SMTP</h2>
+      <p class="sub mb-0">Envie uma mensagem de verificação usando as configurações já salvas. Isso não modifica os dados SMTP.</p></div>
+  </div>
+  <form method="post" action="/admin/configuracoes" class="smtp-test-form">
+    <input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>">
+    <input type="hidden" name="action" value="smtp_test">
+    <label for="smtp-test-email">E-mail para receber o teste</label>
+    <div class="smtp-test-controls">
+      <input class="form-control" id="smtp-test-email" type="email" name="test_email" maxlength="190" required value="<?= e($user['email']) ?>" placeholder="voce@exemplo.com">
+      <button class="btn btn-primary" type="submit"><i class="bi bi-send" aria-hidden="true"></i> Enviar teste</button>
+    </div>
+    <small>O teste exige SSL/TLS ou STARTTLS e pode levar alguns segundos. Confirme também o recebimento na caixa de entrada.</small>
+  </form>
+</div>
 <?php endif; ?>
 </main></div>
 <?php endif; ?>

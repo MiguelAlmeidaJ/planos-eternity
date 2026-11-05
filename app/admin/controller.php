@@ -1,14 +1,19 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/audit-helper.php';
 header('X-Frame-Options: DENY');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: same-origin');
 header('Cache-Control: no-store');
 $section = trim(substr($path, strlen('admin')), '/');
-$valid = ['', 'login','logout','usuarios','planos','planos/novo','planos/editar','banners','banners/novo','banners/editar','configuracoes'];
+$valid = ['', 'login','logout','usuarios','planos','planos/novo','planos/editar','banners','banners/novo','banners/editar','configuracoes','auditoria'];
 if (!in_array($section, $valid, true)) { http_response_code(404); exit('Página administrativa não encontrada.'); }
 $user = adminUser();
+if ($section === 'auditoria') {
+    if (!$user) redirectAdmin('/login');
+    requireAdmin($user, true);
+}
 if (in_array($section, ['banners','banners/novo','banners/editar'], true)) {
     require __DIR__ . '/banners-controller.php';
     exit;
@@ -26,15 +31,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $candidate = $query->fetch();
             if (!$candidate || !password_verify((string)($_POST['password'] ?? ''), $candidate['password_hash'])) {
                 $attempts[] = time(); $_SESSION['login_attempts'] = $attempts;
+                auditEvent(null, 'auth.failed', 'login', null, 'Tentativa de acesso inválida');
                 throw new RuntimeException('Credenciais inválidas.');
             }
             session_regenerate_id(true);
             $_SESSION['admin_id'] = (int)$candidate['id'];
             unset($_SESSION['login_attempts']);
+            auditEvent(['id'=>(int)$candidate['id'],'name'=>$email], 'auth.login', 'user', (int)$candidate['id'], 'Login no painel');
             redirectAdmin('');
         }
         if (!$user) redirectAdmin('/login');
         if ($section === 'logout') {
+            auditEvent($user, 'auth.logout', 'user', (int)$user['id'], 'Saída do painel');
             $_SESSION = [];
             session_regenerate_id(true);
             redirectAdmin('/login');
@@ -71,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $q=database()->prepare('INSERT INTO admin_users (name,email,role,active,password_hash) VALUES (?,?,?,?,?)');
                     $q->execute([$name,$email,$role,$active,password_hash($password,PASSWORD_DEFAULT)]);
                 }
+                auditEvent($user, $id ? 'user.updated' : 'user.created', 'user', $id ?: (int)database()->lastInsertId(), 'Cadastro administrativo alterado');
                 flash('ok','Usuário salvo.');
             } elseif ($action === 'delete') {
                 $id=(int)($_POST['id'] ?? 0);
@@ -81,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($count<=1) throw new RuntimeException('Mantenha pelo menos um administrador ativo.');
                 }
                 $q=database()->prepare('DELETE FROM admin_users WHERE id=?');$q->execute([$id]);
+                auditEvent($user, 'user.deleted', 'user', $id, 'Usuário excluído');
                 flash('ok','Usuário excluído.');
             }
             redirectAdmin('/usuarios');
@@ -105,6 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt = $pdo->prepare('UPDATE site_plans SET sort_order = ? WHERE id = ?');
                     foreach ($ids as $index => $planId) $stmt->execute([($index + 1) * 10, $planId]);
                     $pdo->commit();
+                    auditEvent($user, 'plan.reordered', 'plan', null, 'Ordem dos planos alterada');
                     echo json_encode(['ok' => true], JSON_THROW_ON_ERROR);
                     exit;
                 } catch (Throwable $e) {
@@ -128,6 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt = database()->prepare('UPDATE site_plans SET active = CASE WHEN active = 1 THEN 0 ELSE 1 END WHERE id = ?');
                 $stmt->execute([$id]);
                 if ($stmt->rowCount() !== 1) throw new RuntimeException('Plano não encontrado.');
+                auditEvent($user, 'plan.visibility', 'plan', (int)$id, 'Visibilidade alterada');
                 flash('ok', 'Visibilidade atualizada.');
                 redirectAdmin('/planos');
             }
@@ -159,15 +171,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $q=database()->prepare('INSERT INTO site_plans (slug,name,tagline,description,features,price_label,sort_order,featured,active) VALUES (?,?,?,?,?,?,?,?,?)');
                     $q->execute([$slug,$name,$tagline,$description,$features,$price,$order,$featured,$active]);
                 }
+                auditEvent($user, $id ? 'plan.updated' : 'plan.created', 'plan', $id ?: (int)database()->lastInsertId(), 'Cadastro do plano alterado');
                 flash('ok','Plano salvo.');
             } elseif ($section === 'planos' && $action === 'delete') {
                 $q=database()->prepare('DELETE FROM site_plans WHERE id=?');$q->execute([(int)($_POST['id'] ?? 0)]);
+                auditEvent($user, 'plan.deleted', 'plan', (int)($_POST['id'] ?? 0), 'Plano excluído');
                 flash('ok','Plano excluído.');
             }
             redirectAdmin('/planos');
         }
         if ($section === 'configuracoes') {
             requireAdmin($user,true);
+            if ($action === 'smtp_test') {
+                if (!empty($_SESSION['smtp_test_at']) && time() - (int)$_SESSION['smtp_test_at'] < 30) {
+                    throw new RuntimeException('Aguarde 30 segundos entre os testes SMTP.');
+                }
+                $_SESSION['smtp_test_at'] = time();
+                $recipient = trim((string)($_POST['test_email'] ?? ''));
+                try {
+                    require_once __DIR__ . '/smtp-test.php';
+                    testSmtpDelivery($recipient);
+                    auditEvent($user, 'smtp.test.success', 'smtp', null, 'Servidor aceitou mensagem de teste');
+                    flash('ok', 'O servidor SMTP aceitou a mensagem. Confira a caixa de entrada e o spam do destinatário.');
+                } catch (Throwable $smtpError) {
+                    auditEvent($user, 'smtp.test.failed', 'smtp', null, 'Teste SMTP sem sucesso');
+                    if ($smtpError instanceof PDOException) throw $smtpError;
+                    throw new RuntimeException($smtpError->getMessage());
+                }
+                redirectAdmin('/configuracoes');
+            }
             if ($action === 'branding_upload') {
                 require_once __DIR__ . '/branding-upload.php';
                 $type = (string)($_POST['asset_type'] ?? '');
@@ -185,6 +217,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (preg_match('#^/assets/uploads/branding/(?:logo|favicon)-[a-f0-9]{32}\\.(?:png|svg)$#', $oldAsset)) {
                     @unlink(dirname(__DIR__, 2) . $oldAsset);
                 }
+                auditEvent($user, 'branding.uploaded', $type, null, 'Imagem de identidade visual alterada');
                 flash('ok', $type === 'logo' ? 'Logotipo atualizado.' : 'Favicon atualizado.');
                 redirectAdmin('/configuracoes');
             }
@@ -197,6 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (preg_match('#^/assets/uploads/branding/(?:logo|favicon)-[a-f0-9]{32}\\.(?:png|svg)$#', $oldAsset)) {
                     @unlink(dirname(__DIR__, 2) . $oldAsset);
                 }
+                auditEvent($user, 'branding.removed', $type, null, 'Imagem de identidade visual removida');
                 flash('ok', 'Imagem removida.');
                 redirectAdmin('/configuracoes');
             }
@@ -226,6 +260,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $secret=(string)($_POST['SMTP_PASSWORD'] ?? '');
             if ($secret !== '') saveOption('SMTP_PASSWORD_ENC',encryptSecret($secret));
             if (isset($_POST['clear_smtp_password'])) saveOption('SMTP_PASSWORD_ENC','');
+            auditEvent($user, 'settings.updated', 'settings', null, 'Configurações do site atualizadas');
             flash('ok','Configurações salvas.');
             redirectAdmin('/configuracoes');
         }
@@ -247,6 +282,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 if (!$user && $section!=='login') redirectAdmin('/login');
 if ($user && $section==='login') redirectAdmin('');
-if ($user && in_array($section,['usuarios','configuracoes'],true) && $user['role']!=='admin') { http_response_code(403); exit('Acesso restrito.'); }
+if ($user && in_array($section,['usuarios','configuracoes','auditoria'],true) && $user['role']!=='admin') { http_response_code(403); exit('Acesso restrito.'); }
 $flash=$_SESSION['flash']??null;unset($_SESSION['flash']);
 require __DIR__ . '/view.php';
