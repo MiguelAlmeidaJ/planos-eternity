@@ -201,12 +201,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 redirectAdmin('/configuracoes');
             }
             if ($action !== 'save_settings') throw new RuntimeException('Operação de configurações inválida.');
-            $fields = ['APP_NAME'=>120,'BRAND_SUBTITLE'=>100,'BRAND_PRIMARY'=>7,'BRAND_ACCENT'=>7,'APP_PHONE'=>50,'APP_WHATSAPP'=>50,'APP_EMAIL'=>190,'APP_ADDRESS'=>255,'APP_CNPJ'=>30,'SMTP_HOST'=>190,'SMTP_PORT'=>5,'SMTP_USER'=>190,'SMTP_FROM'=>190,'SMTP_FROM_NAME'=>120,'SMTP_ENCRYPTION'=>5];
+            $fields = ['APP_NAME'=>120,'BRAND_SUBTITLE'=>100,'BRAND_PRIMARY'=>7,'BRAND_ACCENT'=>7,'APP_PHONE'=>50,'APP_WHATSAPP'=>50,'APP_INSTAGRAM'=>255,'APP_EMAIL'=>190,'APP_ADDRESS'=>255,'APP_CNPJ'=>30,'SMTP_HOST'=>190,'SMTP_PORT'=>5,'SMTP_USER'=>190,'SMTP_FROM'=>190,'SMTP_FROM_NAME'=>120,'SMTP_ENCRYPTION'=>5];
             foreach ($fields as $field=>$max) {
                 $value=trim((string)($_POST[$field] ?? ''));
                 if (mb_strlen($value)>$max) throw new RuntimeException('Campo muito longo: '.$field);
                 if (in_array($field,['BRAND_PRIMARY','BRAND_ACCENT'],true) && !preg_match('/^#[0-9a-fA-F]{6}$/',$value)) throw new RuntimeException('Cor inválida: '.$field);
                 if ($field==='BRAND_LOGO' && $value!=='' && (!str_starts_with($value,'/assets/') || !preg_match('#^/assets/[a-zA-Z0-9_./-]+$#',$value) || str_contains($value,'..'))) throw new RuntimeException('Use um caminho local em /assets/ para o logotipo.');
+                if ($field === 'APP_INSTAGRAM' && $value !== '') {
+                    $parts = parse_url($value);
+                    $host = strtolower((string)($parts['host'] ?? ''));
+                    if (!$parts || strtolower((string)($parts['scheme'] ?? '')) !== 'https'
+                        || !in_array($host, ['instagram.com', 'www.instagram.com'], true)
+                        || isset($parts['user']) || isset($parts['pass']) || isset($parts['port'])
+                        || !preg_match('#^/[a-zA-Z0-9._]+/?$#', (string)($parts['path'] ?? ''))
+                        || isset($parts['query']) || isset($parts['fragment'])) {
+                        throw new RuntimeException('Informe uma URL do Instagram válida, como https://instagram.com/eternity.');
+                    }
+                }
                 if (in_array($field,['APP_EMAIL','SMTP_FROM'],true) && $value!=='' && !filter_var($value,FILTER_VALIDATE_EMAIL)) throw new RuntimeException('E-mail inválido: '.$field);
                 if ($field==='SMTP_ENCRYPTION' && !in_array($value,['','tls','ssl'],true)) throw new RuntimeException('Segurança SMTP inválida.');
                 if ($field==='SMTP_PORT' && ($value==='' || !ctype_digit($value) || (int)$value<1 || (int)$value>65535)) throw new RuntimeException('Porta SMTP inválida.');

@@ -149,3 +149,35 @@ body .hm-hero-link{color:#fff;border-color:#E2E6EF}
   .et-banner-controls{bottom:12px;padding:6px 10px}
 }
 @media(prefers-reduced-motion:reduce){.et-banner-dot{transition:none}}
+
+/* Barra de informações e rodapé compacto — Eternity */
+.et-topbar{background:var(--eternity-deep);color:#ecf0f8}
+.et-topbar .et-topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:35px;padding-top:5px;padding-bottom:5px}
+.et-topbar-address{display:flex;align-items:center;gap:9px;min-width:0;font-size:.77rem;color:#e4eaf4}
+.et-topbar-address i{flex:none;font-size:.85rem;color:#c2a77d}
+.et-topbar-address span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.et-topbar-social{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex:none}
+.et-topbar-social a{display:grid;place-items:center;width:27px;height:25px;border-radius:5px;color:#f0f3fb;text-decoration:none;font-size:.92rem;transition:background .15s}
+.et-topbar-social a:hover,.et-topbar-social a:focus-visible{color:#fff;background:#ffffff2b}
+.footer-eternity .footer-main{grid-template-columns:minmax(0,1.3fr) minmax(150px,.6fr) minmax(240px,.95fr);gap:clamp(25px,5vw,75px);padding-top:32px;padding-bottom:31px}
+.footer-eternity .footer-about .brand-footer{margin-bottom:7px}
+.footer-eternity .footer-about .brand-logo{max-height:77px;max-width:200px}
+.footer-eternity .footer-about>p{font-size:.86rem;line-height:1.6;max-width:260px}
+.footer-eternity h2{margin:3px 0 13px;font-size:.9rem}
+.footer-eternity .footer-navigation a{margin-bottom:8px;font-size:.85rem}
+.footer-eternity .footer-contact>a:not(.footer-cta){margin-bottom:10px;font-size:.85rem}
+.footer-eternity .footer-cta{margin-top:3px;padding:9px 13px;font-size:.81rem}
+.footer-eternity .footer-bottom{padding:14px 0;gap:20px;font-size:.75rem}
+.footer-eternity .footer-legal-links{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:15px 25px}
+.footer-eternity .footer-credit{color:#6b768d;white-space:normal}
+.footer-eternity .footer-credit .bi-heart-fill{font-size:.73rem;color:#b7847c}
+.footer-eternity .footer-credit a{font-weight:700}
+@media(max-width:900px){.footer-eternity .footer-main{gap:24px}}
+@media(max-width:720px){
+  .et-topbar .et-topbar-inner{gap:12px}
+  .et-topbar-address{font-size:.69rem}
+  .et-topbar-social{gap:4px}
+  .footer-eternity .footer-main{padding-top:29px;padding-bottom:23px;gap:25px}
+  .footer-eternity .footer-bottom{align-items:flex-start}
+  .footer-eternity .footer-legal-links{justify-content:flex-start;gap:9px 16px}
+}

@@ -16,7 +16,29 @@
 </head>
 <body>
 <a class="skip-link" href="#conteudo">Pular para conteúdo</a>
-<div class="topbar"><div class="container topbar-inner"><span>ETERNITY · PLANO FAMILIAR</span><span><?= siteOption('APP_PHONE') !== '' ? e(siteOption('APP_PHONE')) : 'Estamos aqui para você' ?></span></div></div>
+<?php
+$headerAddress = trim(siteOption('APP_ADDRESS'));
+$headerPhone = trim(siteOption('APP_PHONE'));
+$headerPhoneHref = preg_replace('/[^0-9+]/', '', $headerPhone) ?? '';
+$headerWhatsapp = preg_replace('/\\D+/', '', siteOption('APP_WHATSAPP')) ?? '';
+$headerInstagram = trim(siteOption('APP_INSTAGRAM'));
+?>
+<div class="topbar et-topbar">
+  <div class="container et-topbar-inner">
+    <div class="et-topbar-address">
+      <?php if ($headerAddress !== ''): ?>
+        <i class="bi bi-geo-alt" aria-hidden="true"></i><span><?= e($headerAddress) ?></span>
+      <?php else: ?>
+        <i class="bi bi-geo-alt" aria-hidden="true"></i><span>Eternity Plano Familiar</span>
+      <?php endif; ?>
+    </div>
+    <nav class="et-topbar-social" aria-label="Canais de atendimento">
+      <?php if ($headerWhatsapp !== ''): ?><a href="https://wa.me/<?= e($headerWhatsapp) ?>" target="_blank" rel="noopener noreferrer" aria-label="Falar pelo WhatsApp" title="WhatsApp"><i class="bi bi-whatsapp" aria-hidden="true"></i></a><?php endif; ?>
+      <?php if ($headerPhone !== ''): ?><a href="tel:<?= e($headerPhoneHref) ?>" aria-label="Ligar para <?= e($headerPhone) ?>" title="<?= e($headerPhone) ?>"><i class="bi bi-telephone" aria-hidden="true"></i></a><?php endif; ?>
+      <?php if ($headerInstagram !== ''): ?><a href="<?= e($headerInstagram) ?>" target="_blank" rel="noopener noreferrer" aria-label="Instagram da Eternity" title="Instagram"><i class="bi bi-instagram" aria-hidden="true"></i></a><?php endif; ?>
+    </nav>
+  </div>
+</div>
 <header class="site-header">
  <div class="container nav-wrap">
   <a class="brand brand-official" href="/" aria-label="Eternity Plano Familiar — página inicial">

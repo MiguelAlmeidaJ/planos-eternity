@@ -16,7 +16,7 @@ $footerPhoneLink = preg_replace('/[^\d+]/', '', $footerPhone) ?? '';
           <span class="brand-fallback"><i class="bi bi-infinity" aria-hidden="true"></i><span>ETERNITY<small>PLANO FAMILIAR</small></span></span>
         <?php endif; ?>
       </a>
-      <p>Cuidado e tranquilidade para você e sua família, com atenção em cada etapa.</p>
+      <p>Cuidado e tranquilidade para você e sua família.</p>
     </div>
     <nav class="footer-navigation" aria-label="Links do rodapé">
       <h2>Explore</h2>
@@ -27,7 +27,7 @@ $footerPhoneLink = preg_replace('/[^\d+]/', '', $footerPhone) ?? '';
     </nav>
     <div class="footer-contact">
       <h2>Fale com a Eternity</h2>
-      <p class="footer-contact-lead">Estamos aqui para ajudar.</p>
+      
       <?php if ($footerWhatsapp !== ''): ?>
         <a href="https://wa.me/<?= e($footerWhatsapp) ?>" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp" aria-hidden="true"></i><span>Atendimento pelo WhatsApp</span></a>
       <?php endif; ?>
@@ -37,16 +37,20 @@ $footerPhoneLink = preg_replace('/[^\d+]/', '', $footerPhone) ?? '';
       <?php if ($footerEmail !== ''): ?>
         <a href="mailto:<?= e($footerEmail) ?>"><i class="bi bi-envelope" aria-hidden="true"></i><span><?= e($footerEmail) ?></span></a>
       <?php endif; ?>
-      <?php if ($footerAddress !== ''): ?>
-        <div class="footer-contact-address"><i class="bi bi-geo-alt" aria-hidden="true"></i><span><?= e($footerAddress) ?></span></div>
+
+      <?php if ($footerInstagram !== ''): ?>
+        <a href="<?= e($footerInstagram) ?>" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram" aria-hidden="true"></i><span>Instagram</span></a>
       <?php endif; ?>
       <a class="footer-cta" href="/contato#formulario">Enviar uma mensagem <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
     </div>
   </div>
   <div class="footer-meta">
     <div class="container footer-bottom">
-      <span>© <?= date('Y') ?> Eternity Plano Familiar. Todos os direitos reservados.<?= siteOption('APP_CNPJ') ? ' · CNPJ ' . e(siteOption('APP_CNPJ')) : '' ?></span>
-      <a href="/politica-de-privacidade">Política de privacidade</a>
+      <span>© <?= date('Y') ?> Eternity Plano Familiar<?= siteOption('APP_CNPJ') ? ' · CNPJ ' . e(siteOption('APP_CNPJ')) : '' ?>.</span>
+      <div class="footer-legal-links">
+        <a href="/politica-de-privacidade">Política de privacidade</a>
+        <span class="footer-credit">Feito com <i class="bi bi-heart-fill" aria-label="amor" role="img"></i> por <a href="https://anoar.com.br" target="_blank" rel="noopener noreferrer">Anoar</a> / <a href="https://instagram.com/miguelalmeida.dev" target="_blank" rel="noopener noreferrer">Miguel Almeida</a></span>
+      </div>
     </div>
   </div>
 </footer>
