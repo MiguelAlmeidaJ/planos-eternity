@@ -1,4 +1,7 @@
-<?php $homePlans = plans(); ?>
+<?php
+$homePlans = plans();
+$plansWhatsapp = preg_replace('/\\D+/', '', siteOption('APP_WHATSAPP')) ?? '';
+?>
 <div class="home-v3">
 <?php
 $homeBanners = [];
@@ -67,7 +70,7 @@ try {
         <?php if (!empty($plan['featured'])): ?><span class="hm-plan-badge">EM DESTAQUE</span><?php endif; ?>
         <div class="hm-plan-top"><div class="hm-plan-symbol" aria-hidden="true">✦</div><p class="hm-plan-tag"><?= e($plan['tag'] ?? '') ?></p><h3>Plano <?= e($plan['name']) ?></h3><?php if (!empty($plan['description'])): ?><p class="hm-plan-description"><?= e($plan['description']) ?></p><?php endif; ?><p class="hm-plan-price"><?= e($plan['price_label'] ?? 'Condições sob consulta') ?></p></div>
 
-        <a class="hm-plan-button <?= !empty($plan['featured']) ? 'hm-plan-button-filled' : '' ?>" href="/contato?plano=<?= rawurlencode($plan['name']) ?>#formulario">Quero saber mais <span aria-hidden="true">↗</span></a>
+        <a class="hm-plan-button <?= !empty($plan['featured']) ? 'hm-plan-button-filled' : '' ?>" href="<?= $plansWhatsapp !== '' ? 'https://wa.me/' . $plansWhatsapp . '?text=' . rawurlencode('Olá! Gostaria de saber mais sobre o Plano ' . $plan['name'] . ' da Eternity.') : '/contato?plano=' . rawurlencode($plan['name']) . '#formulario' ?>" <?= $plansWhatsapp !== '' ? 'target="_blank" rel="noopener noreferrer"' : '' ?>>Quero saber mais <span aria-hidden="true">↗</span></a>
       </article>
       <?php endforeach; ?>
     </div>
