@@ -68,7 +68,16 @@ try {
       <?php foreach ($homePlans as $plan): ?>
       <article class="hm-plan-card <?= !empty($plan['featured']) ? 'is-featured' : '' ?>">
         <?php if (!empty($plan['featured'])): ?><span class="hm-plan-badge">EM DESTAQUE</span><?php endif; ?>
-        <div class="hm-plan-top"><div class="hm-plan-symbol" aria-hidden="true">✦</div><p class="hm-plan-tag"><?= e($plan['tag'] ?? '') ?></p><h3>Plano <?= e($plan['name']) ?></h3><?php if (!empty($plan['description'])): ?><p class="hm-plan-description"><?= e($plan['description']) ?></p><?php endif; ?><p class="hm-plan-price"><?= e($plan['price_label'] ?? 'Condições sob consulta') ?></p></div>
+        <div class="hm-plan-top"><div class="hm-plan-symbol" aria-hidden="true">✦</div><p class="hm-plan-tag"><?= e($plan['tag'] ?? '') ?></p><h3>Plano <?= e($plan['name']) ?></h3><?php if (!empty($plan['description'])): ?><p class="hm-plan-description"><?= e($plan['description']) ?></p><?php endif; ?><?php $priceText = (string)($plan['price_label'] ?? 'Condições sob consulta'); $hasNumericPrice = preg_match('/^\\s*R\\$\\s*([0-9][0-9.]*,[0-9]{2})(.*)$/u', $priceText, $priceParts) === 1; ?>
+          <div class="hm-plan-price plan-price-highlight" aria-label="Valor: <?= e($priceText) ?>">
+            <span class="plan-price-caption">Valor do plano</span>
+            <?php if ($hasNumericPrice): ?>
+              <span class="plan-price-main"><span class="plan-price-currency">R$</span> <strong><?= e($priceParts[1]) ?></strong></span>
+              <?php if (trim($priceParts[2]) !== ''): ?><span class="plan-price-extra"><?= e(trim($priceParts[2])) ?></span><?php endif; ?>
+            <?php else: ?>
+              <span class="plan-price-text"><?= e($priceText) ?></span>
+            <?php endif; ?>
+          </div></div>
 
         <a class="hm-plan-button <?= !empty($plan['featured']) ? 'hm-plan-button-filled' : '' ?>" href="<?= $plansWhatsapp !== '' ? 'https://wa.me/' . $plansWhatsapp . '?text=' . rawurlencode('Olá! Gostaria de saber mais sobre o Plano ' . $plan['name'] . ' da Eternity.') : '/contato?plano=' . rawurlencode($plan['name']) . '#formulario' ?>" <?= $plansWhatsapp !== '' ? 'target="_blank" rel="noopener noreferrer"' : '' ?>>Quero saber mais <span aria-hidden="true">↗</span></a>
       </article>

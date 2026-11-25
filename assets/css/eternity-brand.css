@@ -260,3 +260,34 @@ body .hm-hero-link{color:#fff;border-color:#E2E6EF}
 .plans-page-content .plan-card .btn{margin-top:auto}
 .plans-shared-benefits{text-align:center;font-size:.93rem;color:#596780;margin:23px auto 8px}
 .plans-shared-benefits i{margin-right:7px;color:#293451}
+
+/* Destaque dos valores dos planos — home e catálogo */
+body .hm-plan-card .plan-price-highlight,
+body .plans-page-content .plan-card .plan-price-highlight{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:3px;
+  padding:17px 0 18px;
+  margin:18px 0 25px;
+  border-top:1px solid #e7eaf1;
+  border-bottom:1px solid #e7eaf1;
+  color:#17243e;
+}
+body .plan-price-caption{
+  color:#6c7890;
+  font-size:.73rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+body .plan-price-main{display:flex;align-items:baseline;gap:5px;line-height:1.1;white-space:nowrap}
+body .plan-price-currency{font-size:1.18rem;font-weight:800;color:#293451}
+body .plan-price-main strong{font-family:'Lato',Arial,sans-serif;font-size:clamp(2rem,2.8vw,2.65rem);font-weight:900;letter-spacing:-.05em;color:#17243e}
+body .plan-price-extra{font-size:.83rem;color:#68738a;font-weight:600}
+body .plan-price-text{font-size:1.1rem;font-weight:800;color:#293451}
+body .hm-plan-card.is-featured .plan-price-main strong,
+body .plans-page-content .plan-card.featured .plan-price-main strong{color:#293451}
+@media(max-width:760px){
+  body .plan-price-main strong{font-size:2.3rem}
+}
