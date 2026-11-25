@@ -291,3 +291,37 @@ body .plans-page-content .plan-card.featured .plan-price-main strong{color:#2934
 @media(max-width:760px){
   body .plan-price-main strong{font-size:2.3rem}
 }
+
+/* Cards de benefícios com identidade visual dos estabelecimentos */
+.et-benefits-home .et-benefit-card{
+  padding:0;overflow:hidden;min-height:0;display:flex;flex-direction:column;
+  border-radius:14px;background:#fff;
+}
+.et-benefits-home .et-benefit-image{
+  width:100%;height:175px;background:#f4f6f9;display:flex;align-items:center;justify-content:center;
+  border-bottom:1px solid #e9edf4;
+}
+.et-benefits-home .et-benefit-image img{
+  display:block;width:100%;height:100%;object-fit:contain;
+}
+.et-benefits-home .et-benefit-image-placeholder{
+  width:100%;height:100%;display:grid;place-items:center;color:#8794ac;font-size:2rem;
+}
+.et-benefits-home .et-benefit-card-body{padding:20px 22px 22px;display:flex;flex:1;flex-direction:column}
+.et-benefits-home .et-benefit-card h3{font-size:1.05rem;line-height:1.35;margin-bottom:8px}
+.et-benefits-home .et-benefit-discount{font-size:1.02rem;font-weight:800;margin-bottom:21px}
+.et-benefits-home .et-benefit-card a{
+  display:inline-flex;align-items:center;gap:8px;margin-top:auto;color:#293451;font-size:.83rem;
+}
+.benefits-page .benefits-list-row{background:#fff;gap:20px}
+.benefits-page .benefits-list-image{
+  flex:0 0 110px;width:110px;height:105px;background:#f4f6f9;border-radius:10px;
+  border:1px solid #e2e6ee;display:grid;place-items:center;overflow:hidden;color:#8794ac;font-size:1.6rem;
+}
+.benefits-page .benefits-list-image img{width:100%;height:100%;object-fit:contain}
+@media(max-width:680px){
+  .et-benefits-home .et-benefit-image{height:190px}
+  .benefits-page .benefits-list-image{flex-basis:78px;width:78px;height:82px}
+  .benefits-page .benefits-list-content{flex-basis:calc(100% - 100px)}
+  .benefits-page .benefits-row-link,.benefits-page .benefits-no-link{margin-left:98px}
+}

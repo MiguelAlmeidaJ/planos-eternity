@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/audit-helper.php';
+require_once __DIR__ . '/benefits-images.php';
 if (!$user) redirectAdmin('/login');
 function benefitLink(string $value): string {
     $value = trim($value);
@@ -15,15 +16,21 @@ function benefitLink(string $value): string {
     return $value;
 }
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    $newImage = '';
     try {
         csrfCheck();
         $action = (string)($_POST['action'] ?? '');
         if ($action === 'delete' && $section === 'beneficios') {
             $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
             if (!$id || $id < 1) throw new RuntimeException('Benefício inválido.');
+            $find = database()->prepare('SELECT image_path FROM commercial_benefits WHERE id=?');
+            $find->execute([$id]);
+            $oldImage = $find->fetchColumn();
+            if ($oldImage === false) throw new RuntimeException('Benefício não encontrado.');
             $stmt = database()->prepare('DELETE FROM commercial_benefits WHERE id=?');
             $stmt->execute([$id]);
             if (!$stmt->rowCount()) throw new RuntimeException('Benefício não encontrado.');
+            deleteBenefitImage((string)$oldImage);
             auditEvent($user, 'benefit.deleted', 'benefit', (int)$id, 'Benefício excluído');
             flash('ok','Benefício excluído.');
             redirectAdmin('/beneficios');
@@ -41,21 +48,35 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         if (mb_strlen($name) < 2 || mb_strlen($name) > 160 || mb_strlen($discount) < 2 || mb_strlen($discount) > 160) {
             throw new RuntimeException('Informe nome e desconto de 2 a 160 caracteres.');
         }
+        $previousImage = '';
         if ($isEdit) {
-            $stmt = database()->prepare('UPDATE commercial_benefits SET name=?,discount_text=?,link_url=? WHERE id=?');
-            $stmt->execute([$name,$discount,$link,$id]);
-            $check = database()->prepare('SELECT id FROM commercial_benefits WHERE id=?');
+            $check = database()->prepare('SELECT image_path FROM commercial_benefits WHERE id=?');
             $check->execute([$id]);
-            if (!$check->fetchColumn()) throw new RuntimeException('Benefício não encontrado.');
+            $previousImage = $check->fetchColumn();
+            if ($previousImage === false) throw new RuntimeException('Benefício não encontrado.');
+        }
+        $imagePath = (string)$previousImage;
+        if (benefitImageUploaded($_FILES['image'] ?? null)) {
+            $newImage = saveBenefitImage($_FILES['image']);
+            $imagePath = $newImage;
+        } elseif ($isEdit && !empty($_POST['remove_image'])) {
+            $imagePath = '';
+        }
+        if ($isEdit) {
+            $stmt = database()->prepare('UPDATE commercial_benefits SET name=?,discount_text=?,link_url=?,image_path=? WHERE id=?');
+            $stmt->execute([$name,$discount,$link,$imagePath,$id]);
         } else {
-            $stmt = database()->prepare('INSERT INTO commercial_benefits (name,discount_text,link_url) VALUES (?,?,?)');
-            $stmt->execute([$name,$discount,$link]);
+            $stmt = database()->prepare('INSERT INTO commercial_benefits (name,discount_text,link_url,image_path) VALUES (?,?,?,?)');
+            $stmt->execute([$name,$discount,$link,$imagePath]);
             $id = (int)database()->lastInsertId();
         }
+        if ($isEdit && $previousImage !== $imagePath) deleteBenefitImage((string)$previousImage);
+        $newImage = '';
         auditEvent($user, $isEdit ? 'benefit.updated' : 'benefit.created', 'benefit', (int)$id, 'Benefício comercial cadastrado ou alterado');
         flash('ok', $isEdit ? 'Benefício atualizado.' : 'Benefício cadastrado.');
         redirectAdmin('/beneficios');
     } catch (Throwable $ex) {
+        if ($newImage !== '') deleteBenefitImage($newImage);
         if ($ex instanceof PDOException) {
             error_log('Eternity benefits: '.$ex->getMessage());
             $message = 'Erro de banco de dados. Execute o instalador SQL e tente novamente.';

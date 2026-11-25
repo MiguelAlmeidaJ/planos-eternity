@@ -10,7 +10,13 @@ try {
     foreach (explode(';', $sql) as $statement) {
         if (trim($statement) !== '') $pdo->exec(trim($statement));
     }
-    echo "Tabelas atualizadas e planos iniciais disponíveis.\n";
+    // CREATE TABLE IF NOT EXISTS não adiciona colunas em tabelas existentes.
+    $columnCheck = $pdo->prepare("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'commercial_benefits' AND COLUMN_NAME = 'image_path'");
+    $columnCheck->execute();
+    if (!(int)$columnCheck->fetchColumn()) {
+        $pdo->exec("ALTER TABLE commercial_benefits ADD COLUMN image_path VARCHAR(255) NOT NULL DEFAULT '' AFTER discount_text");
+    }
+    echo "Tabelas e colunas atualizadas com sucesso.\\n";
 } catch (Throwable $e) {
     fwrite(STDERR, "Falha na instalação: " . $e->getMessage() . "\n");
     exit(1);

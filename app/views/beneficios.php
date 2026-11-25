@@ -14,7 +14,7 @@ $benefitCount->execute();
 $total = (int)$benefitCount->fetchColumn();
 $totalPages = max(1, (int)ceil($total / $perPage));
 $currentPage = min($pageRequested, $totalPages);
-$benefitQuery = database()->prepare('SELECT id,name,link_url,discount_text FROM commercial_benefits' . $where . ' ORDER BY name ASC,id DESC LIMIT :limit OFFSET :offset');
+$benefitQuery = database()->prepare('SELECT id,name,link_url,discount_text,image_path FROM commercial_benefits' . $where . ' ORDER BY name ASC,id DESC LIMIT :limit OFFSET :offset');
 if ($search !== '') {
     $benefitQuery->bindValue(':filter_name', '%'.$search.'%');
     $benefitQuery->bindValue(':filter_discount', '%'.$search.'%');
@@ -44,7 +44,9 @@ $benefits = $benefitQuery->fetchAll();
     <div class="benefits-list">
       <?php foreach ($benefits as $benefit): ?>
       <article class="benefits-list-row">
-        <div class="benefits-list-icon"><i class="bi bi-shop" aria-hidden="true"></i></div>
+        <div class="benefits-list-image">
+          <?php if (!empty($benefit['image_path'])): ?><img src="<?= e($benefit['image_path']) ?>" alt="Imagem de <?= e($benefit['name']) ?>" loading="lazy" decoding="async"><?php else: ?><i class="bi bi-shop" aria-hidden="true"></i><?php endif; ?>
+        </div>
         <div class="benefits-list-content"><h3><?= e($benefit['name']) ?></h3><p><?= e($benefit['discount_text']) ?></p></div>
         <?php if ($benefit['link_url'] !== ''): ?>
           <a href="<?= e($benefit['link_url']) ?>" class="benefits-row-link" <?= preg_match('#^https?://#i',$benefit['link_url'])?'target="_blank" rel="noopener noreferrer"':'' ?> aria-label="Ver estabelecimento <?= e($benefit['name']) ?>"><span>Saiba mais</span><i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>

@@ -112,3 +112,9 @@ Em **Administração → Auditoria**, apenas administradores visualizam os últi
 Após atualizar a branch `main`, execute `php scripts/install.php` para criar a tabela `commercial_benefits`.
 Em `/admin/beneficios`, administradores e editores podem cadastrar, editar e excluir benefícios de estabelecimentos regionais. Campos: nome, desconto em texto, e link opcional HTTP(S) ou rota interna. As operações são auditadas.
 A página `/beneficios` apresenta busca por nome/desconto e paginação de 10 resultados. Na home, o carrossel exibe até 6 benefícios cadastrados mais recentemente e há um link para ver todos. Não há imagens nem categorias nesta versão, pois não são campos solicitados.
+
+
+## Imagens dos benefícios — migração
+Após atualizar a main execute `php scripts/install.php` para adicionar a coluna `commercial_benefits.image_path` aos bancos existentes (de forma idempotente).
+O painel de criação/edição de benefícios permite enviar ou remover imagens PNG/JPG/WebP até 3 MB. Recomenda-se arte quadrada 600 × 600 px; as imagens são mostradas em `object-fit: contain` para preservar logotipos.
+As imagens ficam em `assets/uploads/benefits/`, pasta já ignorada no Git; mantenha backup junto com o banco. O upload é opcional e benefícios antigos seguem exibindo um ícone de substituição.

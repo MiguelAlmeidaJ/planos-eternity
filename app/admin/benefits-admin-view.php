@@ -42,10 +42,11 @@ if ($section === 'beneficios/editar') {
     </form>
     <div class="table-responsive">
       <table class="table table-hover align-middle benefits-admin-table">
-        <thead><tr><th>Estabelecimento</th><th>Desconto</th><th>Link</th><th class="text-end">Ações</th></tr></thead>
+        <thead><tr><th>Imagem</th><th>Estabelecimento</th><th>Desconto</th><th>Link</th><th class="text-end">Ações</th></tr></thead>
         <tbody>
           <?php foreach ($benefitRows as $b): ?>
           <tr>
+            <td><div class="benefit-admin-thumb"><?php if (!empty($b['image_path'])): ?><img src="<?= e($b['image_path']) ?>" alt="" loading="lazy"><?php else: ?><i class="bi bi-image" aria-hidden="true"></i><?php endif; ?></div></td>
             <td class="fw-bold"><?= e($b['name']) ?></td>
             <td><?= e($b['discount_text']) ?></td>
             <td><?php if ($b['link_url'] !== ''): ?><a href="<?= e($b['link_url']) ?>" target="_blank" rel="noopener noreferrer" aria-label="Abrir link de <?= e($b['name']) ?>"><i class="bi bi-box-arrow-up-right"></i> Abrir</a><?php else: ?><span class="text-secondary">—</span><?php endif; ?></td>
@@ -58,7 +59,7 @@ if ($section === 'beneficios/editar') {
             </div></td>
           </tr>
           <?php endforeach; ?>
-          <?php if (!$benefitRows): ?><tr><td colspan="4" class="text-center text-secondary py-5">Nenhum benefício encontrado.</td></tr><?php endif; ?>
+          <?php if (!$benefitRows): ?><tr><td colspan="5" class="text-center text-secondary py-5">Nenhum benefício encontrado.</td></tr><?php endif; ?>
         </tbody>
       </table>
     </div>
@@ -72,12 +73,21 @@ if ($section === 'beneficios/editar') {
 <?php else: ?>
   <a class="benefits-admin-back" href="/admin/beneficios"><i class="bi bi-arrow-left" aria-hidden="true"></i> Voltar aos benefícios</a>
   <header class="mb-4"><p class="kicker mb-2">CLUBE DE VANTAGENS</p><h1><?= $benefitEdit ? 'Editar benefício' : 'Novo benefício' ?></h1><p class="sub mb-0">Cadastre um desconto para os clientes Eternity.</p></header>
-  <form method="post" action="/admin/<?= e($section) ?>">
+  <form method="post" action="/admin/<?= e($section) ?>" enctype="multipart/form-data">
     <input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>"><input type="hidden" name="action" value="save"><input type="hidden" name="id" value="<?= (int)($benefitEdit['id'] ?? 0) ?>">
     <div class="panel benefits-admin-form">
       <h2>Informações do benefício</h2>
       <div class="mb-4"><label class="form-label" for="benefit-name">Nome do estabelecimento *</label><input id="benefit-name" class="form-control" type="text" name="name" maxlength="160" required value="<?= e($benefitEdit['name']??'') ?>" placeholder="Ex.: Farmácia Central"></div>
       <div class="mb-4"><label class="form-label" for="benefit-discount">Desconto *</label><input id="benefit-discount" class="form-control" type="text" name="discount_text" maxlength="160" required value="<?= e($benefitEdit['discount_text']??'') ?>" placeholder="Ex.: 15% de desconto nas compras"></div>
+      <div class="benefits-image-field mb-4">
+        <label class="form-label" for="benefit-image">Imagem do estabelecimento (opcional)</label>
+        <?php if (!empty($benefitEdit['image_path'])): ?>
+          <div class="benefit-current-image"><img src="<?= e($benefitEdit['image_path']) ?>" alt="Imagem atual de <?= e($benefitEdit['name']) ?>"></div>
+          <label class="benefit-remove-image"><input type="checkbox" name="remove_image" value="1"> Remover imagem atual</label>
+        <?php endif; ?>
+        <input class="form-control" id="benefit-image" name="image" type="file" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp">
+        <div class="form-text">PNG, JPG ou WebP, até 3 MB. Recomendamos imagem quadrada de 600 × 600 px, sem cortes no logotipo.</div>
+      </div>
       <div><label class="form-label" for="benefit-link">Link (opcional)</label><input id="benefit-link" class="form-control" type="text" name="link_url" maxlength="500" value="<?= e($benefitEdit['link_url']??'') ?>" placeholder="https://site-do-estabelecimento.com.br"><div class="form-text">Informe uma URL HTTP(S) ou um caminho interno iniciado com /.</div></div>
     </div>
     <div class="d-flex justify-content-end gap-2"><a class="btn btn-outline-secondary" href="/admin/beneficios">Cancelar</a><button type="submit" class="btn benefits-admin-primary"><i class="bi bi-check2" aria-hidden="true"></i> <?= $benefitEdit?'Salvar alterações':'Criar benefício' ?></button></div>

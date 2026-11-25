@@ -92,7 +92,7 @@ try {
 <?php
 $featuredBenefits = [];
 try {
-    $featuredBenefits = database()->query('SELECT id,name,discount_text,link_url FROM commercial_benefits ORDER BY id DESC LIMIT 6')->fetchAll();
+    $featuredBenefits = database()->query('SELECT id,name,discount_text,link_url,image_path FROM commercial_benefits ORDER BY id DESC LIMIT 6')->fetchAll();
 } catch (PDOException $exception) {
     error_log('Eternity home benefits: '.$exception->getMessage());
 }
@@ -110,7 +110,14 @@ try {
       <div class="et-benefits-track" data-benefits-track tabindex="0" aria-label="Carrossel de benefícios">
         <?php foreach ($featuredBenefits as $benefit): ?>
         <article class="et-benefit-card">
-          <div class="et-benefit-mark"><i class="bi bi-bag-heart" aria-hidden="true"></i></div>
+          <div class="et-benefit-image">
+            <?php if (!empty($benefit['image_path'])): ?>
+              <img src="<?= e($benefit['image_path']) ?>" alt="Imagem de <?= e($benefit['name']) ?>" loading="lazy" decoding="async">
+            <?php else: ?>
+              <span class="et-benefit-image-placeholder"><i class="bi bi-shop" aria-hidden="true"></i></span>
+            <?php endif; ?>
+          </div>
+          <div class="et-benefit-card-body">
           <h3><?= e($benefit['name']) ?></h3>
           <p class="et-benefit-discount"><?= e($benefit['discount_text']) ?></p>
           <?php if ($benefit['link_url'] !== ''): ?>
@@ -118,6 +125,7 @@ try {
           <?php else: ?>
             <span class="et-benefit-local">Vantagem para clientes Eternity</span>
           <?php endif; ?>
+          </div>
         </article>
         <?php endforeach; ?>
       </div>
