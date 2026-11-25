@@ -22,18 +22,13 @@
       </div>
     </section>
     <section class="plan-admin-panel">
-      <div class="plan-form-section-head"><span class="plan-form-icon"><i class="bi bi-list-check" aria-hidden="true"></i></span><div><h2>Benefícios e coberturas</h2><p>Adicione cada benefício em uma linha separada.</p></div></div>
-      <label for="plan-features">Lista de benefícios</label>
-      <textarea class="form-control" id="plan-features" name="features" rows="7" maxlength="5000" placeholder="Atendimento assistencial&#10;Acolhimento e orientação"><?= e($selected['features']??'') ?></textarea>
-      <div class="form-text">Os itens são exibidos nos cards da página de planos.</div>
-    </section>
-    <section class="plan-admin-panel">
       <div class="plan-form-section-head"><span class="plan-form-icon"><i class="bi bi-sliders2" aria-hidden="true"></i></span><div><h2>Publicação</h2><p>Controle a visibilidade e o destaque do plano.</p></div></div>
       <div class="plan-form-switches">
         <div><div><strong>Publicado no site</strong><p>Exibir o plano na home e na página de planos.</p></div><label class="form-check form-switch"><input class="form-check-input" type="checkbox" name="active" <?= !$selected || $selected['active']?'checked':'' ?> aria-label="Publicado no site"></label></div>
         <div><div><strong>Plano em destaque</strong><p>Aplicar o estilo de destaque na apresentação.</p></div><label class="form-check form-switch"><input class="form-check-input" type="checkbox" name="featured" <?= $selected && $selected['featured']?'checked':'' ?> aria-label="Plano em destaque"></label></div>
       </div>
     </section>
+    <p class="plan-shared-info"><i class="bi bi-info-circle" aria-hidden="true"></i> Os descontos e vantagens são gerenciados separadamente em <a href="/admin/beneficios">Benefícios</a> e são comuns a todos os planos.</p>
     <div class="plan-form-footer"><a class="btn btn-outline-secondary" href="/admin/planos">Cancelar</a><button class="btn btn-admin-save" type="submit"><i class="bi bi-check2-circle" aria-hidden="true"></i> <?= $selected?'Salvar alterações':'Criar plano' ?></button></div>
   </form>
 </div>

@@ -153,15 +153,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $slug=planSlug($name);
                 $tagline=trim((string)($_POST['tagline'] ?? ''));
                 $description=trim((string)($_POST['description'] ?? ''));
-                $features=trim((string)($_POST['features'] ?? ''));
+                $features = ''; // Benefícios compartilhados são gerenciados no catálogo separado.
                 $price=trim((string)($_POST['price_label'] ?? ''));
                 $order = 0;
                 if ($isEdit) {
-                    $existingPlan = database()->prepare('SELECT sort_order FROM site_plans WHERE id=?');
+                    $existingPlan = database()->prepare('SELECT sort_order, features FROM site_plans WHERE id=?');
                     $existingPlan->execute([$requestedId]);
-                    $orderValue = $existingPlan->fetchColumn();
-                    if ($orderValue === false) throw new RuntimeException('Plano não encontrado.');
-                    $order = (int)$orderValue;
+                    $previousPlan = $existingPlan->fetch(PDO::FETCH_ASSOC);
+                    if (!$previousPlan) throw new RuntimeException('Plano não encontrado.');
+                    $order = (int)$previousPlan['sort_order'];
+                    $features = (string)$previousPlan['features']; // Preserva dados legados ao editar.
                 } else {
                     $order = (int)database()->query('SELECT COALESCE(MAX(sort_order), 0) + 10 FROM site_plans')->fetchColumn();
                 }

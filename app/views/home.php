@@ -66,11 +66,12 @@ try {
       <article class="hm-plan-card <?= !empty($plan['featured']) ? 'is-featured' : '' ?>">
         <?php if (!empty($plan['featured'])): ?><span class="hm-plan-badge">EM DESTAQUE</span><?php endif; ?>
         <div class="hm-plan-top"><div class="hm-plan-symbol" aria-hidden="true">✦</div><p class="hm-plan-tag"><?= e($plan['tag'] ?? '') ?></p><h3>Plano <?= e($plan['name']) ?></h3><?php if (!empty($plan['description'])): ?><p class="hm-plan-description"><?= e($plan['description']) ?></p><?php endif; ?><p class="hm-plan-price"><?= e($plan['price_label'] ?? 'Condições sob consulta') ?></p></div>
-        <div class="hm-plan-details"><p class="hm-benefits-title">O que você encontra</p><ul><?php foreach ($plan['features'] as $feature): ?><li><?= e($feature) ?></li><?php endforeach; ?></ul></div>
+
         <a class="hm-plan-button <?= !empty($plan['featured']) ? 'hm-plan-button-filled' : '' ?>" href="/contato?plano=<?= rawurlencode($plan['name']) ?>#formulario">Quero saber mais <span aria-hidden="true">↗</span></a>
       </article>
       <?php endforeach; ?>
     </div>
+    <p class="hm-plan-note">Os descontos dos estabelecimentos parceiros são comuns aos planos. <a href="/beneficios">Conheça os benefícios da Eternity</a>.</p>
     <p class="hm-plan-note">* Informações de apresentação. Preços, coberturas, carências e condições estão sujeitos à proposta e ao contrato.</p>
   </div>
 </section>
