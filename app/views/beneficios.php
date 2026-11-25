@@ -6,13 +6,19 @@ $pageRequested = max(1, min(100000, $pageRequested));
 $perPage = 10;
 $where = $search !== '' ? ' WHERE name LIKE :filter_name OR discount_text LIKE :filter_discount' : '';
 $benefitCount = database()->prepare('SELECT COUNT(*) FROM commercial_benefits' . $where);
-if ($search !== '') $benefitCount->bindValue(':filter_name', '%'.$search.'%'); $benefitCount->bindValue(':filter_discount', '%'.$search.'%');
+if ($search !== '') {
+    $benefitCount->bindValue(':filter_name', '%'.$search.'%');
+    $benefitCount->bindValue(':filter_discount', '%'.$search.'%');
+}
 $benefitCount->execute();
 $total = (int)$benefitCount->fetchColumn();
 $totalPages = max(1, (int)ceil($total / $perPage));
 $currentPage = min($pageRequested, $totalPages);
 $benefitQuery = database()->prepare('SELECT id,name,link_url,discount_text FROM commercial_benefits' . $where . ' ORDER BY name ASC,id DESC LIMIT :limit OFFSET :offset');
-if ($search !== '') $benefitQuery->bindValue(':filter_name', '%'.$search.'%'); $benefitQuery->bindValue(':filter_discount', '%'.$search.'%');
+if ($search !== '') {
+    $benefitQuery->bindValue(':filter_name', '%'.$search.'%');
+    $benefitQuery->bindValue(':filter_discount', '%'.$search.'%');
+}
 $benefitQuery->bindValue(':limit', $perPage, PDO::PARAM_INT);
 $benefitQuery->bindValue(':offset', ($currentPage-1)*$perPage, PDO::PARAM_INT);
 $benefitQuery->execute();
