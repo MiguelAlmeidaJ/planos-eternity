@@ -13,13 +13,13 @@ if ($section === 'beneficios/editar') {
 <?php if ($section === 'beneficios'):
     $filter = mb_substr(trim((string)($_GET['busca'] ?? '')),0,90);
     $page = max(1, min(100000, filter_var($_GET['pagina'] ?? 1,FILTER_VALIDATE_INT) ?: 1));
-    $where = $filter !== '' ? ' WHERE name LIKE :q OR discount_text LIKE :q' : '';
+    $where = $filter !== '' ? ' WHERE name LIKE :q_name OR discount_text LIKE :q_discount' : '';
     $count = database()->prepare('SELECT COUNT(*) FROM commercial_benefits'.$where);
-    if ($filter !== '') $count->bindValue(':q','%'.$filter.'%');
+    if ($filter !== '') $count->bindValue(':q_name','%'.$filter.'%'); $count->bindValue(':q_discount','%'.$filter.'%');
     $count->execute();
     $total = (int)$count->fetchColumn(); $totalPages=max(1,(int)ceil($total/20));$page=min($page,$totalPages);
     $stmt=database()->prepare('SELECT * FROM commercial_benefits'.$where.' ORDER BY id DESC LIMIT 20 OFFSET :offset');
-    if ($filter !== '') $stmt->bindValue(':q','%'.$filter.'%');
+    if ($filter !== '') $stmt->bindValue(':q_name','%'.$filter.'%'); $stmt->bindValue(':q_discount','%'.$filter.'%');
     $stmt->bindValue(':offset',($page-1)*20,PDO::PARAM_INT);
     $stmt->execute(); $benefitRows=$stmt->fetchAll();
 ?>

@@ -2,7 +2,8 @@
 $allowedAuditActions = ['', 'auth.login', 'auth.failed', 'auth.logout', 'user.created', 'user.updated',
   'user.deleted','plan.created','plan.updated','plan.deleted','plan.visibility','plan.reordered',
   'banner.created','banner.updated','banner.deleted','branding.uploaded','branding.removed',
-  'settings.updated','smtp.test.success','smtp.test.failed'];
+  'settings.updated','smtp.test.success','smtp.test.failed',
+  'benefit.created','benefit.updated','benefit.deleted'];
 $selectedAction = (string)($_GET['action'] ?? '');
 if (!in_array($selectedAction, $allowedAuditActions, true)) $selectedAction = '';
 $pageNum = filter_var($_GET['page'] ?? 1, FILTER_VALIDATE_INT) ?: 1;
