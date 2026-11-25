@@ -53,6 +53,7 @@ $headerInstagram = trim(siteOption('APP_INSTAGRAM'));
    <a <?= $page === 'home' ? 'aria-current="page"' : '' ?> href="/">Início</a>
    <a <?= $page === 'quem-somos' ? 'aria-current="page"' : '' ?> href="/quem-somos">Quem somos</a>
    <a <?= $page === 'planos' ? 'aria-current="page"' : '' ?> href="/planos">Nossos planos</a>
+   <a <?= $page === 'beneficios' ? 'aria-current="page"' : '' ?> href="/beneficios">Benefícios</a>
    <a <?= $page === 'contato' ? 'aria-current="page"' : '' ?> href="/contato">Contato</a>
    <a class="btn btn-small" href="/contato#formulario">Solicitar atendimento</a>
   </nav>

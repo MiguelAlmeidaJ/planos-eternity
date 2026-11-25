@@ -75,6 +75,48 @@ try {
   </div>
 </section>
 
+
+<?php
+$featuredBenefits = [];
+try {
+    $featuredBenefits = database()->query('SELECT id,name,discount_text,link_url FROM commercial_benefits ORDER BY id DESC LIMIT 6')->fetchAll();
+} catch (PDOException $exception) {
+    error_log('Eternity home benefits: '.$exception->getMessage());
+}
+?>
+<section class="et-benefits-home" aria-labelledby="et-benefits-home-title">
+  <div class="container">
+    <div class="et-benefits-home-header">
+      <div><span class="hm-kicker">VANTAGENS ETERNITY</span><h2 id="et-benefits-home-title">Benefícios que vão além do plano.</h2>
+        <p>Descontos em estabelecimentos da região para aproveitar no dia a dia.</p></div>
+      <a href="/beneficios" class="et-benefits-all">Ver todos os benefícios <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+    </div>
+    <?php if ($featuredBenefits): ?>
+    <div class="et-benefits-carousel" data-benefits-carousel>
+      <button class="et-benefits-nav" type="button" data-benefits-prev aria-label="Benefícios anteriores"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
+      <div class="et-benefits-track" data-benefits-track tabindex="0" aria-label="Carrossel de benefícios">
+        <?php foreach ($featuredBenefits as $benefit): ?>
+        <article class="et-benefit-card">
+          <div class="et-benefit-mark"><i class="bi bi-bag-heart" aria-hidden="true"></i></div>
+          <h3><?= e($benefit['name']) ?></h3>
+          <p class="et-benefit-discount"><?= e($benefit['discount_text']) ?></p>
+          <?php if ($benefit['link_url'] !== ''): ?>
+            <a href="<?= e($benefit['link_url']) ?>" <?= preg_match('#^https?://#i',$benefit['link_url'])?'target="_blank" rel="noopener noreferrer"':'' ?>>Conhecer estabelecimento <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+          <?php else: ?>
+            <span class="et-benefit-local">Vantagem para clientes Eternity</span>
+          <?php endif; ?>
+        </article>
+        <?php endforeach; ?>
+      </div>
+      <button class="et-benefits-nav" type="button" data-benefits-next aria-label="Próximos benefícios"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+    </div>
+    <?php else: ?>
+      <div class="et-benefit-empty">Estamos preparando novos benefícios para você. Confira esta página em breve.</div>
+    <?php endif; ?>
+    <a href="/beneficios" class="et-benefits-mobile-all">Conhecer todos os benefícios <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+  </div>
+</section>
+
 <section class="hm-faq" aria-labelledby="hm-faq-title">
   <div class="container hm-faq-grid">
     <div class="hm-faq-intro"><span class="hm-kicker">DÚVIDAS FREQUENTES</span><h2 id="hm-faq-title">Ainda tem alguma dúvida?</h2><p>Reunimos algumas respostas para ajudar. Se precisar, nossa equipe está à disposição.</p><a class="hm-link" href="/contato">Entre em contato <span aria-hidden="true">↗</span></a></div>
@@ -91,3 +133,4 @@ try {
 </div>
 
 <script src="/assets/js/hero-banners.js?v=2" defer></script>
+<script src="/assets/js/benefits-carousel.js" defer></script>

@@ -69,3 +69,14 @@ CREATE TABLE IF NOT EXISTS admin_audit_logs (
   INDEX idx_audit_action_created (action, created_at),
   INDEX idx_audit_actor_created (actor_id, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS commercial_benefits (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(160) NOT NULL,
+  link_url VARCHAR(500) NOT NULL DEFAULT '',
+  discount_text VARCHAR(160) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_benefit_name (name),
+  INDEX idx_benefit_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

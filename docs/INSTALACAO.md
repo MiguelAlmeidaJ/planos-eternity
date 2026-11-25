@@ -105,3 +105,10 @@ Depois de `git pull origin main`, rode `php scripts/install.php` para criar `adm
 Em **Configurações → Servidor SMTP**, salve host, porta, usuário, remetente, criptografia e senha antes de testar. O teste envia um e-mail de verdade ao endereço selecionado e não modifica as configurações. Aceita portas SMTP TLS/STARTTLS e SSL implícito; exige certificado válido e utiliza a senha criptografada pela APP_KEY.
 A resposta de sucesso significa que o servidor SMTP aceitou a mensagem, **não** garante entrega na caixa postal. O teste tem intervalo mínimo de 30 segundos por sessão; o host deve permitir conexões SMTP de saída.
 Em **Administração → Auditoria**, apenas administradores visualizam os últimos eventos, com filtro e paginação. São registrados acessos, alterações de cadastros, banners, configurações e testes SMTP. O histórico começa após a instalação da tabela e não inclui conteúdos de mensagens, senhas ou tokens. Para retenção, estabeleça política de expurgo e backup coerente com a LGPD.
+
+
+## Benefícios comerciais da Eternity
+
+Após atualizar a branch `main`, execute `php scripts/install.php` para criar a tabela `commercial_benefits`.
+Em `/admin/beneficios`, administradores e editores podem cadastrar, editar e excluir benefícios de estabelecimentos regionais. Campos: nome, desconto em texto, e link opcional HTTP(S) ou rota interna. As operações são auditadas.
+A página `/beneficios` apresenta busca por nome/desconto e paginação de 10 resultados. Na home, o carrossel exibe até 6 benefícios cadastrados mais recentemente e há um link para ver todos. Não há imagens nem categorias nesta versão, pois não são campos solicitados.

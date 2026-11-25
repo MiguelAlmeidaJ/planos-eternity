@@ -23,6 +23,7 @@ $footerPhoneLink = preg_replace('/[^\d+]/', '', $footerPhone) ?? '';
       <a href="/">Início</a>
       <a href="/quem-somos">Quem somos</a>
       <a href="/planos">Nossos planos</a>
+      <a href="/beneficios">Benefícios</a>
       <a href="/contato">Contato</a>
     </nav>
     <div class="footer-contact">

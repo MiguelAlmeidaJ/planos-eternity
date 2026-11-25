@@ -120,3 +120,20 @@ body h1,body h2,body h3{font-family:'Lato',Arial,sans-serif;color:#17243E;font-w
 .audit-pages{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;font-size:13px;color:#66738c}
 .audit-pages>div{display:flex;gap:7px}
 @media(max-width:650px){.smtp-test-controls{flex-direction:column;align-items:stretch}.smtp-test-controls .form-control{max-width:100%}}
+
+/* Benefícios - administração */
+.benefits-admin .benefits-admin-primary{background:#293451;border-color:#293451;color:#fff;display:inline-flex;gap:9px;align-items:center}
+.benefits-admin .benefits-admin-primary:hover{background:#17243e;color:#fff}
+.benefits-admin .benefits-admin-filter{display:flex;gap:10px;margin:0 0 23px;flex-wrap:wrap}
+.benefits-admin .benefits-admin-filter .form-control{flex:1;min-width:190px}
+.benefits-admin-table thead th{font-size:11px;letter-spacing:.05em;color:#718099;background:#f4f6f9}
+.benefits-admin-table td{font-size:13px;padding:14px 11px;overflow-wrap:anywhere}
+.benefits-admin-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px}
+.benefits-admin-actions form{margin:0}
+.benefits-admin-actions .btn{width:35px;height:35px;display:grid;place-items:center}
+.benefits-admin-back{display:inline-flex;align-items:center;gap:10px;color:#293451;font-size:13px;text-decoration:none;margin-bottom:24px}
+.benefits-admin-form{max-width:880px}
+.benefits-admin-form .form-label{font-size:13px;font-weight:750;color:#17243e}
+.benefits-admin-form .form-control{padding:12px}
+.benefits-admin-pages{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#65728b;font-size:13px;margin-top:20px}
+.benefits-admin-pages>div{display:flex;gap:8px}

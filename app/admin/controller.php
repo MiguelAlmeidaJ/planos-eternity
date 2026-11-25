@@ -7,12 +7,16 @@ header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: same-origin');
 header('Cache-Control: no-store');
 $section = trim(substr($path, strlen('admin')), '/');
-$valid = ['', 'login','logout','usuarios','planos','planos/novo','planos/editar','banners','banners/novo','banners/editar','configuracoes','auditoria'];
+$valid = ['', 'login','logout','usuarios','planos','planos/novo','planos/editar','banners','banners/novo','banners/editar','configuracoes','auditoria','beneficios','beneficios/novo','beneficios/editar'];
 if (!in_array($section, $valid, true)) { http_response_code(404); exit('Página administrativa não encontrada.'); }
 $user = adminUser();
 if ($section === 'auditoria') {
     if (!$user) redirectAdmin('/login');
     requireAdmin($user, true);
+}
+if (in_array($section, ['beneficios','beneficios/novo','beneficios/editar'], true)) {
+    require __DIR__ . '/benefits-controller.php';
+    exit;
 }
 if (in_array($section, ['banners','banners/novo','banners/editar'], true)) {
     require __DIR__ . '/banners-controller.php';

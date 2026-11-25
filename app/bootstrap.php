@@ -95,6 +95,7 @@ function plans(): array
 function pageMeta(string $page): array
 {
     return match ($page) {
+        'beneficios' => ['Benefícios', 'Confira descontos e vantagens disponíveis em comércios da região para clientes Eternity.'],
         'planos' => ['Planos', 'Conheça as opções assistenciais da Eternity.'],
         'quem-somos' => ['Quem somos', 'Conheça o propósito e os valores da Eternity.'],
         'contato' => ['Contato', 'Fale com a equipe Eternity.'],

@@ -11,6 +11,7 @@ if ($path === 'admin' || str_starts_with($path, 'admin/')) {
 $routes = [
     '' => 'home',
     'planos' => 'planos',
+    'beneficios' => 'beneficios',
     'quem-somos' => 'quem-somos',
     'contato' => 'contato',
     'politica-de-privacidade' => 'privacidade',
