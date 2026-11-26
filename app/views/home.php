@@ -92,7 +92,7 @@ try {
 <?php
 $featuredBenefits = [];
 try {
-    $featuredBenefits = database()->query('SELECT id,name,discount_text,link_url,image_path FROM commercial_benefits ORDER BY id DESC LIMIT 6')->fetchAll();
+    $featuredBenefits = database()->query('SELECT id,name,discount_text,link_url,image_path FROM commercial_benefits ORDER BY id DESC')->fetchAll();
 } catch (PDOException $exception) {
     error_log('Eternity home benefits: '.$exception->getMessage());
 }
@@ -154,4 +154,4 @@ try {
 </div>
 
 <script src="/assets/js/hero-banners.js?v=2" defer></script>
-<script src="/assets/js/benefits-carousel.js" defer></script>
+<script src="/assets/js/benefits-carousel.js?v=3" defer></script>
