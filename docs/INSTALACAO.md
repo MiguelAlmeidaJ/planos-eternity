@@ -118,3 +118,7 @@ A página `/beneficios` apresenta busca por nome/desconto e paginação de 10 re
 Após atualizar a main execute `php scripts/install.php` para adicionar a coluna `commercial_benefits.image_path` aos bancos existentes (de forma idempotente).
 O painel de criação/edição de benefícios permite enviar ou remover imagens PNG/JPG/WebP até 3 MB. Recomenda-se arte quadrada 600 × 600 px; as imagens são mostradas em `object-fit: contain` para preservar logotipos.
 As imagens ficam em `assets/uploads/benefits/`, pasta já ignorada no Git; mantenha backup junto com o banco. O upload é opcional e benefícios antigos seguem exibindo um ícone de substituição.
+
+
+## Novo layout dos cards de benefícios
+Os cards da home (carrossel de até 6) e da página /beneficios (10 por página) exibem arte quadrada à esquerda e conteúdo à direita no desktop, empilhados no celular. O upload de **novas** imagens exige 1080 × 1080 px, PNG/JPG/WebP até 3 MB; imagens antigas já armazenadas continuam disponíveis. As imagens enviadas pelo painel permanecem em assets/uploads/benefits/, fora do Git. Nenhuma nova migração SQL é necessária para este ajuste se image_path já existe.

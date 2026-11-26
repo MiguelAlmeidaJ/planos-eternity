@@ -45,14 +45,21 @@ $benefits = $benefitQuery->fetchAll();
       <?php foreach ($benefits as $benefit): ?>
       <article class="benefits-list-row">
         <div class="benefits-list-image">
-          <?php if (!empty($benefit['image_path'])): ?><img src="<?= e($benefit['image_path']) ?>" alt="Imagem de <?= e($benefit['name']) ?>" loading="lazy" decoding="async"><?php else: ?><i class="bi bi-shop" aria-hidden="true"></i><?php endif; ?>
+          <?php if (!empty($benefit['image_path'])): ?>
+            <img src="<?= e($benefit['image_path']) ?>" alt="Imagem de <?= e($benefit['name']) ?>" loading="lazy" decoding="async">
+          <?php else: ?>
+            <span class="benefits-image-placeholder"><i class="bi bi-shop" aria-hidden="true"></i></span>
+          <?php endif; ?>
         </div>
-        <div class="benefits-list-content"><h3><?= e($benefit['name']) ?></h3><p><?= e($benefit['discount_text']) ?></p></div>
-        <?php if ($benefit['link_url'] !== ''): ?>
-          <a href="<?= e($benefit['link_url']) ?>" class="benefits-row-link" <?= preg_match('#^https?://#i',$benefit['link_url'])?'target="_blank" rel="noopener noreferrer"':'' ?> aria-label="Ver estabelecimento <?= e($benefit['name']) ?>"><span>Saiba mais</span><i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
-        <?php else: ?>
-          <span class="benefits-no-link">Benefício no estabelecimento</span>
-        <?php endif; ?>
+        <div class="benefits-list-content">
+          <h3><?= e($benefit['name']) ?></h3>
+          <p class="benefits-discount"><span>Desconto:</span> <?= e($benefit['discount_text']) ?></p>
+          <?php if ($benefit['link_url'] !== ''): ?>
+            <a href="<?= e($benefit['link_url']) ?>" class="benefits-row-link" <?= preg_match('#^https?://#i',$benefit['link_url'])?'target="_blank" rel="noopener noreferrer"':'' ?> aria-label="Conhecer estabelecimento <?= e($benefit['name']) ?>"><i class="bi bi-link-45deg" aria-hidden="true"></i> Conhecer estabelecimento</a>
+          <?php else: ?>
+            <span class="benefits-no-link">Benefício disponível no estabelecimento</span>
+          <?php endif; ?>
+        </div>
       </article>
       <?php endforeach; ?>
     </div>

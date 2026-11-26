@@ -86,7 +86,7 @@ if ($section === 'beneficios/editar') {
           <label class="benefit-remove-image"><input type="checkbox" name="remove_image" value="1"> Remover imagem atual</label>
         <?php endif; ?>
         <input class="form-control" id="benefit-image" name="image" type="file" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp">
-        <div class="form-text">PNG, JPG ou WebP, até 3 MB. Recomendamos imagem quadrada de 600 × 600 px, sem cortes no logotipo.</div>
+        <div class="form-text">Envie uma arte quadrada de 1080 × 1080 px em PNG, JPG ou WebP (até 3 MB). A imagem aparece sem cortes nos cards.</div>
       </div>
       <div><label class="form-label" for="benefit-link">Link (opcional)</label><input id="benefit-link" class="form-control" type="text" name="link_url" maxlength="500" value="<?= e($benefitEdit['link_url']??'') ?>" placeholder="https://site-do-estabelecimento.com.br"><div class="form-text">Informe uma URL HTTP(S) ou um caminho interno iniciado com /.</div></div>
     </div>

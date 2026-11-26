@@ -325,3 +325,125 @@ body .plans-page-content .plan-card.featured .plan-price-main strong{color:#2934
   .benefits-page .benefits-list-content{flex-basis:calc(100% - 100px)}
   .benefits-page .benefits-row-link,.benefits-page .benefits-no-link{margin-left:98px}
 }
+
+
+/* Benefícios Eternity — cards editoriais 1080x1080, conforme referência visual */
+.et-benefits-home .et-benefits-track{gap:18px;scroll-padding-inline:2px;align-items:stretch}
+.et-benefits-home .et-benefit-card{
+  flex:0 0 100%;
+  min-width:100%;
+  max-width:100%;
+  display:grid;
+  grid-template-columns:minmax(0,42%) minmax(0,58%);
+  min-height:0;
+  padding:0;
+  border:1px solid #e1e7f0;
+  border-radius:16px;
+  background:#fff;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(23,36,62,.04);
+  scroll-snap-align:start;
+}
+.et-benefits-home .et-benefit-image{
+  width:100%;
+  height:auto;
+  aspect-ratio:1/1;
+  border:0;
+  border-right:1px solid #e9edf4;
+  overflow:hidden;
+  background:#f4f6f9;
+}
+.et-benefits-home .et-benefit-image img{width:100%;height:100%;object-fit:cover}
+.et-benefits-home .et-benefit-card-body{
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+  gap:0;padding:clamp(23px,4vw,52px);min-width:0;
+}
+.et-benefits-home .et-benefit-card h3{
+  color:#17243e;font-size:clamp(1.25rem,2.15vw,1.95rem);
+  font-weight:900;line-height:1.22;letter-spacing:-.025em;
+  margin:0 0 20px;overflow-wrap:anywhere;
+}
+.et-benefits-home .et-benefit-discount{
+  color:#17243e;font-size:clamp(1.15rem,1.8vw,1.55rem);
+  line-height:1.35;font-weight:600;margin:0 0 34px;
+  overflow-wrap:anywhere;
+}
+.et-benefits-home .et-benefit-discount span{font-weight:900}
+.et-benefits-home .et-benefit-card .et-benefit-cta{
+  display:inline-flex;justify-content:center;align-items:center;gap:10px;
+  padding:13px 20px;background:#293451;color:#fff;border-radius:9px;
+  font-size:.93rem;font-weight:800;text-decoration:none;
+  margin-top:auto;max-width:100%;
+}
+.et-benefits-home .et-benefit-card .et-benefit-cta:hover,
+.et-benefits-home .et-benefit-card .et-benefit-cta:focus-visible{background:#17243e;color:#fff;text-decoration:none}
+.et-benefits-home .et-benefit-local{margin-top:auto;font-size:.85rem;color:#68738a}
+
+/* Mesmo modelo na listagem pública — 10 resultados por página */
+.benefits-page .benefits-list{
+  display:grid;gap:22px;border:0;
+}
+.benefits-page .benefits-list-row{
+  display:grid;grid-template-columns:minmax(0,42%) minmax(0,58%);
+  padding:0;gap:0;min-height:0;
+  border:1px solid #e1e7f0;border-radius:16px;overflow:hidden;
+  box-shadow:0 9px 24px rgba(23,36,62,.045);background:#fff;
+}
+.benefits-page .benefits-list-image{
+  width:100%;height:auto;aspect-ratio:1/1;
+  min-width:0;flex:none;border:0;border-radius:0;border-right:1px solid #e9edf4;
+  display:grid;place-items:center;overflow:hidden;background:#f4f6f9;
+}
+.benefits-page .benefits-list-image img{width:100%;height:100%;object-fit:cover}
+.benefits-page .benefits-image-placeholder{display:grid;place-items:center;width:100%;height:100%;font-size:3rem;color:#8794ac}
+.benefits-page .benefits-list-content{
+  min-width:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  padding:clamp(24px,4vw,55px);
+}
+.benefits-page .benefits-list-content h3{
+  font-size:clamp(1.35rem,2.35vw,2rem);line-height:1.24;
+  font-weight:900;color:#17243e;letter-spacing:-.025em;margin:0 0 21px;
+}
+.benefits-page .benefits-list-content .benefits-discount{
+  font-size:clamp(1.12rem,1.8vw,1.55rem);line-height:1.35;
+  font-weight:600;color:#17243e;margin:0 0 36px;
+}
+.benefits-page .benefits-discount span{font-weight:900}
+.benefits-page .benefits-list-content .benefits-row-link{
+  display:inline-flex;gap:9px;align-items:center;justify-content:center;
+  margin-top:auto;background:#293451;color:#fff;border-radius:9px;
+  padding:13px 20px;font-size:.92rem;font-weight:800;text-decoration:none;
+  max-width:100%;
+}
+.benefits-page .benefits-list-content .benefits-row-link:hover,
+.benefits-page .benefits-list-content .benefits-row-link:focus-visible{
+  background:#17243e;color:#fff;text-decoration:none;
+}
+.benefits-page .benefits-list-content .benefits-no-link{
+  margin-top:auto;font-size:.85rem;color:#718099;
+}
+@media(max-width:760px){
+  .et-benefits-home .et-benefit-card,
+  .benefits-page .benefits-list-row{
+    grid-template-columns:minmax(0,1fr);display:grid;
+  }
+  .et-benefits-home .et-benefit-card{min-width:100%;max-width:100%}
+  .et-benefits-home .et-benefit-image,
+  .benefits-page .benefits-list-image{
+    width:100%;height:auto;aspect-ratio:1/1;
+    border-right:0;border-bottom:1px solid #e9edf4;
+  }
+  .et-benefits-home .et-benefit-card-body,
+  .benefits-page .benefits-list-content{
+    padding:22px;min-width:0;flex-basis:auto;
+  }
+  .et-benefits-home .et-benefit-card h3,
+  .benefits-page .benefits-list-content h3{font-size:1.4rem;margin-bottom:12px}
+  .et-benefits-home .et-benefit-discount,
+  .benefits-page .benefits-list-content .benefits-discount{font-size:1.15rem;margin-bottom:22px}
+  .et-benefits-home .et-benefit-card .et-benefit-cta,
+  .benefits-page .benefits-list-content .benefits-row-link{width:100%}
+  .benefits-page .benefits-list-content .benefits-no-link{margin:0}
+}
+
+.et-benefits-home .et-benefits-nav:disabled{opacity:.35;cursor:not-allowed}

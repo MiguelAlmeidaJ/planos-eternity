@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-/** Upload opcional de imagem para estabelecimentos: PNG/JPEG/WebP até 3 MB. */
+/** Arte quadrada de benefício: PNG/JPEG/WebP, 1080x1080, até 3 MB. */
 function benefitImageUploaded(?array $file): bool
 {
     return is_array($file) && isset($file['error']) && (int)$file['error'] !== UPLOAD_ERR_NO_FILE;
@@ -23,9 +23,8 @@ function saveBenefitImage(array $file): string
         IMAGETYPE_WEBP => ['webp','image/webp'],
     ];
     if (!$imageInfo || !isset($allowed[(int)$imageInfo[2]])
-        || $imageInfo[0] < 1 || $imageInfo[1] < 1
-        || $imageInfo[0] > 4096 || $imageInfo[1] > 4096) {
-        throw new RuntimeException('Use PNG, JPG ou WebP válido, com no máximo 4096 pixels por lado.');
+        || (int)$imageInfo[0] !== 1080 || (int)$imageInfo[1] !== 1080) {
+        throw new RuntimeException('Envie uma imagem PNG, JPG ou WebP com exatamente 1080 × 1080 pixels.');
     }
     $format = $allowed[(int)$imageInfo[2]];
     if ((new finfo(FILEINFO_MIME_TYPE))->file($tmp) !== $format[1]) {
