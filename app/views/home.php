@@ -121,7 +121,7 @@ try {
             <h3><?= e($benefit['name']) ?></h3>
             <p class="et-benefit-discount"><span>Desconto:</span> <?= e($benefit['discount_text']) ?></p>
           <?php if ($benefit['link_url'] !== ''): ?>
-            <a href="<?= e($benefit['link_url']) ?>" <?= preg_match('#^https?://#i',$benefit['link_url'])?'target="_blank" rel="noopener noreferrer"':'' ?> class="et-benefit-cta"><i class="bi bi-link-45deg" aria-hidden="true"></i> Conhecer estabelecimento</a>
+            <a href="<?= e($benefit['link_url']) ?>" <?= preg_match('#^https?://#i',$benefit['link_url'])?'target="_blank" rel="noopener noreferrer"':'' ?> class="et-benefit-cta" aria-label="Conhecer <?= e($benefit['name']) ?>"><i class="bi bi-arrow-up-right" aria-hidden="true"></i> Saiba mais</a>
           <?php else: ?>
             <span class="et-benefit-local">Vantagem para clientes Eternity</span>
           <?php endif; ?>

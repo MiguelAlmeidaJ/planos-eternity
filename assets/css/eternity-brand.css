@@ -453,3 +453,25 @@ body .plans-page-content .plan-card.featured .plan-price-main strong{color:#2934
   .et-benefits-home .et-benefit-card{grid-template-columns:minmax(0,1fr)}
   .et-benefits-home .et-benefit-image{border-right:0;border-bottom:1px solid #e9edf4}
 }
+
+/* CTA compacto no carrossel: sem quebra de texto nas duas colunas */
+.et-benefits-home .et-benefit-card .et-benefit-cta{
+  flex:0 0 auto;
+  width:auto;
+  max-width:100%;
+  min-height:40px;
+  padding:9px 15px;
+  gap:7px;
+  border-radius:7px;
+  font-size:.82rem;
+  line-height:1.25;
+  white-space:nowrap;
+  align-self:flex-start;
+}
+.et-benefits-home .et-benefit-card .et-benefit-cta i{font-size:.82rem}
+@media(max-width:760px){
+  .et-benefits-home .et-benefit-card .et-benefit-cta{
+    width:auto;
+    align-self:flex-start;
+  }
+}
