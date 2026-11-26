@@ -475,3 +475,42 @@ body .plans-page-content .plan-card.featured .plan-price-main strong{color:#2934
     align-self:flex-start;
   }
 }
+
+/* Correção de altura dos cards do carrossel: sem espaço flexível sobre o CTA */
+.et-benefits-home .et-benefit-card{
+  align-items:stretch;
+  min-height:0;
+}
+.et-benefits-home .et-benefit-card-body{
+  flex:none;
+  justify-content:center;
+  align-self:stretch;
+  padding:18px 22px;
+  gap:0;
+}
+.et-benefits-home .et-benefit-card h3{
+  margin:0 0 12px;
+  line-height:1.2;
+}
+.et-benefits-home .et-benefit-discount{
+  margin:0 0 15px;
+  line-height:1.25;
+}
+.et-benefits-home .et-benefit-card .et-benefit-cta{
+  margin:0;
+  align-self:flex-start;
+}
+.et-benefits-home .et-benefit-local{
+  margin:0;
+}
+.et-benefits-home .et-benefit-image{
+  height:100%;
+  min-height:0;
+}
+@media(max-width:760px){
+  .et-benefits-home .et-benefit-image{
+    height:auto;
+    aspect-ratio:1/1;
+  }
+  .et-benefits-home .et-benefit-card-body{padding:20px}
+}
